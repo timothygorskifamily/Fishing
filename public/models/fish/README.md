@@ -30,7 +30,7 @@ Current included model:
   model as `artec-scanned-fish-license.txt`.
 
 This model is a real scanned fish, but it is not a species-exact Ocean City
-target. The site currently reuses it as a shared high-realism placeholder for
-the finfish viewer, with per-species tinting, proportions, and markings in the
-Three.js layer. Replace each `modelSrc` in `src/data/site.ts` as exact
-purchased/commissioned models become available.
+target. The site currently uses it only for the Croaker viewer state because it
+is the only included real 3D fish asset. Leave the other species on their
+species-shaped procedural models until exact purchased/commissioned GLB or GLTF
+files are available.
