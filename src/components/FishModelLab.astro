@@ -1,0 +1,762 @@
+---
+import { ChevronLeft, ChevronRight, RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
+import { site } from "@data/site";
+
+const modelSpecies = site.fishSpecies.map((fish) => ({
+  name: fish.name,
+  aka: fish.aka ?? "",
+  category: fish.category,
+  typicalSize: fish.typicalSize,
+  highSize: fish.highSize,
+  season: fish.season,
+  notes: fish.notes
+}));
+---
+
+<section
+  id="fish-models"
+  class="scroll-mt-24 border-y border-white/10 bg-[radial-gradient(circle_at_20%_10%,rgba(53,224,202,0.16),transparent_28rem),linear-gradient(180deg,#071821,#061016)] section-pad"
+  data-fish-lab
+>
+  <script type="application/json" id="fish-model-data" set:html={JSON.stringify(modelSpecies)} />
+
+  <div class="container-shell">
+    <div class="grid gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-end">
+      <div>
+        <p class="eyebrow mb-3">Interactive fish lab</p>
+        <h2 class="text-balance font-display text-3xl font-black leading-tight text-white md:text-5xl">
+          3D models of common Ocean City targets.
+        </h2>
+        <p class="mt-4 max-w-2xl text-base leading-8 text-mist">
+          Clean, stylized models for the species OCGS commonly talks about: flounder, rockfish,
+          bluefish, tog, sheepshead, drum, croaker, and bowfishing targets.
+        </p>
+      </div>
+
+      <div class="grid gap-3 rounded-lg border border-white/12 bg-white/5 p-4 md:grid-cols-3">
+        <div>
+          <p class="text-xs font-black uppercase tracking-[0.16em] text-mist">Selected</p>
+          <p class="mt-2 text-2xl font-black text-white" data-fish-name>Flounder</p>
+          <p class="mt-1 text-sm font-bold text-seafoam" data-fish-aka>Summer flounder</p>
+        </div>
+        <div>
+          <p class="text-xs font-black uppercase tracking-[0.16em] text-mist">Typical</p>
+          <p class="mt-2 text-lg font-black text-white" data-fish-typical>16-22 in / 1-4 lb</p>
+        </div>
+        <div>
+          <p class="text-xs font-black uppercase tracking-[0.16em] text-mist">Larger fish</p>
+          <p class="mt-2 text-lg font-black text-gold" data-fish-high>26-30+ in / 6-10+ lb</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 grid gap-5 lg:grid-cols-[17rem_1fr]">
+      <div class="card order-2 p-3 lg:order-1">
+        <div class="grid gap-2" data-fish-buttons>
+          {
+            modelSpecies.map((fish, index) => (
+              <button
+                type="button"
+                class:list={[
+                  "rounded-lg border px-4 py-3 text-left transition",
+                  index === 0
+                    ? "border-seafoam/60 bg-seafoam/[0.14] text-white"
+                    : "border-white/10 bg-white/[0.04] text-mist hover:border-seafoam/40 hover:text-white"
+                ]}
+                aria-pressed={index === 0 ? "true" : "false"}
+                data-fish-select={index}
+              >
+                <span class="block text-sm font-black">{fish.name}</span>
+                <span class="mt-1 block text-xs font-bold text-mist">{fish.category}</span>
+              </button>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="relative order-1 min-h-[620px] overflow-hidden rounded-lg border border-white/12 bg-[#061016] shadow-lift md:min-h-[700px] lg:order-2">
+        <canvas
+          class="absolute inset-0 h-full w-full touch-none"
+          data-fish-canvas
+          aria-label="Interactive 3D fish model viewer"
+        ></canvas>
+
+        <div class="pointer-events-none absolute inset-x-0 top-0 z-10 bg-gradient-to-b from-ink/86 to-transparent p-5">
+          <p class="text-xs font-black uppercase tracking-[0.16em] text-aqua" data-fish-category>
+            Bay / inlet
+          </p>
+          <p class="mt-2 max-w-2xl text-sm leading-7 text-fog" data-fish-notes>
+            A signature Ocean City inshore target and a natural fit for family bay trips.
+          </p>
+          <p class="mt-2 text-xs font-bold text-mist" data-fish-season>Spring through fall windows</p>
+        </div>
+
+        <div class="absolute bottom-24 left-1/2 z-20 flex -translate-x-1/2 gap-2 rounded-lg border border-white/12 bg-ink/72 p-2 shadow-lift backdrop-blur md:bottom-5">
+          <button
+            type="button"
+            class="grid size-11 place-items-center rounded-lg border border-white/12 bg-white/6 text-white transition hover:border-seafoam/50 hover:bg-white/12"
+            title="Previous species"
+            aria-label="Previous species"
+            data-fish-prev
+          >
+            <ChevronLeft class="size-5" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            class="grid size-11 place-items-center rounded-lg border border-white/12 bg-white/6 text-white transition hover:border-seafoam/50 hover:bg-white/12"
+            title="Toggle auto rotate"
+            aria-label="Toggle auto rotate"
+            aria-pressed="true"
+            data-fish-auto
+          >
+            <RotateCw class="size-5" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            class="grid size-11 place-items-center rounded-lg border border-white/12 bg-white/6 text-white transition hover:border-seafoam/50 hover:bg-white/12"
+            title="Reset view"
+            aria-label="Reset view"
+            data-fish-reset
+          >
+            <Scan class="size-5" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            class="grid size-11 place-items-center rounded-lg border border-white/12 bg-white/6 text-white transition hover:border-seafoam/50 hover:bg-white/12"
+            title="Zoom in"
+            aria-label="Zoom in"
+            data-fish-zoom-in
+          >
+            <ZoomIn class="size-5" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            class="grid size-11 place-items-center rounded-lg border border-white/12 bg-white/6 text-white transition hover:border-seafoam/50 hover:bg-white/12"
+            title="Zoom out"
+            aria-label="Zoom out"
+            data-fish-zoom-out
+          >
+            <ZoomOut class="size-5" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            class="grid size-11 place-items-center rounded-lg border border-white/12 bg-white/6 text-white transition hover:border-seafoam/50 hover:bg-white/12"
+            title="Next species"
+            aria-label="Next species"
+            data-fish-next
+          >
+            <ChevronRight class="size-5" aria-hidden="true" />
+          </button>
+        </div>
+
+        <div
+          class="absolute inset-x-4 bottom-24 z-20 hidden rounded-lg border border-gold/30 bg-ink/92 p-4 text-sm leading-6 text-fog shadow-lift md:left-auto md:right-6 md:w-96"
+          data-fish-fallback
+        >
+          This browser could not start the 3D fish viewer. The species cards above still work.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import {
+    ACESFilmicToneMapping,
+    BoxGeometry,
+    BufferGeometry,
+    ConeGeometry,
+    CylinderGeometry,
+    DirectionalLight,
+    DoubleSide,
+    Float32BufferAttribute,
+    Fog,
+    GridHelper,
+    Group,
+    HemisphereLight,
+    LineBasicMaterial,
+    Mesh,
+    MeshBasicMaterial,
+    MeshPhysicalMaterial,
+    MeshStandardMaterial,
+    PerspectiveCamera,
+    Scene,
+    Shape,
+    ShapeGeometry,
+    SphereGeometry,
+    SRGBColorSpace,
+    TorusGeometry,
+    Vector3,
+    WebGLRenderer
+  } from "three";
+  import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+
+  const THREE = {
+    ACESFilmicToneMapping,
+    BoxGeometry,
+    BufferGeometry,
+    ConeGeometry,
+    CylinderGeometry,
+    DirectionalLight,
+    DoubleSide,
+    Float32BufferAttribute,
+    Fog,
+    GridHelper,
+    Group,
+    HemisphereLight,
+    LineBasicMaterial,
+    Mesh,
+    MeshBasicMaterial,
+    MeshPhysicalMaterial,
+    MeshStandardMaterial,
+    PerspectiveCamera,
+    Scene,
+    Shape,
+    ShapeGeometry,
+    SphereGeometry,
+    SRGBColorSpace,
+    TorusGeometry,
+    Vector3,
+    WebGLRenderer
+  };
+
+  const root = document.querySelector("[data-fish-lab]");
+  const canvas = root?.querySelector("[data-fish-canvas]");
+  const rawData = document.querySelector("#fish-model-data")?.textContent ?? "[]";
+  const species = JSON.parse(rawData);
+
+  if (root instanceof HTMLElement && canvas instanceof HTMLCanvasElement && species.length) {
+    initFishLab(root, canvas, species);
+  }
+
+  function initFishLab(root, canvas, species) {
+    const fallback = root.querySelector("[data-fish-fallback]");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x061016, 10, 32);
+
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+    camera.position.set(4.5, 2.4, 6.6);
+
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+        powerPreference: "high-performance",
+        preserveDrawingBuffer: true
+      });
+    } catch (_error) {
+      fallback?.classList.remove("hidden");
+      return;
+    }
+
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.08;
+
+    const controls = new OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.enablePan = true;
+    controls.screenSpacePanning = true;
+    controls.minDistance = 3.2;
+    controls.maxDistance = 11;
+    controls.maxPolarAngle = Math.PI * 0.78;
+    controls.minPolarAngle = Math.PI * 0.12;
+    controls.target.set(0, 0.12, 0);
+    controls.autoRotate = !reducedMotion;
+    controls.autoRotateSpeed = 0.8;
+
+    addScene(scene);
+
+    let activeIndex = 0;
+    let activeModel = createFishModel(species[activeIndex]);
+    scene.add(activeModel);
+    updatePanel(root, species[activeIndex], activeIndex);
+
+    root.querySelectorAll("[data-fish-select]").forEach((button) => {
+      button.addEventListener("click", () => {
+        setActive(Number(button.getAttribute("data-fish-select") || 0));
+      });
+    });
+
+    root.querySelector("[data-fish-prev]")?.addEventListener("click", () => {
+      setActive((activeIndex - 1 + species.length) % species.length);
+    });
+
+    root.querySelector("[data-fish-next]")?.addEventListener("click", () => {
+      setActive((activeIndex + 1) % species.length);
+    });
+
+    const autoButton = root.querySelector("[data-fish-auto]");
+    autoButton?.addEventListener("click", () => {
+      controls.autoRotate = !controls.autoRotate;
+      autoButton.setAttribute("aria-pressed", String(controls.autoRotate));
+      autoButton.classList.toggle("text-seafoam", controls.autoRotate);
+    });
+
+    root.querySelector("[data-fish-reset]")?.addEventListener("click", resetView);
+    root.querySelector("[data-fish-zoom-in]")?.addEventListener("click", () => {
+      camera.position.multiplyScalar(0.88);
+      controls.update();
+    });
+    root.querySelector("[data-fish-zoom-out]")?.addEventListener("click", () => {
+      camera.position.multiplyScalar(1.12);
+      controls.update();
+    });
+
+    function setActive(index) {
+      activeIndex = index;
+      scene.remove(activeModel);
+      disposeGroup(activeModel);
+      activeModel = createFishModel(species[activeIndex]);
+      scene.add(activeModel);
+      updatePanel(root, species[activeIndex], activeIndex);
+      resetView();
+      if (root.clientWidth < 640) {
+        canvas.parentElement?.scrollIntoView({
+          block: "center",
+          behavior: reducedMotion ? "auto" : "smooth"
+        });
+      }
+    }
+
+    function resetView() {
+      const isMobile = root.clientWidth < 640;
+      camera.position.set(isMobile ? 5.2 : 4.5, isMobile ? 2.7 : 2.4, isMobile ? 7.6 : 6.6);
+      controls.target.set(0, 0.12, 0);
+      controls.update();
+    }
+
+    function resize() {
+      const box = canvas.parentElement?.getBoundingClientRect();
+      const width = Math.max(box?.width || root.clientWidth, 1);
+      const height = Math.max(box?.height || 640, 1);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height, false);
+      resetView();
+    }
+
+    const observer = new ResizeObserver(resize);
+    observer.observe(canvas.parentElement || root);
+    resize();
+
+    let frameId = 0;
+    function animate() {
+      frameId = window.requestAnimationFrame(animate);
+      activeModel.rotation.y += reducedMotion ? 0 : 0.0015;
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    window.addEventListener("pagehide", () => {
+      window.cancelAnimationFrame(frameId);
+      observer.disconnect();
+      controls.dispose();
+      renderer.dispose();
+      disposeGroup(activeModel);
+    });
+  }
+
+  function addScene(scene) {
+    scene.add(new THREE.HemisphereLight(0xc4f4ff, 0x061016, 1.9));
+
+    const key = new THREE.DirectionalLight(0xffd59a, 2.7);
+    key.position.set(-4, 6, 5);
+    scene.add(key);
+
+    const rim = new THREE.DirectionalLight(0x35e0ca, 2);
+    rim.position.set(5, 2.4, -6);
+    scene.add(rim);
+
+    const grid = new THREE.GridHelper(12, 12, 0x35e0ca, 0x35e0ca);
+    grid.position.y = -1.25;
+    grid.material = new THREE.LineBasicMaterial({
+      color: 0x35e0ca,
+      transparent: true,
+      opacity: 0.15
+    });
+    scene.add(grid);
+
+    const ringMaterial = new THREE.MeshBasicMaterial({
+      color: 0xf3b85b,
+      transparent: true,
+      opacity: 0.2,
+      side: THREE.DoubleSide
+    });
+    [1.8, 2.8, 3.8].forEach((radius) => {
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.006, 8, 120), ringMaterial);
+      ring.rotation.x = -Math.PI / 2;
+      ring.position.y = -1.23;
+      scene.add(ring);
+    });
+  }
+
+  function updatePanel(root, fish, activeIndex) {
+    root.querySelector("[data-fish-name]").textContent = fish.name;
+    root.querySelector("[data-fish-aka]").textContent = fish.aka || fish.category;
+    root.querySelector("[data-fish-typical]").textContent = fish.typicalSize;
+    root.querySelector("[data-fish-high]").textContent = fish.highSize;
+    root.querySelector("[data-fish-category]").textContent = fish.category;
+    root.querySelector("[data-fish-notes]").textContent = fish.notes;
+    root.querySelector("[data-fish-season]").textContent = fish.season;
+
+    root.querySelectorAll("[data-fish-select]").forEach((button, index) => {
+      const active = index === activeIndex;
+      button.setAttribute("aria-pressed", String(active));
+      button.classList.toggle("border-seafoam/60", active);
+      button.classList.toggle("bg-seafoam/[0.14]", active);
+      button.classList.toggle("text-white", active);
+      button.classList.toggle("border-white/10", !active);
+      button.classList.toggle("bg-white/[0.04]", !active);
+      button.classList.toggle("text-mist", !active);
+    });
+  }
+
+  function createFishModel(fish) {
+    const key = fish.name.toLowerCase();
+    if (key.includes("flounder")) return createFlounder();
+    if (key.includes("rockfish")) return createRockfish();
+    if (key.includes("bluefish")) return createBluefish();
+    if (key.includes("tautog")) return createTautog();
+    if (key.includes("sheepshead")) return createSheepshead();
+    if (key.includes("red drum")) return createRedDrum();
+    if (key.includes("croaker")) return createCroaker();
+    return createRay();
+  }
+
+  function mats() {
+    return {
+      silver: material(0xd9e7e5, 0.36, 0.15),
+      belly: material(0xf3f8f4, 0.48, 0.05),
+      dark: material(0x071016, 0.52, 0.18),
+      teal: material(0x35e0ca, 0.34, 0.16),
+      blue: material(0x1a6b84, 0.38, 0.15),
+      bronze: material(0xb97b44, 0.46, 0.08),
+      red: material(0xb95838, 0.42, 0.08),
+      olive: material(0x293424, 0.5, 0.12),
+      black: material(0x05080b, 0.58, 0.2),
+      gold: material(0xf3b85b, 0.42, 0.08),
+      glass: new THREE.MeshPhysicalMaterial({
+        color: 0x7de7ee,
+        roughness: 0.18,
+        metalness: 0.05,
+        clearcoat: 0.8
+      })
+    };
+  }
+
+  function material(color, roughness, metalness) {
+    return new THREE.MeshPhysicalMaterial({
+      color,
+      roughness,
+      metalness,
+      clearcoat: 0.55,
+      clearcoatRoughness: 0.22
+    });
+  }
+
+  function baseFish({ bodyColor, topColor, length = 3.1, height = 0.82, width = 0.62, tailColor, finColor }) {
+    const materials = mats();
+    const group = new THREE.Group();
+
+    const body = new THREE.Mesh(new THREE.SphereGeometry(1, 56, 28), bodyColor);
+    body.scale.set(length * 0.5, height * 0.5, width * 0.5);
+    group.add(body);
+
+    const back = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 18), topColor);
+    back.scale.set(length * 0.48, height * 0.22, width * 0.51);
+    back.position.y = height * 0.19;
+    group.add(back);
+
+    const head = new THREE.Mesh(new THREE.SphereGeometry(1, 40, 20), bodyColor);
+    head.scale.set(length * 0.22, height * 0.43, width * 0.43);
+    head.position.x = length * 0.38;
+    group.add(head);
+
+    const eyeMat = materials.black;
+    [-1, 1].forEach((side) => {
+      const eye = new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 10), eyeMat);
+      eye.position.set(length * 0.53, height * 0.14, side * width * 0.28);
+      group.add(eye);
+    });
+
+    const tail = triangleMesh(0.72, 0.92, tailColor || topColor);
+    tail.position.x = -length * 0.58;
+    tail.rotation.z = Math.PI;
+    group.add(tail);
+
+    const dorsal = triangleMesh(1.2, 0.38, finColor || topColor);
+    dorsal.position.set(-0.35, height * 0.56, 0);
+    dorsal.rotation.z = -Math.PI / 2;
+    group.add(dorsal);
+
+    const bottomFin = triangleMesh(0.75, 0.26, finColor || bodyColor);
+    bottomFin.position.set(-0.3, -height * 0.52, 0);
+    bottomFin.rotation.z = Math.PI / 2;
+    group.add(bottomFin);
+
+    [-1, 1].forEach((side) => {
+      const fin = triangleMesh(0.42, 0.28, finColor || bodyColor);
+      fin.position.set(0.25, -height * 0.05, side * width * 0.45);
+      fin.rotation.y = side * -0.9;
+      fin.rotation.z = -0.2;
+      group.add(fin);
+    });
+
+    return group;
+  }
+
+  function createFlounder() {
+    const materials = mats();
+    const group = new THREE.Group();
+    const body = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 24), materials.bronze);
+    body.scale.set(1.75, 0.12, 0.9);
+    body.rotation.z = -0.04;
+    group.add(body);
+
+    const edge = new THREE.Mesh(new THREE.TorusGeometry(1, 0.018, 8, 96), materials.gold);
+    edge.scale.set(1.75, 0.12, 0.9);
+    edge.rotation.x = Math.PI / 2;
+    group.add(edge);
+
+    const tail = triangleMesh(0.55, 0.52, materials.bronze);
+    tail.position.x = -1.74;
+    tail.rotation.z = Math.PI;
+    tail.rotation.x = Math.PI / 2;
+    group.add(tail);
+
+    [0.55, 0.78].forEach((x) => {
+      const eye = new THREE.Mesh(new THREE.SphereGeometry(0.055, 16, 12), materials.black);
+      eye.position.set(x, 0.17, 0.22);
+      group.add(eye);
+    });
+
+    for (let i = 0; i < 16; i += 1) {
+      const spot = new THREE.Mesh(new THREE.SphereGeometry(0.035 + (i % 3) * 0.012, 12, 8), materials.dark);
+      spot.position.set(-1.1 + (i % 6) * 0.42, 0.16, -0.45 + Math.floor(i / 6) * 0.32);
+      spot.scale.y = 0.12;
+      group.add(spot);
+    }
+
+    group.rotation.x = -0.1;
+    return group;
+  }
+
+  function createRockfish() {
+    const materials = mats();
+    const group = baseFish({
+      bodyColor: materials.silver,
+      topColor: materials.blue,
+      tailColor: materials.blue,
+      finColor: materials.dark,
+      length: 3.3,
+      height: 0.76,
+      width: 0.58
+    });
+    addHorizontalStripes(group, 6, 0x18242a, 0.035, 3.0, 0.62);
+    return group;
+  }
+
+  function createBluefish() {
+    const materials = mats();
+    const group = baseFish({
+      bodyColor: materials.silver,
+      topColor: materials.teal,
+      tailColor: materials.blue,
+      finColor: materials.blue,
+      length: 3.1,
+      height: 0.72,
+      width: 0.55
+    });
+    addGlowLine(group, materials.teal);
+    return group;
+  }
+
+  function createTautog() {
+    const materials = mats();
+    const group = baseFish({
+      bodyColor: materials.olive,
+      topColor: materials.dark,
+      tailColor: materials.olive,
+      finColor: materials.dark,
+      length: 2.85,
+      height: 0.95,
+      width: 0.66
+    });
+    const lips = new THREE.Mesh(new THREE.SphereGeometry(0.22, 24, 12), materials.belly);
+    lips.scale.set(0.72, 0.42, 0.5);
+    lips.position.set(1.45, -0.02, 0);
+    group.add(lips);
+    addSpotPattern(group, materials.black, 12);
+    return group;
+  }
+
+  function createSheepshead() {
+    const materials = mats();
+    const group = baseFish({
+      bodyColor: materials.silver,
+      topColor: materials.dark,
+      tailColor: materials.dark,
+      finColor: materials.dark,
+      length: 2.8,
+      height: 1.05,
+      width: 0.56
+    });
+    addVerticalBars(group, 5, materials.black, 0.11, 1.0, 0.62);
+    return group;
+  }
+
+  function createRedDrum() {
+    const materials = mats();
+    const group = baseFish({
+      bodyColor: materials.red,
+      topColor: materials.bronze,
+      tailColor: materials.bronze,
+      finColor: materials.red,
+      length: 3.2,
+      height: 0.78,
+      width: 0.56
+    });
+    const spot = new THREE.Mesh(new THREE.SphereGeometry(0.09, 18, 10), materials.black);
+    spot.position.set(-1.22, 0.02, 0.31);
+    spot.scale.z = 0.16;
+    group.add(spot);
+    addGlowLine(group, materials.gold);
+    return group;
+  }
+
+  function createCroaker() {
+    const materials = mats();
+    const group = baseFish({
+      bodyColor: materials.belly,
+      topColor: materials.bronze,
+      tailColor: materials.bronze,
+      finColor: materials.gold,
+      length: 2.55,
+      height: 0.68,
+      width: 0.48
+    });
+    addSpotPattern(group, materials.gold, 10);
+    return group;
+  }
+
+  function createRay() {
+    const materials = mats();
+    const group = new THREE.Group();
+    const shape = new THREE.Shape();
+    shape.moveTo(0, 1.35);
+    shape.bezierCurveTo(1.55, 0.85, 1.78, -0.12, 0, -1.05);
+    shape.bezierCurveTo(-1.78, -0.12, -1.55, 0.85, 0, 1.35);
+
+    const disc = new THREE.Mesh(new THREE.ShapeGeometry(shape, 40), materials.bronze);
+    disc.rotation.x = -Math.PI / 2;
+    disc.scale.set(1.18, 1.18, 1);
+    group.add(disc);
+
+    const glow = new THREE.Mesh(
+      new THREE.ShapeGeometry(shape, 40),
+      new THREE.MeshBasicMaterial({
+        color: 0x35e0ca,
+        transparent: true,
+        opacity: 0.18,
+        side: THREE.DoubleSide
+      })
+    );
+    glow.rotation.x = -Math.PI / 2;
+    glow.position.y = -0.055;
+    glow.scale.set(1.34, 1.34, 1);
+    group.add(glow);
+
+    const belly = new THREE.Mesh(new THREE.ShapeGeometry(shape, 40), materials.belly);
+    belly.rotation.x = -Math.PI / 2;
+    belly.position.y = -0.04;
+    belly.scale.set(0.78, 0.78, 1);
+    group.add(belly);
+
+    const tail = pipe(new THREE.Vector3(0, 0, -1.08), new THREE.Vector3(0, 0.02, -3.3), 0.025, materials.dark);
+    group.add(tail);
+
+    [-0.25, 0.25].forEach((x) => {
+      const eye = new THREE.Mesh(new THREE.SphereGeometry(0.055, 16, 10), materials.black);
+      eye.position.set(x, 0.08, 0.58);
+      group.add(eye);
+    });
+
+    const centerRidge = new THREE.Mesh(new THREE.SphereGeometry(0.48, 24, 12), materials.bronze);
+    centerRidge.scale.set(0.9, 0.14, 0.42);
+    centerRidge.position.set(0, 0.08, 0.08);
+    group.add(centerRidge);
+
+    group.rotation.y = Math.PI / 2;
+    return group;
+  }
+
+  function addHorizontalStripes(group, count, color, thickness, length, width) {
+    const mat = material(color, 0.5, 0.08);
+    for (let i = 0; i < count; i += 1) {
+      const stripe = new THREE.Mesh(new THREE.BoxGeometry(length, thickness, 0.018), mat);
+      stripe.position.set(-0.05, -0.22 + i * 0.085, width * 0.5 + 0.02);
+      stripe.rotation.z = 0.05;
+      group.add(stripe);
+    }
+  }
+
+  function addVerticalBars(group, count, mat, height, bodyHeight, width) {
+    for (let i = 0; i < count; i += 1) {
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(0.08, bodyHeight, 0.02), mat);
+      bar.position.set(-0.95 + i * 0.42, 0.01, width * 0.5 + 0.025);
+      bar.rotation.z = -0.08;
+      bar.scale.x = 1 + (i % 2) * 0.5;
+      group.add(bar);
+    }
+  }
+
+  function addGlowLine(group, mat) {
+    const line = new THREE.Mesh(new THREE.BoxGeometry(2.55, 0.035, 0.024), mat);
+    line.position.set(-0.08, -0.05, 0.31);
+    group.add(line);
+  }
+
+  function addSpotPattern(group, mat, count) {
+    for (let i = 0; i < count; i += 1) {
+      const spot = new THREE.Mesh(new THREE.SphereGeometry(0.035 + (i % 2) * 0.012, 12, 8), mat);
+      spot.position.set(-1.05 + (i % 5) * 0.42, -0.12 + Math.floor(i / 5) * 0.18, 0.35);
+      spot.scale.z = 0.18;
+      group.add(spot);
+    }
+  }
+
+  function triangleMesh(width, height, material) {
+    const geometry = new THREE.BufferGeometry();
+    const verts = new Float32Array([0, 0, 0, -width, height * 0.5, 0, -width, -height * 0.5, 0]);
+    geometry.setAttribute("position", new THREE.Float32BufferAttribute(verts, 3));
+    geometry.setIndex([0, 1, 2]);
+    geometry.computeVertexNormals();
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.material.side = THREE.DoubleSide;
+    return mesh;
+  }
+
+  function pipe(start, end, radius, material) {
+    const direction = new THREE.Vector3().subVectors(end, start);
+    const length = direction.length();
+    const geometry = new THREE.CylinderGeometry(radius, radius, length, 14);
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.copy(start).add(end).multiplyScalar(0.5);
+    mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
+    return mesh;
+  }
+
+  function disposeGroup(group) {
+    group.traverse((item) => {
+      if (item.geometry) item.geometry.dispose();
+    });
+  }
+</script>
