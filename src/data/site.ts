@@ -28,6 +28,7 @@ export type FishSpecies = {
   name: string;
   aka?: string;
   image: string;
+  specimenImage?: string;
   // Optional licensed 3D model file. Put owned/purchased/commercial-safe GLB/GLTF
   // files in /public/models/fish/ and reference them like "/models/fish/flounder.glb".
   modelSrc?: string;
@@ -194,6 +195,7 @@ export const site = {
       name: "Flounder",
       aka: "Summer flounder",
       image: "fish-flounder.jpg",
+      specimenImage: "specimen-flounder.png",
       modelSrc: "",
       category: "Bay / inlet",
       typicalSize: "16-22 in / 1-4 lb",
@@ -205,6 +207,7 @@ export const site = {
       name: "Rockfish",
       aka: "Striped bass",
       image: "fish-rockfish.jpg",
+      specimenImage: "specimen-rockfish.png",
       modelSrc: "",
       category: "Inshore / inlet / seasonal",
       typicalSize: "20-36 in / 3-20 lb",
@@ -215,6 +218,7 @@ export const site = {
     {
       name: "Bluefish",
       image: "fish-bluefish.jpg",
+      specimenImage: "specimen-bluefish.png",
       modelSrc: "",
       category: "Bay / inlet / nearshore",
       typicalSize: "18-30 in / 2-8 lb",
@@ -226,6 +230,7 @@ export const site = {
       name: "Tautog",
       aka: "Tog",
       image: "fish-tautog.jpg",
+      specimenImage: "specimen-tautog.png",
       modelSrc: "",
       category: "Structure / wreck",
       typicalSize: "15-22 in / 2-7 lb",
@@ -236,6 +241,7 @@ export const site = {
     {
       name: "Sheepshead",
       image: "fish-sheepshead.jpg",
+      specimenImage: "specimen-sheepshead.png",
       modelSrc: "",
       category: "Structure / inlet",
       typicalSize: "14-22 in / 2-8 lb",
@@ -247,6 +253,7 @@ export const site = {
       name: "Red Drum",
       aka: "Redfish",
       image: "fish-red-drum.jpg",
+      specimenImage: "specimen-red-drum.png",
       modelSrc: "",
       category: "Inshore / seasonal",
       typicalSize: "18-32 in / 3-15 lb",
@@ -257,6 +264,7 @@ export const site = {
     {
       name: "Croaker",
       image: "fish-croaker.jpg",
+      specimenImage: "specimen-croaker.png",
       modelSrc: "/models/fish/artec-scanned-fish.glb",
       modelCredit: "Generic fish scan by Artec 3D, used as a real scanned reference model until a species-exact croaker model is licensed",
       modelLicense: "CC BY 3.0",
@@ -271,6 +279,7 @@ export const site = {
       name: "Bowfishing",
       aka: "Rays and seasonal targets",
       image: "fish-bowfishing.jpg",
+      specimenImage: "specimen-ray.png",
       modelSrc: "",
       category: "Specialty trip",
       typicalSize: "Varies by target",

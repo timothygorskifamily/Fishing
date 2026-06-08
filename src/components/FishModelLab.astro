@@ -5,6 +5,8 @@ import { site } from "@data/site";
 const modelSpecies = site.fishSpecies.map((fish) => ({
   name: fish.name,
   aka: fish.aka ?? "",
+  image: fish.image,
+  specimenImage: fish.specimenImage ?? "",
   category: fish.category,
   typicalSize: fish.typicalSize,
   highSize: fish.highSize,
@@ -187,12 +189,14 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
     MeshPhysicalMaterial,
     MeshStandardMaterial,
     PerspectiveCamera,
+    PlaneGeometry,
     Scene,
     Shape,
     ShapeGeometry,
     SphereGeometry,
     SRGBColorSpace,
     TorusGeometry,
+    TextureLoader,
     Vector3,
     WebGLRenderer
   } from "three";
@@ -220,12 +224,14 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
     MeshPhysicalMaterial,
     MeshStandardMaterial,
     PerspectiveCamera,
+    PlaneGeometry,
     Scene,
     Shape,
     ShapeGeometry,
     SphereGeometry,
     SRGBColorSpace,
     TorusGeometry,
+    TextureLoader,
     Vector3,
     WebGLRenderer
   };
@@ -452,8 +458,10 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
     const creditEl = root.querySelector("[data-fish-model-credit]");
     const creditParts = [fish.modelCredit, fish.modelLicense].filter(Boolean);
     if (creditEl) {
-      creditEl.textContent = creditParts.length ? `3D model: ${creditParts.join(" | ")}` : "";
-      creditEl.classList.toggle("hidden", !creditParts.length);
+      creditEl.textContent = creditParts.length
+        ? `3D model: ${creditParts.join(" | ")}`
+        : "Photoreal specimen skin over interactive 3D form; species-exact scanned GLB still pending";
+      creditEl.classList.remove("hidden");
     }
 
     root.querySelectorAll("[data-fish-select]").forEach((button, index) => {
@@ -470,14 +478,14 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
 
   function createFishModel(fish) {
     const key = fish.name.toLowerCase();
-    if (key.includes("flounder")) return createFlounder();
-    if (key.includes("rockfish")) return createRockfish();
-    if (key.includes("bluefish")) return createBluefish();
-    if (key.includes("tautog")) return createTautog();
-    if (key.includes("sheepshead")) return createSheepshead();
-    if (key.includes("red drum")) return createRedDrum();
-    if (key.includes("croaker")) return createCroaker();
-    return createRay();
+    if (key.includes("flounder")) return createFlounder(fish);
+    if (key.includes("rockfish")) return createRockfish(fish);
+    if (key.includes("bluefish")) return createBluefish(fish);
+    if (key.includes("tautog")) return createTautog(fish);
+    if (key.includes("sheepshead")) return createSheepshead(fish);
+    if (key.includes("red drum")) return createRedDrum(fish);
+    if (key.includes("croaker")) return createCroaker(fish);
+    return createRay(fish);
   }
 
   function normalizeImportedModel(model) {
@@ -508,6 +516,11 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
   function modelAssetPath(src) {
     if (src.startsWith("http")) return src;
     return `${cleanBase}${src.replace(/^\/+/, "")}`;
+  }
+
+  function imageAssetPath(fileName) {
+    if (fileName.startsWith("http")) return fileName;
+    return `${cleanBase}images/${fileName.replace(/^\/?(images\/)?/, "")}`;
   }
 
   function mats() {
@@ -549,7 +562,8 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
     width = 0.62,
     tailColor,
     finColor,
-    skin = "silver"
+    skin = "silver",
+    photo
   }) {
     const materials = mats();
     const group = new THREE.Group();
@@ -600,10 +614,15 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       group.add(fin);
     });
 
+    if (photo) {
+      softenProceduralGeometry(group, 0.24);
+      group.add(createPhotoSkinPanels(photo, length, height, width));
+    }
+
     return group;
   }
 
-  function createFlounder() {
+  function createFlounder(fish) {
     const materials = mats();
     const group = new THREE.Group();
     const body = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 24), materials.bronze);
@@ -615,6 +634,14 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
     skin.rotation.x = -Math.PI / 2;
     skin.position.y = 0.138;
     group.add(skin);
+
+    if (fish.specimenImage) {
+      const photoSkin = new THREE.Mesh(new THREE.PlaneGeometry(3.65, 1.95), createPhotoMaterial(fish.specimenImage, 0.96));
+      photoSkin.userData.photoSkin = true;
+      photoSkin.rotation.x = -Math.PI / 2;
+      photoSkin.position.y = 0.154;
+      group.add(photoSkin);
+    }
 
     const edge = new THREE.Mesh(new THREE.TorusGeometry(1, 0.018, 8, 96), materials.gold);
     edge.scale.set(1.75, 0.12, 0.9);
@@ -640,11 +667,12 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       group.add(spot);
     }
 
+    if (fish.specimenImage) softenProceduralGeometry(group, 0.2);
     group.rotation.x = -0.1;
     return group;
   }
 
-  function createRockfish() {
+  function createRockfish(fish) {
     const materials = mats();
     const group = baseFish({
       bodyColor: materials.silver,
@@ -654,13 +682,15 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       length: 3.3,
       height: 0.76,
       width: 0.58,
-      skin: "rockfish"
+      skin: "rockfish",
+      photo: fish.specimenImage
     });
     addHorizontalStripes(group, 6, 0x18242a, 0.035, 3.0, 0.62);
+    if (fish.specimenImage) softenProceduralGeometry(group, 0.14);
     return group;
   }
 
-  function createBluefish() {
+  function createBluefish(fish) {
     const materials = mats();
     const group = baseFish({
       bodyColor: materials.silver,
@@ -670,13 +700,15 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       length: 3.1,
       height: 0.72,
       width: 0.55,
-      skin: "bluefish"
+      skin: "bluefish",
+      photo: fish.specimenImage
     });
     addGlowLine(group, materials.teal);
+    if (fish.specimenImage) softenProceduralGeometry(group, 0.14);
     return group;
   }
 
-  function createTautog() {
+  function createTautog(fish) {
     const materials = mats();
     const group = baseFish({
       bodyColor: materials.olive,
@@ -686,17 +718,19 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       length: 2.85,
       height: 0.95,
       width: 0.66,
-      skin: "tautog"
+      skin: "tautog",
+      photo: fish.specimenImage
     });
     const lips = new THREE.Mesh(new THREE.SphereGeometry(0.22, 24, 12), materials.belly);
     lips.scale.set(0.72, 0.42, 0.5);
     lips.position.set(1.45, -0.02, 0);
     group.add(lips);
     addSpotPattern(group, materials.black, 12);
+    if (fish.specimenImage) softenProceduralGeometry(group, 0.14);
     return group;
   }
 
-  function createSheepshead() {
+  function createSheepshead(fish) {
     const materials = mats();
     const group = baseFish({
       bodyColor: materials.silver,
@@ -706,13 +740,15 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       length: 2.8,
       height: 1.05,
       width: 0.56,
-      skin: "sheepshead"
+      skin: "sheepshead",
+      photo: fish.specimenImage
     });
     addVerticalBars(group, 5, materials.black, 0.11, 1.0, 0.62);
+    if (fish.specimenImage) softenProceduralGeometry(group, 0.14);
     return group;
   }
 
-  function createRedDrum() {
+  function createRedDrum(fish) {
     const materials = mats();
     const group = baseFish({
       bodyColor: materials.red,
@@ -722,17 +758,19 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       length: 3.2,
       height: 0.78,
       width: 0.56,
-      skin: "red-drum"
+      skin: "red-drum",
+      photo: fish.specimenImage
     });
     const spot = new THREE.Mesh(new THREE.SphereGeometry(0.09, 18, 10), materials.black);
     spot.position.set(-1.22, 0.02, 0.31);
     spot.scale.z = 0.16;
     group.add(spot);
     addGlowLine(group, materials.gold);
+    if (fish.specimenImage) softenProceduralGeometry(group, 0.14);
     return group;
   }
 
-  function createCroaker() {
+  function createCroaker(fish) {
     const materials = mats();
     const group = baseFish({
       bodyColor: materials.belly,
@@ -742,13 +780,15 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       length: 2.55,
       height: 0.68,
       width: 0.48,
-      skin: "croaker"
+      skin: "croaker",
+      photo: fish.specimenImage
     });
     addSpotPattern(group, materials.gold, 10);
+    if (fish.specimenImage) softenProceduralGeometry(group, 0.14);
     return group;
   }
 
-  function createRay() {
+  function createRay(fish) {
     const materials = mats();
     const group = new THREE.Group();
     const shape = new THREE.Shape();
@@ -766,6 +806,14 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
     raySkin.position.y = 0.014;
     raySkin.scale.set(1.2, 1.2, 1);
     group.add(raySkin);
+
+    if (fish?.specimenImage) {
+      const photoSkin = new THREE.Mesh(new THREE.PlaneGeometry(3.3, 3.05), createPhotoMaterial(fish.specimenImage, 0.94));
+      photoSkin.userData.photoSkin = true;
+      photoSkin.rotation.x = -Math.PI / 2;
+      photoSkin.position.y = 0.022;
+      group.add(photoSkin);
+    }
 
     const glow = new THREE.Mesh(
       new THREE.ShapeGeometry(shape, 40),
@@ -802,6 +850,7 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
     group.add(centerRidge);
 
     group.rotation.y = Math.PI / 2;
+    if (fish?.specimenImage) softenProceduralGeometry(group, 0.18);
     return group;
   }
 
@@ -815,6 +864,56 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       group.add(panel);
     });
     return group;
+  }
+
+  function createPhotoSkinPanels(photo, length, height, width) {
+    const group = new THREE.Group();
+    const geometry = new THREE.PlaneGeometry(length * 1.12, height * 1.72);
+    [-1, 1].forEach((side) => {
+      const panel = new THREE.Mesh(geometry.clone(), createPhotoMaterial(photo, 0.94, side < 0));
+      panel.userData.photoSkin = true;
+      panel.position.y = height * 0.04;
+      panel.position.z = side * width * 0.585;
+      panel.rotation.y = side < 0 ? Math.PI : 0;
+      group.add(panel);
+    });
+    return group;
+  }
+
+  function softenProceduralGeometry(group, opacity) {
+    group.traverse((item) => {
+      if (!item.isMesh || item.userData.photoSkin || !item.material) return;
+      const materials = Array.isArray(item.material) ? item.material : [item.material];
+      const softened = materials.map((material) => {
+        const clone = material.clone();
+        clone.transparent = true;
+        clone.opacity = Math.min(clone.opacity ?? 1, opacity);
+        clone.depthWrite = false;
+        return clone;
+      });
+      item.material = Array.isArray(item.material) ? softened : softened[0];
+    });
+  }
+
+  function createPhotoMaterial(photo, opacity = 0.94, mirrored = false) {
+    const texture = new THREE.TextureLoader().load(imageAssetPath(photo), (loadedTexture) => {
+      loadedTexture.colorSpace = THREE.SRGBColorSpace;
+      loadedTexture.center.set(0.5, 0.5);
+      loadedTexture.repeat.set(mirrored ? -1 : 1, 1);
+      loadedTexture.needsUpdate = true;
+    });
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.center.set(0.5, 0.5);
+    texture.repeat.set(mirrored ? -1 : 1, 1);
+
+    return new THREE.MeshBasicMaterial({
+      map: texture,
+      transparent: true,
+      opacity,
+      alphaTest: 0.08,
+      side: THREE.DoubleSide,
+      depthWrite: false
+    });
   }
 
   function createFishProfileShape(length, height) {

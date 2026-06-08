@@ -37,3 +37,10 @@ models. Use exact-species, commercial-safe models for launch when possible.
 5. Set `modelSrc`, `modelCredit`, `modelLicense`, and `modelSourceUrl` in
    `src/data/site.ts`.
 6. Run `npm run build` and inspect `/trips/#fish-models` on mobile and desktop.
+
+## Current Visual Stopgap
+
+The site currently uses photoreal specimen PNG cutouts in `public/images/specimen-*.png`
+to make the fish lab look more realistic while true species-exact GLB models are
+pending. These are 2.5D visual layers over the procedural forms. Replace them
+with licensed scanned models when exact 360-degree realism is required.

@@ -14,6 +14,9 @@ export default defineConfig({
   base,
   output: "static",
   trailingSlash: "always",
+  devToolbar: {
+    enabled: false
+  },
   integrations: [sitemap()],
   vite: {
     build: {
