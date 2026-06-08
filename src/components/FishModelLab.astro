@@ -234,6 +234,8 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
   const canvas = root?.querySelector("[data-fish-canvas]");
   const rawData = document.querySelector("#fish-model-data")?.textContent ?? "[]";
   const species = JSON.parse(rawData);
+  const baseUrl = import.meta.env.BASE_URL || "/";
+  const cleanBase = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
 
   if (root instanceof HTMLElement && canvas instanceof HTMLCanvasElement && species.length) {
     initFishLab(root, canvas, species);
@@ -344,7 +346,7 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       if (!src) return;
 
       gltfLoader.load(
-        src,
+        modelAssetPath(src),
         (gltf) => {
           if (token !== activeToken) {
             disposeGroup(gltf.scene);
@@ -501,6 +503,11 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
         }
       }
     });
+  }
+
+  function modelAssetPath(src) {
+    if (src.startsWith("http")) return src;
+    return `${cleanBase}${src.replace(/^\/+/, "")}`;
   }
 
   function mats() {

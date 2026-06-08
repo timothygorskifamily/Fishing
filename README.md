@@ -110,7 +110,9 @@ Keep the same filenames if you want to update the images without editing code. U
 ## Replace 3D Fish Models
 
 The interactive fish lab currently uses lightweight procedural models as safe
-fallbacks. To use purchased, commissioned, or otherwise licensed real models:
+fallbacks. The Croaker slot also includes a real Artec 3D scanned fish model as
+a licensed generic scan reference. To use purchased, commissioned, or otherwise
+licensed species-exact models:
 
 1. Convert each model to `.glb` or `.gltf`.
 2. Put the files in `public/models/fish/`.

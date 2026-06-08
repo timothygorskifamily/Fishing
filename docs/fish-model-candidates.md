@@ -19,6 +19,7 @@ models. Use exact-species, commercial-safe models for launch when possible.
 
 | Species | Candidate | Why it is not a clean launch asset |
 | --- | --- | --- |
+| Generic fish scan | [Artec 3D Fish](https://www.artec3d.com/3d-models/fish) | Added to the site as `artec-scanned-fish.glb`; commercial use is allowed with attribution, but it is not species-exact |
 | Striped bass | [DigitalLife3D Striped Bass](https://sketchfab.com/3d-models/model-69b-striped-bass-mesh-9dd0362823304dbf86a30af54b169012) | Excellent photogrammetry/scientific source, but CC BY-NC and non-profit only unless separately licensed |
 | Flounder relatives | [ffish.asia / floraZia CC0 blackfin flounder](https://sketchfab.com/3d-models/blackfin-flounder-glyptocephalus-stelleri-68276a26e93c463e88421b5097b032ea) | Commercial-safe CC0, but not summer flounder and very high-poly |
 | Cownose ray | [Sketchfab Cownose Ray by kenchoo](https://sketchfab.com/3d-models/cownose-ray-c7c51649007e4afba58416b15d891bf4) | CC BY and downloadable, but requires attribution and quality/species review |

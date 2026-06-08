@@ -257,7 +257,10 @@ export const site = {
     {
       name: "Croaker",
       image: "fish-croaker.jpg",
-      modelSrc: "",
+      modelSrc: "/models/fish/artec-scanned-fish.glb",
+      modelCredit: "Generic fish scan by Artec 3D, used as a real scanned reference model until a species-exact croaker model is licensed",
+      modelLicense: "CC BY 3.0",
+      modelSourceUrl: "https://www.artec3d.com/3d-models/fish",
       category: "Bay / inshore",
       typicalSize: "9-14 in / under 1-2 lb",
       highSize: "16+ in / 2-3+ lb",

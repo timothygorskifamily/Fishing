@@ -21,3 +21,14 @@ Personal/Education, Editorial-only, or files without a clear license.
 When using CC BY assets, fill in `modelCredit`, `modelLicense`, and
 `modelSourceUrl` in `src/data/site.ts`. Keep a copy of each license receipt or
 license screenshot with the launch records.
+
+Current included model:
+
+- `artec-scanned-fish.glb` is a converted and optimized version of Artec 3D's
+  free scanned fish model. It is licensed under CC BY 3.0 and requires
+  attribution to Artec 3D. The full downloaded license text is kept beside the
+  model as `artec-scanned-fish-license.txt`.
+
+This model is a real scanned fish, but it is not a species-exact Ocean City
+target. Use it only as a reference scan until exact purchased/commissioned
+models are available.
