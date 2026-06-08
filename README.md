@@ -107,30 +107,6 @@ Species photos copied from the current Ocean City Guide Service site can also be
 
 Keep the same filenames if you want to update the images without editing code. Use optimized JPG or WebP files when possible.
 
-## Replace 3D Fish Models
-
-The interactive fish lab currently uses lightweight procedural models as safe
-fallbacks. The Croaker slot also includes a real Artec 3D scanned fish model as
-a licensed generic scan reference.
-
-The other species use photoreal specimen PNG cutouts layered over interactive
-3D forms. These assets live in `public/images/specimen-*.png`, with the source
-atlas saved as `public/images/fish-specimen-atlas.png`. They improve the visual
-realism of the viewer, but they are still 2.5D specimen textures, not true
-species-exact scanned 3D models.
-
-To use purchased, commissioned, or otherwise licensed species-exact models:
-
-1. Convert each model to `.glb` or `.gltf`.
-2. Put the files in `public/models/fish/`.
-3. Edit the matching fish in `src/data/site.ts`.
-4. Set `modelSrc`, for example `/models/fish/bluefish.glb`.
-5. Fill in `modelCredit`, `modelLicense`, and `modelSourceUrl` when attribution is required.
-
-Do not use models marked NonCommercial, Personal/Education, Editorial-only, or
-files without clear license terms. See `docs/fish-model-candidates.md` for
-researched model candidates and license notes.
-
 ## Cal.com Setup
 
 Admin schedule management happens in Cal.com, not on the website.
