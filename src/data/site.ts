@@ -116,7 +116,7 @@ export const site = {
       included: ["Up to 6 anglers", "Bait and tackle included", "No license required per current trip copy", "Captain-confirmed timing"],
       description:
         "A simple two-hour evening charter for groups who want time on the water without committing to a full half-day.",
-      image: "sunset.jpg"
+      image: "fish-red-drum.jpg"
     },
     {
       name: "Inshore Wreck Fishing",
@@ -194,7 +194,7 @@ export const site = {
     {
       question: "What is the cancellation policy?",
       answer:
-        "Use this as placeholder policy copy only. Final cancellation, deposit, weather, and rescheduling language should be approved by the captain before launch."
+        "Final cancellation, deposit, weather, and rescheduling details should be confirmed directly with the captain before your trip."
     }
   ] satisfies FAQItem[],
   fishSpecies: [
@@ -291,6 +291,34 @@ export const site = {
   ] satisfies FishSpecies[],
   galleryImages: [
     {
+      src: "fish-tautog.jpg",
+      alt: "Smiling angler holding a large tautog during an Ocean City fishing trip",
+      title: "Tog on structure",
+      caption: "A serious structure fish and a memorable day on the water.",
+      category: "Fishing"
+    },
+    {
+      src: "fish-red-drum.jpg",
+      alt: "Angler holding a red drum aboard a private Ocean City fishing charter",
+      title: "Red drum smile",
+      caption: "Seasonal windows can bring the kind of bite people remember.",
+      category: "Fishing"
+    },
+    {
+      src: "fish-sheepshead.jpg",
+      alt: "Angler holding a sheepshead in calm Ocean City water",
+      title: "Sheepshead bite",
+      caption: "Structure, tide, and timing all matter when these fish show up.",
+      category: "Fishing"
+    },
+    {
+      src: "fish-bowfishing.jpg",
+      alt: "Two anglers bowfishing beside the Ocean City Guide Service boat",
+      title: "Bowfishing option",
+      caption: "A specialty trip style for the right seasonal conditions.",
+      category: "Fishing"
+    },
+    {
       src: "hero-boat.jpg",
       alt: "Center-console fishing boat running offshore near Ocean City, Maryland",
       title: "Boat-forward charter days",
@@ -315,36 +343,8 @@ export const site = {
       src: "deck.jpg",
       alt: "Clean fishing deck on a private charter boat",
       title: "Clean fishable deck",
-      caption: "Cockpit, transom, twin outboards, and open deck reference.",
+      caption: "Open deck space, clean movement, and a practical fishing layout.",
       category: "Deck"
-    },
-    {
-      src: "catch-1.jpg",
-      alt: "Fresh seasonal catch on an Ocean City fishing charter",
-      title: "Inshore report",
-      caption: "Replace with an actual bay or inlet catch photo.",
-      category: "Fishing"
-    },
-    {
-      src: "catch-2.jpg",
-      alt: "Nearshore fishing catch from reef or wreck grounds",
-      title: "Wreck and reef day",
-      caption: "Replace with a nearshore catch photo.",
-      category: "Fishing"
-    },
-    {
-      src: "catch-3.jpg",
-      alt: "Offshore fishing catch on a private charter",
-      title: "Bluewater window",
-      caption: "Replace with an offshore trip photo.",
-      category: "Fishing"
-    },
-    {
-      src: "sunset.jpg",
-      alt: "Sunset over Ocean City Maryland water after a fishing charter",
-      title: "Back at the dock",
-      caption: "Use a real sunset, inlet, or dock photo.",
-      category: "Ocean City"
     }
   ] satisfies GalleryImage[],
   seo: {

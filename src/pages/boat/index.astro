@@ -7,10 +7,30 @@ import { site } from "@data/site";
 import { imagePath, smsHref } from "@lib/links";
 
 const boatImages = [
-  { src: "boat-running.jpg", title: "Running shot", alt: "SeaVee tower boat running shot placeholder" },
-  { src: "boat-tower.jpg", title: "Tower detail", alt: "SeaVee tower detail placeholder" },
-  { src: "deck.jpg", title: "Console and deck", alt: "Center-console deck placeholder" },
-  { src: "catch-1.jpg", title: "Fishing day", alt: "Fishing catch placeholder aboard a private charter" }
+  {
+    src: "boat-running.jpg",
+    title: "Running shot",
+    alt: "SeaVee tower boat running on coastal water",
+    caption: "The 29' SeaVee underway out of Ocean City."
+  },
+  {
+    src: "boat-tower.jpg",
+    title: "Tower detail",
+    alt: "Tower detail on the SeaVee center-console boat",
+    caption: "A higher sightline for reading water and spotting activity."
+  },
+  {
+    src: "deck.jpg",
+    title: "Console and deck",
+    alt: "Clean center-console fishing deck",
+    caption: "Open deck space and a practical fishing layout."
+  },
+  {
+    src: "fish-bowfishing.jpg",
+    title: "Fishing day",
+    alt: "Anglers bowfishing beside the Ocean City Guide Service boat",
+    caption: "Private trips can be shaped around the right seasonal window."
+  }
 ];
 ---
 
@@ -41,7 +61,7 @@ const boatImages = [
         <div class="image-sheen overflow-hidden rounded-lg border border-white/12 bg-panel shadow-lift">
           <img
             src={imagePath("hero-boat.jpg")}
-            alt="29 foot SeaVee tower boat placeholder hero image"
+            alt="29 foot SeaVee tower boat running near Ocean City"
             class="aspect-[16/10] w-full object-cover"
             loading="lazy"
             decoding="async"
@@ -68,9 +88,9 @@ const boatImages = [
   <section class="border-y border-white/10 bg-[#081720] section-pad">
     <div class="container-shell">
       <SectionHeading
-        eyebrow="Photo sections"
-        title="Replace these placeholders with real boat photos."
-        copy="Use a running shot, tower/detail shot, console/deck shot, and fishing/catch shot to make the site feel specific and trustworthy."
+        eyebrow="Boat photos"
+        title="A closer look at the platform."
+        copy="Running, tower, deck, and fishing-day views from a clean center-console charter setup."
       />
       <div class="grid gap-5 md:grid-cols-2">
         {
@@ -85,9 +105,7 @@ const boatImages = [
               />
               <figcaption class="p-5">
                 <h3 class="text-xl font-black text-white">{image.title}</h3>
-                <p class="mt-2 text-sm leading-7 text-mist">
-                  Replace <code class="rounded bg-white/8 px-1.5 py-0.5 text-fog">{image.src}</code> in public/images with the real photo.
-                </p>
+                <p class="mt-2 text-sm leading-7 text-mist">{image.caption}</p>
               </figcaption>
             </figure>
           ))
