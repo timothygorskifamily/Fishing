@@ -28,7 +28,7 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
           3D models of common Ocean City targets.
         </h2>
         <p class="mt-4 max-w-2xl text-base leading-8 text-mist">
-          Clean, stylized models for the species OCGS commonly talks about: flounder, rockfish,
+          Detailed interactive models for the species OCGS commonly talks about: flounder, rockfish,
           bluefish, tog, sheepshead, drum, croaker, and bowfishing targets.
         </p>
       </div>
@@ -165,6 +165,7 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
     ACESFilmicToneMapping,
     BoxGeometry,
     BufferGeometry,
+    CanvasTexture,
     ConeGeometry,
     CylinderGeometry,
     DirectionalLight,
@@ -195,6 +196,7 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
     ACESFilmicToneMapping,
     BoxGeometry,
     BufferGeometry,
+    CanvasTexture,
     ConeGeometry,
     CylinderGeometry,
     DirectionalLight,
@@ -462,7 +464,16 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
     });
   }
 
-  function baseFish({ bodyColor, topColor, length = 3.1, height = 0.82, width = 0.62, tailColor, finColor }) {
+  function baseFish({
+    bodyColor,
+    topColor,
+    length = 3.1,
+    height = 0.82,
+    width = 0.62,
+    tailColor,
+    finColor,
+    skin = "silver"
+  }) {
     const materials = mats();
     const group = new THREE.Group();
 
@@ -486,6 +497,8 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       eye.position.set(length * 0.53, height * 0.14, side * width * 0.28);
       group.add(eye);
     });
+
+    group.add(createSkinPanels(skin, length, height, width));
 
     const tail = triangleMesh(0.72, 0.92, tailColor || topColor);
     tail.position.x = -length * 0.58;
@@ -520,6 +533,11 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
     body.scale.set(1.75, 0.12, 0.9);
     body.rotation.z = -0.04;
     group.add(body);
+
+    const skin = new THREE.Mesh(createFlatfishShape(3.45, 1.7), createSkinMaterial("flounder"));
+    skin.rotation.x = -Math.PI / 2;
+    skin.position.y = 0.138;
+    group.add(skin);
 
     const edge = new THREE.Mesh(new THREE.TorusGeometry(1, 0.018, 8, 96), materials.gold);
     edge.scale.set(1.75, 0.12, 0.9);
@@ -558,7 +576,8 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       finColor: materials.dark,
       length: 3.3,
       height: 0.76,
-      width: 0.58
+      width: 0.58,
+      skin: "rockfish"
     });
     addHorizontalStripes(group, 6, 0x18242a, 0.035, 3.0, 0.62);
     return group;
@@ -573,7 +592,8 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       finColor: materials.blue,
       length: 3.1,
       height: 0.72,
-      width: 0.55
+      width: 0.55,
+      skin: "bluefish"
     });
     addGlowLine(group, materials.teal);
     return group;
@@ -588,7 +608,8 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       finColor: materials.dark,
       length: 2.85,
       height: 0.95,
-      width: 0.66
+      width: 0.66,
+      skin: "tautog"
     });
     const lips = new THREE.Mesh(new THREE.SphereGeometry(0.22, 24, 12), materials.belly);
     lips.scale.set(0.72, 0.42, 0.5);
@@ -607,7 +628,8 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       finColor: materials.dark,
       length: 2.8,
       height: 1.05,
-      width: 0.56
+      width: 0.56,
+      skin: "sheepshead"
     });
     addVerticalBars(group, 5, materials.black, 0.11, 1.0, 0.62);
     return group;
@@ -622,7 +644,8 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       finColor: materials.red,
       length: 3.2,
       height: 0.78,
-      width: 0.56
+      width: 0.56,
+      skin: "red-drum"
     });
     const spot = new THREE.Mesh(new THREE.SphereGeometry(0.09, 18, 10), materials.black);
     spot.position.set(-1.22, 0.02, 0.31);
@@ -641,7 +664,8 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
       finColor: materials.gold,
       length: 2.55,
       height: 0.68,
-      width: 0.48
+      width: 0.48,
+      skin: "croaker"
     });
     addSpotPattern(group, materials.gold, 10);
     return group;
@@ -659,6 +683,12 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
     disc.rotation.x = -Math.PI / 2;
     disc.scale.set(1.18, 1.18, 1);
     group.add(disc);
+
+    const raySkin = new THREE.Mesh(new THREE.ShapeGeometry(shape, 40), createSkinMaterial("ray"));
+    raySkin.rotation.x = -Math.PI / 2;
+    raySkin.position.y = 0.014;
+    raySkin.scale.set(1.2, 1.2, 1);
+    group.add(raySkin);
 
     const glow = new THREE.Mesh(
       new THREE.ShapeGeometry(shape, 40),
@@ -696,6 +726,281 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
 
     group.rotation.y = Math.PI / 2;
     return group;
+  }
+
+  function createSkinPanels(type, length, height, width) {
+    const group = new THREE.Group();
+    const geometry = createFishProfileShape(length * 1.03, height * 1.04);
+    [-1, 1].forEach((side) => {
+      const panel = new THREE.Mesh(geometry.clone(), createSkinMaterial(type, side < 0));
+      panel.position.z = side * width * 0.515;
+      panel.rotation.y = side < 0 ? Math.PI : 0;
+      group.add(panel);
+    });
+    return group;
+  }
+
+  function createFishProfileShape(length, height) {
+    const shape = new THREE.Shape();
+    const noseX = length * 0.51;
+    const tailX = -length * 0.48;
+    shape.moveTo(noseX, 0.02);
+    shape.bezierCurveTo(length * 0.42, height * 0.36, length * 0.08, height * 0.5, tailX, height * 0.22);
+    shape.bezierCurveTo(tailX - length * 0.05, height * 0.05, tailX - length * 0.05, -height * 0.05, tailX, -height * 0.22);
+    shape.bezierCurveTo(length * 0.03, -height * 0.46, length * 0.38, -height * 0.34, noseX, -0.02);
+    return new THREE.ShapeGeometry(shape, 72);
+  }
+
+  function createFlatfishShape(length, width) {
+    const shape = new THREE.Shape();
+    shape.moveTo(length * 0.48, 0);
+    shape.bezierCurveTo(length * 0.34, width * 0.48, -length * 0.22, width * 0.52, -length * 0.48, width * 0.08);
+    shape.bezierCurveTo(-length * 0.54, 0, -length * 0.54, 0, -length * 0.48, -width * 0.08);
+    shape.bezierCurveTo(-length * 0.22, -width * 0.52, length * 0.34, -width * 0.48, length * 0.48, 0);
+    return new THREE.ShapeGeometry(shape, 96);
+  }
+
+  function createSkinMaterial(type, mirrored = false) {
+    const texture = new THREE.CanvasTexture(createFishTexture(type, mirrored));
+    texture.colorSpace = THREE.SRGBColorSpace;
+    const material = new THREE.MeshPhysicalMaterial({
+      map: texture,
+      transparent: true,
+      roughness: 0.36,
+      metalness: 0.04,
+      clearcoat: 0.78,
+      clearcoatRoughness: 0.2,
+      side: THREE.DoubleSide
+    });
+    return material;
+  }
+
+  function createFishTexture(type, mirrored) {
+    const canvas = document.createElement("canvas");
+    canvas.width = 1024;
+    canvas.height = 512;
+    const ctx = canvas.getContext("2d");
+    const palette = skinPalette(type);
+    const xScale = mirrored ? -1 : 1;
+
+    ctx.save();
+    if (mirrored) {
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+    }
+
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, palette.top);
+    gradient.addColorStop(0.46, palette.mid);
+    gradient.addColorStop(0.8, palette.belly);
+    gradient.addColorStop(1, palette.belly);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    drawScaleField(ctx, palette.scale, type);
+    drawLateralShading(ctx, palette.line);
+    drawSpeciesMarks(ctx, type, palette);
+    drawHeadAndEye(ctx, palette, xScale);
+
+    ctx.restore();
+    return canvas;
+  }
+
+  function skinPalette(type) {
+    const palettes = {
+      rockfish: {
+        top: "#4e6870",
+        mid: "#cfd8d6",
+        belly: "#f5f2e7",
+        line: "rgba(14, 27, 31, 0.72)",
+        scale: "rgba(255,255,255,0.20)",
+        mark: "rgba(9, 17, 22, 0.72)"
+      },
+      bluefish: {
+        top: "#1b6f86",
+        mid: "#9bc7c8",
+        belly: "#eef1e8",
+        line: "rgba(26, 89, 103, 0.72)",
+        scale: "rgba(255,255,255,0.22)",
+        mark: "rgba(41, 111, 130, 0.45)"
+      },
+      tautog: {
+        top: "#101611",
+        mid: "#38452c",
+        belly: "#6c7453",
+        line: "rgba(8, 12, 9, 0.7)",
+        scale: "rgba(244,236,196,0.16)",
+        mark: "rgba(0, 0, 0, 0.38)"
+      },
+      sheepshead: {
+        top: "#202729",
+        mid: "#e3e5dc",
+        belly: "#f4f1e5",
+        line: "rgba(28, 34, 36, 0.42)",
+        scale: "rgba(255,255,255,0.18)",
+        mark: "rgba(7, 10, 12, 0.86)"
+      },
+      "red-drum": {
+        top: "#b5723f",
+        mid: "#c8864f",
+        belly: "#efe5c9",
+        line: "rgba(123, 74, 41, 0.46)",
+        scale: "rgba(255, 230, 174, 0.26)",
+        mark: "rgba(7, 10, 12, 0.86)"
+      },
+      croaker: {
+        top: "#b6955f",
+        mid: "#d7c18c",
+        belly: "#f0ead1",
+        line: "rgba(117, 84, 44, 0.46)",
+        scale: "rgba(255, 245, 205, 0.25)",
+        mark: "rgba(96, 70, 32, 0.42)"
+      },
+      flounder: {
+        top: "#776346",
+        mid: "#9c8158",
+        belly: "#c2a77a",
+        line: "rgba(63, 47, 33, 0.52)",
+        scale: "rgba(243, 217, 168, 0.18)",
+        mark: "rgba(42, 30, 20, 0.68)"
+      },
+      ray: {
+        top: "#7e6033",
+        mid: "#b88743",
+        belly: "#d7bd7e",
+        line: "rgba(66, 44, 23, 0.46)",
+        scale: "rgba(255, 230, 170, 0.18)",
+        mark: "rgba(44, 29, 14, 0.48)"
+      },
+      silver: {
+        top: "#557077",
+        mid: "#d9e7e5",
+        belly: "#f5f2e8",
+        line: "rgba(30, 49, 52, 0.45)",
+        scale: "rgba(255,255,255,0.2)",
+        mark: "rgba(8, 16, 18, 0.45)"
+      }
+    };
+    return palettes[type] || palettes.silver;
+  }
+
+  function drawScaleField(ctx, color, type) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = type === "flounder" || type === "ray" ? 1.2 : 1;
+    const spacingX = type === "flounder" || type === "ray" ? 42 : 34;
+    const spacingY = type === "flounder" || type === "ray" ? 34 : 28;
+    for (let y = 74; y < 440; y += spacingY) {
+      for (let x = 64; x < 940; x += spacingX) {
+        ctx.beginPath();
+        ctx.arc(x, y, spacingX * 0.38, Math.PI * 0.08, Math.PI * 0.92);
+        ctx.stroke();
+      }
+    }
+  }
+
+  function drawLateralShading(ctx, color) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 7;
+    ctx.beginPath();
+    ctx.moveTo(170, 260);
+    ctx.bezierCurveTo(360, 230, 640, 236, 905, 252);
+    ctx.stroke();
+
+    ctx.strokeStyle = "rgba(255,255,255,0.22)";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(130, 330);
+    ctx.bezierCurveTo(350, 365, 680, 350, 930, 318);
+    ctx.stroke();
+  }
+
+  function drawSpeciesMarks(ctx, type, palette) {
+    if (type === "rockfish") {
+      ctx.strokeStyle = palette.mark;
+      ctx.lineWidth = 9;
+      for (let i = 0; i < 7; i += 1) {
+        ctx.beginPath();
+        ctx.moveTo(110, 150 + i * 32);
+        ctx.bezierCurveTo(360, 130 + i * 34, 630, 150 + i * 28, 930, 140 + i * 32);
+        ctx.stroke();
+      }
+      return;
+    }
+
+    if (type === "sheepshead") {
+      ctx.fillStyle = palette.mark;
+      [185, 330, 485, 640, 790].forEach((x, i) => {
+        ctx.save();
+        ctx.translate(x, 256);
+        ctx.rotate((i % 2 ? -1 : 1) * 0.08);
+        ctx.fillRect(-22, -210, 54, 420);
+        ctx.restore();
+      });
+      return;
+    }
+
+    if (type === "red-drum") {
+      ctx.fillStyle = palette.mark;
+      ctx.beginPath();
+      ctx.arc(170, 268, 35, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "rgba(255, 232, 168, 0.45)";
+      ctx.beginPath();
+      ctx.arc(181, 258, 8, 0, Math.PI * 2);
+      ctx.fill();
+      return;
+    }
+
+    if (type === "tautog" || type === "croaker" || type === "flounder" || type === "ray") {
+      ctx.fillStyle = palette.mark;
+      const count = type === "flounder" ? 42 : type === "ray" ? 28 : 22;
+      for (let i = 0; i < count; i += 1) {
+        const x = 120 + ((i * 73) % 780);
+        const y = 110 + ((i * 47) % 300);
+        const r = type === "croaker" ? 9 : 7 + (i % 4) * 3;
+        ctx.beginPath();
+        ctx.ellipse(x, y, r * 1.4, r, 0.3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      return;
+    }
+
+    if (type === "bluefish") {
+      const glow = ctx.createLinearGradient(0, 210, 1024, 275);
+      glow.addColorStop(0, "rgba(53, 224, 202, 0)");
+      glow.addColorStop(0.5, "rgba(53, 224, 202, 0.42)");
+      glow.addColorStop(1, "rgba(53, 224, 202, 0)");
+      ctx.strokeStyle = glow;
+      ctx.lineWidth = 18;
+      ctx.beginPath();
+      ctx.moveTo(90, 245);
+      ctx.bezierCurveTo(340, 230, 680, 235, 950, 255);
+      ctx.stroke();
+    }
+  }
+
+  function drawHeadAndEye(ctx, palette) {
+    const head = ctx.createRadialGradient(850, 210, 10, 830, 230, 170);
+    head.addColorStop(0, "rgba(255,255,255,0.28)");
+    head.addColorStop(1, "rgba(0,0,0,0.08)");
+    ctx.fillStyle = head;
+    ctx.fillRect(720, 42, 275, 430);
+
+    ctx.fillStyle = "#05080b";
+    ctx.beginPath();
+    ctx.arc(842, 192, 21, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#f1f7ee";
+    ctx.beginPath();
+    ctx.arc(849, 184, 6, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.strokeStyle = palette.line;
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.moveTo(900, 285);
+    ctx.quadraticCurveTo(845, 300, 792, 284);
+    ctx.stroke();
   }
 
   function addHorizontalStripes(group, count, color, thickness, length, width) {

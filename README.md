@@ -25,6 +25,11 @@ npm run build
 npm run preview
 ```
 
+Astro output should be viewed through a local web server, not by double-clicking
+`dist/index.html`. Browser `file://` loading can block module scripts and break
+asset paths. Use `npm run dev` while editing, `npm run preview` after a build, or
+GitHub Pages after deployment.
+
 ## Edit Business Details
 
 Most launch content lives in one file:
