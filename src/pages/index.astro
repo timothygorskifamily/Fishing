@@ -1,6 +1,7 @@
 ---
 import CTAButton from "@components/CTAButton.astro";
 import FAQAccordion from "@components/FAQAccordion.astro";
+import FishSpeciesGrid from "@components/FishSpeciesGrid.astro";
 import GalleryGrid from "@components/GalleryGrid.astro";
 import Hero from "@components/Hero.astro";
 import SectionHeading from "@components/SectionHeading.astro";
@@ -111,6 +112,17 @@ const whyItems = [
           <CTAButton href={smsHref(site.smsPhone)} label="Ask The Captain" icon="phone" variant="ghost" />
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="section-pad">
+    <div class="container-shell">
+      <SectionHeading
+        eyebrow="What we catch"
+        title="Flounder, tog, rockfish, drum, and more."
+        copy="A quick look at common Ocean City Guide Service targets. Sizes are broad guide estimates, not guarantees or regulations, and should be confirmed with the captain."
+      />
+      <FishSpeciesGrid limit={8} />
     </div>
   </section>
 

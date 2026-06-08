@@ -24,33 +24,45 @@ export type GalleryImage = {
   category: string;
 };
 
+export type FishSpecies = {
+  name: string;
+  aka?: string;
+  image: string;
+  category: string;
+  typicalSize: string;
+  highSize: string;
+  season: string;
+  notes: string;
+};
+
 export type NavLink = {
   label: string;
   href: string;
 };
 
-// Launch checklist: replace the placeholder name, captain, contact info, Cal.com link,
-// social links, marina details, rates, policies, and gallery photos before going live.
+// Launch checklist: confirm the Cal.com link, policies, rates, fish-size language,
+// and all imagery with the captain before publishing. Fish photos copied from the
+// current Ocean City Guide Service site can be replaced later with newer photos.
 export const site = {
-  businessName: "Ocean City SeaVee Charters",
-  captainName: "Captain Name",
-  tagline: "Private fishing charters from Ocean City, Maryland.",
+  businessName: "Ocean City Guide Service",
+  captainName: "Captain Kyle Pelino",
+  tagline: "Ocean City Maryland inshore fishing, bay trips, and SeaVee charter days.",
   location: "Ocean City, Maryland",
   shortLocation: "Ocean City, MD",
-  boatName: "29' SeaVee Tower Boat",
+  boatName: "Refitted 29' SeaVee Tower Boat",
   boatDescription:
-    "A 29' 2006 SeaVee tower boat set up for focused private fishing days around Ocean City waters.",
+    "A completely refitted 29' 2006 SeaVee tower boat set up as a versatile fishing platform for Ocean City waters.",
   boatLength: "29'",
   boatYear: "2006",
   boatMake: "SeaVee",
-  phone: "410-555-0123",
-  smsPhone: "410-555-0123",
-  email: "captain@example.com",
-  marinaName: "Ocean City, MD",
-  marinaAddress: "Ocean City, MD",
-  googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Ocean%20City%20MD",
-  instagramUrl: "#",
-  facebookUrl: "#",
+  phone: "856-357-3113",
+  smsPhone: "856-357-3113",
+  email: "Kyle@OCGuideService.com",
+  marinaName: "Ocean City Guide Service",
+  marinaAddress: "12940 Inlet Isle Lane, Ocean City, MD 21842",
+  googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=12940%20Inlet%20Isle%20Lane%20Ocean%20City%20MD%2021842",
+  instagramUrl: "https://www.instagram.com/17841402110744634/",
+  facebookUrl: "https://www.facebook.com/OCMDguideservice",
   youtubeUrl: "#",
   tiktokUrl: "#",
   calComLink: "your-cal-username/fishing-charter",
@@ -67,63 +79,63 @@ export const site = {
   ] satisfies NavLink[],
   tripTypes: [
     {
-      name: "Inshore / Bay Trip",
+      name: "Inshore / Bay Fishing",
       slug: "inshore-bay",
-      eyebrow: "Protected water option",
-      duration: "Half-day placeholder",
-      price: "Call for seasonal pricing",
-      bestFor: "Families, newer anglers, light-tackle days, and shorter windows.",
-      targetSpecies: ["Flounder", "Striped bass", "Bluefish", "Seasonal bay species"],
-      included: ["Private charter", "Trip planning", "Fishing gear placeholder", "Cooler space"],
+      eyebrow: "Family-friendly bay trip",
+      duration: "4 hours",
+      price: "$575",
+      bestFor: "Families, newer anglers, flounder crews, and groups who want a classic Ocean City bay trip.",
+      targetSpecies: ["Flounder", "Bluefish", "Rockfish", "Tautog", "Seasonal bay species"],
+      included: ["Up to 6 anglers", "Bait and tackle included", "No license required per current trip copy", "$100 each additional hour"],
       description:
-        "A clean, flexible Ocean City option for fishing the bay, inlet, and nearby inshore waters when conditions line up.",
-      image: "catch-1.jpg"
+        "A focused inshore trip around the bay, inlet, and nearby Ocean City water. The current guide-service copy lists bait, tackle, and no license required.",
+      image: "fish-flounder.jpg"
     },
     {
-      name: "Nearshore Wreck & Reef Trip",
-      slug: "nearshore-wreck-reef",
-      eyebrow: "Structure-focused fishing",
-      duration: "Half or full-day placeholder",
-      price: "Call for seasonal pricing",
-      bestFor: "Anglers who want a bigger-water feel without committing to a long offshore run.",
-      targetSpecies: ["Sea bass", "Tautog", "Flounder", "Seasonal wreck species"],
-      included: ["Private boat", "Captain-guided plan", "Bait/tackle placeholder", "Catch care placeholder"],
+      name: "Evening Bay Trip",
+      slug: "evening-bay",
+      eyebrow: "Short evening option",
+      duration: "2 hours",
+      price: "$325",
+      bestFor: "Vacation crews, families, and quick sunset windows when a shorter trip is the right fit.",
+      targetSpecies: ["Flounder", "Bluefish", "Rockfish", "Croaker", "Seasonal bay species"],
+      included: ["Up to 6 anglers", "Bait and tackle included", "No license required per current trip copy", "Captain-confirmed timing"],
       description:
-        "Fish productive nearshore structure, reefs, and wreck zones around Ocean City based on season, weather, and captain recommendation.",
-      image: "catch-2.jpg"
+        "A simple two-hour evening charter for groups who want time on the water without committing to a full half-day.",
+      image: "sunset.jpg"
     },
     {
-      name: "Offshore / Bluewater Trip",
-      slug: "offshore-bluewater",
-      eyebrow: "Longer range option",
-      duration: "Full-day placeholder",
-      price: "Call for seasonal pricing",
-      bestFor: "Experienced crews looking for a serious private run when the forecast and season are right.",
-      targetSpecies: ["Tuna", "Mahi", "Marlin", "Seasonal pelagics"],
-      included: ["Private charter", "Custom timing", "Offshore plan placeholder", "Weather review"],
+      name: "Inshore Wreck Fishing",
+      slug: "inshore-wreck",
+      eyebrow: "Structure-focused trip",
+      duration: "5 hours",
+      price: "$925",
+      bestFor: "Anglers who want to fish productive structure and target heavier inshore species.",
+      targetSpecies: ["Tautog", "Sheepshead", "Flounder", "Bluefish", "Seasonal wreck species"],
+      included: ["Up to 4 anglers", "7am-12pm current trip window", "Bait and tackle included", "$100 each additional hour"],
       description:
-        "A custom offshore day shaped around conditions, seasonal fish movement, and what the captain believes gives the crew the best shot.",
-      image: "catch-3.jpg"
+        "A longer inshore structure trip shaped around weather, tide, season, and what is biting around Ocean City.",
+      image: "fish-tautog.jpg"
     },
     {
       name: "Custom Private Charter",
       slug: "custom-private",
-      eyebrow: "Built around your crew",
+      eyebrow: "Call to plan",
       duration: "Custom duration",
       price: "Call for seasonal pricing",
-      bestFor: "Private groups with specific goals, timing, or a flexible target list.",
-      targetSpecies: ["Seasonal target list", "Captain recommendation", "Weather-dependent options"],
+      bestFor: "Private groups with specific goals, bowfishing questions, seasonal targets, or flexible timing.",
+      targetSpecies: ["Flounder", "Tog", "Bluefish", "Rockfish", "Drum", "Trout", "Bowfishing options"],
       included: ["Private planning call", "Flexible itinerary", "Simple booking request", "Final captain confirmation"],
       description:
         "Start with your preferred date and fishing goals. The captain will confirm the best trip style, timing, and final details directly.",
-      image: "sunset.jpg"
+      image: "fish-bowfishing.jpg"
     }
   ] satisfies TripType[],
   faqItems: [
     {
       question: "How do I book?",
       answer:
-        "Start on the booking page, choose an available date, and send your request through the Cal.com calendar. The captain will confirm trip details, departure timing, weather, and final arrangements directly."
+        "Start on the booking page, choose an available date, and send your request through the Cal.com calendar. You can also call Captain Kyle at 856-357-3113 to confirm trip fit, timing, weather, and final arrangements."
     },
     {
       question: "Is payment collected online?",
@@ -148,22 +160,22 @@ export const site = {
     {
       question: "Can kids come?",
       answer:
-        "Family trips may be available depending on the age of the children, the trip style, and the weather. Confirm the crew makeup with the captain before booking."
+        "Yes, the current guide-service copy emphasizes family-friendly bay trips. Confirm ages, group size, weather, and the best trip style with the captain before booking."
     },
     {
       question: "Do I need a fishing license?",
       answer:
-        "License rules can vary by trip type and current regulations. Confirm the final legal requirements with the captain before your trip."
+        "The current trip copy says no license is required for the listed charter trips. Confirm final legal wording and current requirements with the captain before launch."
     },
     {
       question: "Where do we leave from?",
       answer:
-        "The placeholder departure location is Ocean City, Maryland. Replace the marina details in the site config once the exact meeting location is ready to publish."
+        "The current business address is 12940 Inlet Isle Lane, Ocean City, MD 21842. Confirm exact parking, dock, and meeting details with the captain after booking."
     },
     {
       question: "What fish can we target?",
       answer:
-        "Targets vary by season, regulations, weather, and conditions. Common placeholder categories include bay species, wreck and reef species, and offshore pelagics."
+        "Common Ocean City Guide Service targets include flounder, tautog, bluefish, rockfish, drum, trout, sheepshead, croakers, and seasonal bowfishing options. Targets vary by season, regulations, weather, and conditions."
     },
     {
       question: "What is the cancellation policy?",
@@ -171,6 +183,85 @@ export const site = {
         "Use this as placeholder policy copy only. Final cancellation, deposit, weather, and rescheduling language should be approved by the captain before launch."
     }
   ] satisfies FAQItem[],
+  fishSpecies: [
+    {
+      name: "Flounder",
+      aka: "Summer flounder",
+      image: "fish-flounder.jpg",
+      category: "Bay / inlet",
+      typicalSize: "16-22 in / 1-4 lb",
+      highSize: "26-30+ in / 6-10+ lb",
+      season: "Spring through fall windows",
+      notes: "A signature Ocean City inshore target and a natural fit for family bay trips."
+    },
+    {
+      name: "Rockfish",
+      aka: "Striped bass",
+      image: "fish-rockfish.jpg",
+      category: "Inshore / inlet / seasonal",
+      typicalSize: "20-36 in / 3-20 lb",
+      highSize: "40+ in / 30-50+ lb",
+      season: "Seasonal runs and condition-dependent bites",
+      notes: "Powerful, iconic Maryland fish. Availability depends heavily on season and regulations."
+    },
+    {
+      name: "Bluefish",
+      image: "fish-bluefish.jpg",
+      category: "Bay / inlet / nearshore",
+      typicalSize: "18-30 in / 2-8 lb",
+      highSize: "35+ in / 10-18 lb",
+      season: "Warmer-water seasonal action",
+      notes: "Fast, aggressive, and a great light-tackle target when they are pushing bait."
+    },
+    {
+      name: "Tautog",
+      aka: "Tog",
+      image: "fish-tautog.jpg",
+      category: "Structure / wreck",
+      typicalSize: "15-22 in / 2-7 lb",
+      highSize: "25+ in / 10-20 lb",
+      season: "Cool-water structure bite",
+      notes: "A hard-fighting structure fish that rewards patience, feel, and precise boat positioning."
+    },
+    {
+      name: "Sheepshead",
+      image: "fish-sheepshead.jpg",
+      category: "Structure / inlet",
+      typicalSize: "14-22 in / 2-8 lb",
+      highSize: "25+ in / 10-15+ lb",
+      season: "Summer structure windows",
+      notes: "A sharp-eyed bait stealer with serious shoulders when larger fish are around pilings and structure."
+    },
+    {
+      name: "Red Drum",
+      aka: "Redfish",
+      image: "fish-red-drum.jpg",
+      category: "Inshore / seasonal",
+      typicalSize: "18-32 in / 3-15 lb",
+      highSize: "40+ in / 30-50+ lb",
+      season: "Seasonal drum windows",
+      notes: "A memorable inshore target when the right water, bait, and timing line up."
+    },
+    {
+      name: "Croaker",
+      image: "fish-croaker.jpg",
+      category: "Bay / inshore",
+      typicalSize: "9-14 in / under 1-2 lb",
+      highSize: "16+ in / 2-3+ lb",
+      season: "Warm-season bay action",
+      notes: "A classic bay species and a fun target for relaxed, family-friendly fishing."
+    },
+    {
+      name: "Bowfishing",
+      aka: "Rays and seasonal targets",
+      image: "fish-bowfishing.jpg",
+      category: "Specialty trip",
+      typicalSize: "Varies by target",
+      highSize: "Large rays can be heavy, memorable fish",
+      season: "Seasonal, conditions-based",
+      notes: "A specialty option from the current guide-service offering. Confirm target species and legality with the captain."
+    }
+  ] satisfies FishSpecies[],
   galleryImages: [
     {
       src: "hero-boat.jpg",
@@ -230,9 +321,9 @@ export const site = {
     }
   ] satisfies GalleryImage[],
   seo: {
-    title: "Ocean City MD Fishing Charter | Ocean City SeaVee Charters",
+    title: "Ocean City MD Fishing Charter | Ocean City Guide Service",
     description:
-      "Private Ocean City, Maryland fishing charters aboard a 29' SeaVee tower boat. Check availability, review trip options, and request your date.",
+      "Ocean City, Maryland inshore fishing charters aboard a refitted 29' SeaVee tower boat. Check availability, review trips, and request your date.",
     image: "hero-boat.jpg",
     keywords: [
       "Ocean City MD fishing charter",

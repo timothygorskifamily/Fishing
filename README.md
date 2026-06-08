@@ -1,6 +1,6 @@
-# Ocean City SeaVee Charters
+# Ocean City Guide Service
 
-Static Astro website for a one-man private fishing charter company based out of Ocean City, Maryland. The site is designed for GitHub Pages, uses Cal.com for booking, and has no backend, no database, no login system, and no payment processing.
+Static Astro website for Ocean City Guide Service, an Ocean City, Maryland inshore fishing charter business. The site is designed for GitHub Pages, uses Cal.com for booking, and has no backend, no database, no login system, and no payment processing.
 
 ## Tech Stack
 
@@ -33,7 +33,7 @@ Most launch content lives in one file:
 src/data/site.ts
 ```
 
-Replace these placeholders before launch:
+Review these values before launch:
 
 - `businessName`
 - `captainName`
@@ -51,13 +51,20 @@ Replace these placeholders before launch:
 - trip durations, rates, included items, and target species
 - FAQ policy language
 
-Current placeholders include:
+Current live details in `site.ts` include:
 
-- Phone: `410-555-0123`
-- Email: `captain@example.com`
-- Marina: `Ocean City, MD`
+- Business: `Ocean City Guide Service`
+- Captain: `Captain Kyle Pelino`
+- Phone: `856-357-3113`
+- Email: `Kyle@OCGuideService.com`
+- Address: `12940 Inlet Isle Lane, Ocean City, MD 21842`
+- Facebook: `https://www.facebook.com/OCMDguideservice`
+- Instagram: `https://www.instagram.com/17841402110744634/`
+
+Remaining placeholders include:
+
 - Cal.com: `your-cal-username/fishing-charter`
-- Social links: `#`
+- YouTube/TikTok links: `#`
 
 ## Replace Photos
 
@@ -77,6 +84,17 @@ Replace these placeholder files with real boat, catch, crew, inlet, marina, and 
 - `catch-2.jpg`
 - `catch-3.jpg`
 - `sunset.jpg`
+
+Species photos copied from the current Ocean City Guide Service site can also be replaced later:
+
+- `fish-bluefish.jpg`
+- `fish-bowfishing.jpg`
+- `fish-croaker.jpg`
+- `fish-flounder.jpg`
+- `fish-red-drum.jpg`
+- `fish-rockfish.jpg`
+- `fish-sheepshead.jpg`
+- `fish-tautog.jpg`
 
 Keep the same filenames if you want to update the images without editing code. Use optimized JPG or WebP files when possible.
 
@@ -139,13 +157,12 @@ Leave `PUBLIC_BASE_PATH` empty.
 
 ## Launch Checklist
 
-- Replace the placeholder business name and captain name.
-- Add the real phone number, SMS number, and email.
+- Confirm the business name, captain name, phone number, SMS number, and email.
 - Add the real Cal.com booking event link.
-- Add real Instagram, Facebook, YouTube, and TikTok links.
-- Add the final marina or meeting location once it is ready to publish.
-- Replace all placeholder images with real boat and catch photos.
-- Finalize trip rates, durations, target species, included items, cancellation language, deposit/payment wording, and license guidance with the captain.
+- Confirm Instagram, Facebook, YouTube, and TikTok links.
+- Confirm the final marina, parking, and meeting-location instructions.
+- Replace remaining placeholder boat photos with real boat and catch photos.
+- Confirm trip rates, durations, target species, included items, fish-size estimates, cancellation language, deposit/payment wording, and license guidance with the captain.
 
 ## Notes
 

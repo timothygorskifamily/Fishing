@@ -1,0 +1,52 @@
+---
+import type { FishSpecies } from "@data/site";
+import { site } from "@data/site";
+import { imagePath } from "@lib/links";
+
+interface Props {
+  species?: readonly FishSpecies[];
+  limit?: number;
+}
+
+const { species = site.fishSpecies, limit } = Astro.props;
+const visibleSpecies = limit ? species.slice(0, limit) : species;
+---
+
+<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+  {
+    visibleSpecies.map((fish) => (
+      <article class="card group overflow-hidden">
+        <div class="image-sheen aspect-[4/3] bg-harbor">
+          <img
+            src={imagePath(fish.image)}
+            alt={`${fish.name} caught on an Ocean City Maryland fishing charter`}
+            class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div class="grid gap-4 p-5">
+          <div>
+            <p class="text-xs font-black uppercase tracking-[0.16em] text-seafoam">{fish.category}</p>
+            <h3 class="mt-2 text-2xl font-black text-white">{fish.name}</h3>
+            {fish.aka && <p class="mt-1 text-sm font-bold text-mist">{fish.aka}</p>}
+          </div>
+
+          <dl class="grid grid-cols-2 gap-3">
+            <div class="rounded-lg border border-white/10 bg-white/5 p-3">
+              <dt class="text-[0.68rem] font-black uppercase tracking-[0.14em] text-mist">Typical</dt>
+              <dd class="mt-1 text-sm font-black leading-5 text-white">{fish.typicalSize}</dd>
+            </div>
+            <div class="rounded-lg border border-gold/20 bg-gold/10 p-3">
+              <dt class="text-[0.68rem] font-black uppercase tracking-[0.14em] text-gold">Larger fish</dt>
+              <dd class="mt-1 text-sm font-black leading-5 text-white">{fish.highSize}</dd>
+            </div>
+          </dl>
+
+          <p class="text-sm font-bold text-fog">{fish.season}</p>
+          <p class="text-sm leading-7 text-mist">{fish.notes}</p>
+        </div>
+      </article>
+    ))
+  }
+</div>

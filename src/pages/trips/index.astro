@@ -1,5 +1,6 @@
 ---
 import CTAButton from "@components/CTAButton.astro";
+import FishSpeciesGrid from "@components/FishSpeciesGrid.astro";
 import SectionHeading from "@components/SectionHeading.astro";
 import TripCard from "@components/TripCard.astro";
 import Layout from "@layouts/Layout.astro";
@@ -9,7 +10,7 @@ import { smsHref } from "@lib/links";
 
 <Layout
   title="Trips & Rates | Ocean City MD Private Fishing Charter"
-  description="Review private fishing charter trip options from Ocean City, Maryland, including inshore, nearshore, offshore, and custom SeaVee charter placeholders."
+  description="Review Ocean City Guide Service charter options, current inshore bay pricing, wreck fishing, and common Ocean City fish species."
   canonicalPath="/trips/"
 >
   <section class="border-b border-white/10 bg-harbor/50 section-pad">
@@ -17,7 +18,7 @@ import { smsHref } from "@lib/links";
       <SectionHeading
         eyebrow="Trips & rates"
         title="Choose the right private fishing charter."
-        copy="These trip types are editable placeholders. Rates, run times, targets, and departure windows should be finalized by the captain before launch."
+        copy="These trip cards use current source-site details where available. Rates, run times, targets, and departure windows should still be confirmed by the captain before launch."
       />
       <div class="flex flex-col gap-3 sm:flex-row">
         <CTAButton href="/book/" label="Check Availability" icon="calendar" />
@@ -38,6 +39,17 @@ import { smsHref } from "@lib/links";
           weather, and conditions. Confirm details with the captain before your trip.
         </p>
       </div>
+    </div>
+  </section>
+
+  <section class="border-t border-white/10 bg-harbor/54 section-pad">
+    <div class="container-shell">
+      <SectionHeading
+        eyebrow="Fish species"
+        title="Common catches around Ocean City."
+        copy="Current OCGS photos and content highlight flounder, tog, bluefish, rockfish, drum, sheepshead, croakers, and bowfishing options. Final targets depend on season, weather, and regulations."
+      />
+      <FishSpeciesGrid />
     </div>
   </section>
 
