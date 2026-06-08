@@ -1,0 +1,66 @@
+---
+import { site } from "@data/site";
+import { absoluteUrl, imagePath } from "@lib/links";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalPath?: string;
+  image?: string;
+  noIndex?: boolean;
+}
+
+const {
+  title = site.seo.title,
+  description = site.seo.description,
+  canonicalPath = Astro.url.pathname,
+  image = site.seo.image,
+  noIndex = false
+} = Astro.props;
+
+const canonical = absoluteUrl(canonicalPath, Astro.site ?? Astro.url);
+const ogImage = absoluteUrl(imagePath(image), Astro.site ?? Astro.url);
+const keywords = site.seo.keywords.join(", ");
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SportsActivityLocation",
+  name: site.businessName,
+  description,
+  url: canonical,
+  telephone: site.phone,
+  email: site.email,
+  image: ogImage,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Ocean City",
+    addressRegion: "MD",
+    addressCountry: "US"
+  },
+  areaServed: site.location,
+  sameAs: [site.instagramUrl, site.facebookUrl, site.youtubeUrl, site.tiktokUrl].filter(
+    (url) => url && url !== "#"
+  )
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
+<meta name="robots" content={noIndex ? "noindex,nofollow" : "index,follow"} />
+<link rel="canonical" href={canonical} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.businessName} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:locale" content="en_US" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

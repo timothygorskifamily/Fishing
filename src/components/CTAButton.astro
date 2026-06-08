@@ -1,0 +1,59 @@
+---
+import { ArrowRight, CalendarDays, Phone } from "@lucide/astro";
+import { withBase } from "@lib/links";
+
+type Variant = "primary" | "secondary" | "ghost" | "subtle";
+type IconName = "arrow" | "calendar" | "phone" | "none";
+
+interface Props {
+  href: string;
+  label: string;
+  variant?: Variant;
+  icon?: IconName;
+  full?: boolean;
+  external?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  label,
+  variant = "primary",
+  icon = "arrow",
+  full = false,
+  external = false,
+  class: className = ""
+} = Astro.props;
+
+const safeHref = withBase(href);
+const isExternal = external || safeHref.startsWith("http");
+
+const variants: Record<Variant, string> = {
+  primary:
+    "bg-gold text-ink hover:bg-[#ffd083] border-gold shadow-[0_14px_40px_rgba(243,184,91,0.22)]",
+  secondary:
+    "bg-seafoam text-ink hover:bg-aqua border-seafoam shadow-[0_14px_40px_rgba(53,224,202,0.18)]",
+  ghost:
+    "bg-white/6 text-white hover:bg-white/12 border-white/16",
+  subtle:
+    "bg-transparent text-fog hover:text-white border-line hover:border-seafoam/40"
+};
+---
+
+<a
+  href={safeHref}
+  target={isExternal ? "_blank" : undefined}
+  rel={isExternal ? "noreferrer" : undefined}
+  class:list={[
+    "inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border px-5 py-3 text-sm font-extrabold transition duration-200",
+    "focus-visible:shadow-[var(--focus-ring)]",
+    full && "w-full",
+    variants[variant],
+    className
+  ]}
+>
+  {icon === "calendar" && <CalendarDays class="size-4" aria-hidden="true" />}
+  {icon === "phone" && <Phone class="size-4" aria-hidden="true" />}
+  <span>{label}</span>
+  {icon === "arrow" && <ArrowRight class="size-4" aria-hidden="true" />}
+</a>

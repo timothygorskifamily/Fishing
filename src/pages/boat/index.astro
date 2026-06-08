@@ -1,0 +1,107 @@
+---
+import BoatSpecs from "@components/BoatSpecs.astro";
+import CTAButton from "@components/CTAButton.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import Layout from "@layouts/Layout.astro";
+import { site } from "@data/site";
+import { imagePath, smsHref } from "@lib/links";
+
+const boatImages = [
+  { src: "boat-running.jpg", title: "Running shot", alt: "SeaVee tower boat running shot placeholder" },
+  { src: "boat-tower.jpg", title: "Tower detail", alt: "SeaVee tower detail placeholder" },
+  { src: "deck.jpg", title: "Console and deck", alt: "Center-console deck placeholder" },
+  { src: "catch-1.jpg", title: "Fishing day", alt: "Fishing catch placeholder aboard a private charter" }
+];
+---
+
+<Layout
+  title="The Boat | 29' SeaVee Tower Boat in Ocean City MD"
+  description="Meet the 29' 2006 SeaVee tower boat used for private Ocean City, Maryland fishing charters."
+  canonicalPath="/boat/"
+>
+  <section class="border-b border-white/10 bg-harbor/50 section-pad">
+    <div class="container-shell">
+      <SectionHeading
+        eyebrow="The boat"
+        title="The Boat"
+        copy="A 29' 2006 SeaVee tower boat set up as a clean, serious Ocean City fishing platform."
+      />
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <CTAButton href="/book/" label="Check Availability" icon="calendar" />
+        <CTAButton href={smsHref(site.smsPhone)} label="Ask About The Boat" icon="phone" variant="ghost" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad">
+    <div class="container-shell">
+      <BoatSpecs />
+      <div class="mt-12 grid gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+        <div class="image-sheen overflow-hidden rounded-lg border border-white/12 bg-panel shadow-lift">
+          <img
+            src={imagePath("hero-boat.jpg")}
+            alt="29 foot SeaVee tower boat placeholder hero image"
+            class="aspect-[16/10] w-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div>
+          <p class="eyebrow mb-3">Fishing platform</p>
+          <h2 class="text-balance text-3xl font-black leading-tight text-white md:text-5xl">
+            Built for private days, clean movement, and better sightlines.
+          </h2>
+          <p class="mt-5 text-base leading-8 text-mist">
+            The SeaVee center-console layout keeps the day focused and practical: room to work, easy communication,
+            and a boat-forward experience that feels serious without feeling corporate.
+          </p>
+          <p class="mt-4 text-base leading-8 text-mist">
+            The tower adds visibility when scanning water, finding life, and making real-time decisions. Exact gear,
+            passenger, electronics, safety, and capacity details should be added only after the captain approves them.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-white/10 bg-[#081720] section-pad">
+    <div class="container-shell">
+      <SectionHeading
+        eyebrow="Photo sections"
+        title="Replace these placeholders with real boat photos."
+        copy="Use a running shot, tower/detail shot, console/deck shot, and fishing/catch shot to make the site feel specific and trustworthy."
+      />
+      <div class="grid gap-5 md:grid-cols-2">
+        {
+          boatImages.map((image) => (
+            <figure class="card overflow-hidden">
+              <img
+                src={imagePath(image.src)}
+                alt={image.alt}
+                class="aspect-[16/10] w-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="p-5">
+                <h3 class="text-xl font-black text-white">{image.title}</h3>
+                <p class="mt-2 text-sm leading-7 text-mist">
+                  Replace <code class="rounded bg-white/8 px-1.5 py-0.5 text-fog">{image.src}</code> in public/images with the real photo.
+                </p>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="container-shell grid gap-6 rounded-lg border border-white/12 bg-soft-horizon p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8">
+      <div>
+        <p class="eyebrow mb-3">Ready to fish?</p>
+        <h2 class="text-3xl font-black text-white md:text-4xl">Request a private date aboard the SeaVee.</h2>
+      </div>
+      <CTAButton href="/book/" label="Check Availability" icon="calendar" />
+    </div>
+  </section>
+</Layout>

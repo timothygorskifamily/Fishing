@@ -1,0 +1,37 @@
+---
+import type { GalleryImage } from "@data/site";
+import { site } from "@data/site";
+import { imagePath } from "@lib/links";
+
+interface Props {
+  images?: readonly GalleryImage[];
+  limit?: number;
+}
+
+const { images = site.galleryImages, limit } = Astro.props;
+const visibleImages = limit ? images.slice(0, limit) : images;
+---
+
+<div class="columns-1 gap-5 sm:columns-2 lg:columns-3">
+  {
+    visibleImages.map((image, index) => (
+      <figure class="card mb-5 break-inside-avoid overflow-hidden">
+        <img
+          src={imagePath(image.src)}
+          alt={image.alt}
+          class:list={[
+            "w-full object-cover",
+            index % 3 === 0 ? "aspect-[4/5]" : index % 3 === 1 ? "aspect-[16/11]" : "aspect-[1/1]"
+          ]}
+          loading={index < 2 ? "eager" : "lazy"}
+          decoding="async"
+        />
+        <figcaption class="p-5">
+          <p class="text-xs font-black uppercase tracking-[0.16em] text-seafoam">{image.category}</p>
+          <h3 class="mt-2 text-xl font-black text-white">{image.title}</h3>
+          <p class="mt-2 text-sm leading-6 text-mist">{image.caption}</p>
+        </figcaption>
+      </figure>
+    ))
+  }
+</div>

@@ -1,0 +1,65 @@
+---
+import CTAButton from "@components/CTAButton.astro";
+import { site } from "@data/site";
+import { emailHref, phoneHref, smsHref } from "@lib/links";
+import { Mail, MapPin, MessageCircle, Phone } from "@lucide/astro";
+
+const cards = [
+  {
+    title: "Call",
+    copy: "Talk through trip fit, timing, and weather windows.",
+    href: phoneHref(site.phone),
+    label: site.phone,
+    icon: Phone
+  },
+  {
+    title: "Text",
+    copy: "Fastest option for quick questions after checking the calendar.",
+    href: smsHref(site.smsPhone),
+    label: "Text captain",
+    icon: MessageCircle
+  },
+  {
+    title: "Email",
+    copy: "Best for detailed private charter requests and group notes.",
+    href: emailHref(site.email),
+    label: site.email,
+    icon: Mail
+  },
+  {
+    title: "Location",
+    copy: "Ocean City, Maryland. Exact meeting details are confirmed before the trip.",
+    href: site.googleMapsUrl,
+    label: site.marinaName,
+    icon: MapPin,
+    external: true
+  }
+];
+---
+
+<div class="grid gap-4 md:grid-cols-2">
+  {
+    cards.map((card) => {
+      const Icon = card.icon;
+      return (
+        <article class="card p-5 md:p-6">
+          <div class="mb-5 grid size-11 place-items-center rounded-lg border border-seafoam/25 bg-seafoam/10 text-seafoam">
+            <Icon class="size-5" aria-hidden="true" />
+          </div>
+          <h2 class="text-2xl font-black text-white">{card.title}</h2>
+          <p class="mt-3 text-sm leading-7 text-mist">{card.copy}</p>
+          <div class="mt-5">
+            <CTAButton
+              href={card.href}
+              label={card.label}
+              variant="ghost"
+              icon="arrow"
+              external={card.external}
+              full
+            />
+          </div>
+        </article>
+      );
+    })
+  }
+</div>

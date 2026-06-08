@@ -1,0 +1,22 @@
+---
+import { site } from "@data/site";
+
+const specs = [
+  { label: "Length", value: site.boatLength },
+  { label: "Year", value: site.boatYear },
+  { label: "Make", value: site.boatMake },
+  { label: "Tower", value: "Yes" },
+  { label: "Home Port", value: site.shortLocation }
+];
+---
+
+<dl class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+  {
+    specs.map((spec) => (
+      <div class="card p-5">
+        <dt class="text-xs font-black uppercase tracking-[0.16em] text-mist">{spec.label}</dt>
+        <dd class="mt-2 text-2xl font-black text-white">{spec.value}</dd>
+      </div>
+    ))
+  }
+</dl>

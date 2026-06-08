@@ -1,0 +1,49 @@
+---
+import CalBookingEmbed from "@components/CalBookingEmbed.astro";
+import CTAButton from "@components/CTAButton.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import Layout from "@layouts/Layout.astro";
+import { site } from "@data/site";
+import { smsHref } from "@lib/links";
+---
+
+<Layout
+  title="Book a Fishing Charter | Ocean City SeaVee Charters"
+  description="Check availability and request a private Ocean City, Maryland fishing charter date using the inline Cal.com booking calendar."
+  canonicalPath="/book/"
+>
+  <section class="border-b border-white/10 bg-harbor/50 section-pad">
+    <div class="container-shell grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+      <SectionHeading
+        eyebrow="Book online"
+        title="Request your Ocean City fishing charter date."
+        copy="Pick an available date in the calendar below. Your request is reviewed by the captain before final trip confirmation."
+      />
+      <div class="card p-5">
+        <p class="text-sm font-black uppercase tracking-[0.16em] text-gold">No checkout here</p>
+        <p class="mt-3 text-sm leading-7 text-mist">
+          This website does not collect payment. Calendar availability is managed in Cal.com and final details are confirmed directly.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad">
+    <div class="container-shell">
+      <CalBookingEmbed calLink={site.calComLink} />
+    </div>
+  </section>
+
+  <section class="border-t border-white/10 bg-[#081720] py-16">
+    <div class="container-shell grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
+      <div>
+        <p class="eyebrow mb-3">Questions first?</p>
+        <h2 class="text-3xl font-black text-white md:text-4xl">Call or text before you request a date.</h2>
+        <p class="mt-3 max-w-2xl text-sm leading-7 text-mist">
+          Fastest way to book: check the calendar, then call/text with questions.
+        </p>
+      </div>
+      <CTAButton href={smsHref(site.smsPhone)} label="Call/Text Captain" icon="phone" variant="ghost" />
+    </div>
+  </section>
+</Layout>

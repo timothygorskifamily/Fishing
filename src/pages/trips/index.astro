@@ -1,0 +1,56 @@
+---
+import CTAButton from "@components/CTAButton.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import TripCard from "@components/TripCard.astro";
+import Layout from "@layouts/Layout.astro";
+import { site } from "@data/site";
+import { smsHref } from "@lib/links";
+---
+
+<Layout
+  title="Trips & Rates | Ocean City MD Private Fishing Charter"
+  description="Review private fishing charter trip options from Ocean City, Maryland, including inshore, nearshore, offshore, and custom SeaVee charter placeholders."
+  canonicalPath="/trips/"
+>
+  <section class="border-b border-white/10 bg-harbor/50 section-pad">
+    <div class="container-shell">
+      <SectionHeading
+        eyebrow="Trips & rates"
+        title="Choose the right private fishing charter."
+        copy="These trip types are editable placeholders. Rates, run times, targets, and departure windows should be finalized by the captain before launch."
+      />
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <CTAButton href="/book/" label="Check Availability" icon="calendar" />
+        <CTAButton href={smsHref(site.smsPhone)} label="Call/Text Captain" icon="phone" variant="ghost" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad">
+    <div class="container-shell">
+      <div class="grid gap-6 lg:grid-cols-2">
+        {site.tripTypes.map((trip) => <TripCard trip={trip} />)}
+      </div>
+
+      <div class="mt-10 rounded-lg border border-gold/24 bg-gold/10 p-5 text-sm leading-7 text-fog">
+        <p>
+          <strong class="text-white">Trip note:</strong> Trip availability, departure times, and target species vary by season,
+          weather, and conditions. Confirm details with the captain before your trip.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-white/10 bg-[#081720] py-16">
+    <div class="container-shell grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
+      <div>
+        <p class="eyebrow mb-3">Next step</p>
+        <h2 class="text-3xl font-black text-white md:text-4xl">Request a date and confirm the plan.</h2>
+        <p class="mt-3 max-w-2xl text-sm leading-7 text-mist">
+          The calendar starts the conversation. The captain confirms the trip style, timing, and final arrangements.
+        </p>
+      </div>
+      <CTAButton href="/book/" label="Open Booking Calendar" icon="calendar" />
+    </div>
+  </section>
+</Layout>

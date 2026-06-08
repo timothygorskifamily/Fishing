@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Ocean City SeaVee Charters">
+  <rect width="64" height="64" rx="10" fill="#061016"/>
+  <path d="M12 40c9 5 31 5 40 0" fill="none" stroke="#35e0ca" stroke-width="4" stroke-linecap="round"/>
+  <path d="M22 34h20l8 5H17l5-5Z" fill="#f3b85b"/>
+  <path d="M31 34V18m0 0h14M31 18l-5 16" fill="none" stroke="#d7e4e5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

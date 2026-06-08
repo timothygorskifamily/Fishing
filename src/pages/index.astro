@@ -1,0 +1,188 @@
+---
+import CTAButton from "@components/CTAButton.astro";
+import FAQAccordion from "@components/FAQAccordion.astro";
+import GalleryGrid from "@components/GalleryGrid.astro";
+import Hero from "@components/Hero.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import TripCard from "@components/TripCard.astro";
+import Layout from "@layouts/Layout.astro";
+import { site } from "@data/site";
+import { imagePath, smsHref } from "@lib/links";
+import { Compass, ShipWheel, Waves } from "@lucide/astro";
+
+const previewTrips = site.tripTypes.slice(0, 3);
+const whyItems = [
+  {
+    title: "Private Charter",
+    copy: "The day is built around your crew, your goals, and the conditions in front of the boat."
+  },
+  {
+    title: "Ocean City Waters",
+    copy: "Trip planning starts with local seasonality, weather, tides, and what is worth chasing."
+  },
+  {
+    title: "Simple Booking",
+    copy: "Check the calendar, request a date, and confirm final details directly with the captain."
+  },
+  {
+    title: "Serious Boat",
+    copy: "A 29' SeaVee tower boat gives the day a focused, fishable center-console platform."
+  },
+  {
+    title: "Flexible Planning",
+    copy: "Inshore, nearshore, offshore, and custom options can be shaped around the right window."
+  }
+];
+---
+
+<Layout
+  title="Ocean City MD Fishing Charter | Private SeaVee Charters"
+  description="Book a private Ocean City, Maryland fishing charter aboard a 29' SeaVee tower boat. Review trips, see the boat, and request your date."
+  canonicalPath="/"
+>
+  <Hero />
+
+  <section class="border-y border-white/10 bg-harbor/84 py-5">
+    <div class="container-shell grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
+      <div>
+        <p class="text-sm font-black uppercase tracking-[0.16em] text-seafoam">Quick booking</p>
+        <p class="mt-1 text-lg font-black text-white">Ready to see available dates?</p>
+        <p class="mt-1 text-sm leading-6 text-mist">
+          Send a request through the calendar. The captain confirms weather, trip fit, and final arrangements.
+        </p>
+      </div>
+      <CTAButton href="/book/" label="Check Calendar" icon="calendar" />
+    </div>
+  </section>
+
+  <section class="section-pad">
+    <div class="container-shell">
+      <SectionHeading
+        eyebrow="Trip options"
+        title="Fish the day that fits the season."
+        copy="Choose a starting point, then confirm the final plan with the captain. Availability, departure times, and target species vary with weather and conditions."
+      />
+      <div class="grid gap-5 lg:grid-cols-3">
+        {previewTrips.map((trip) => <TripCard trip={trip} compact />)}
+      </div>
+      <div class="mt-8">
+        <CTAButton href="/trips/" label="View All Trips & Rates" variant="subtle" />
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-white/10 bg-[#081720] section-pad">
+    <div class="container-shell grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+      <div class="image-sheen overflow-hidden rounded-lg border border-white/12 bg-panel shadow-lift">
+        <img
+          src={imagePath("boat-running.jpg")}
+          alt="29 foot SeaVee tower boat placeholder running shot for an Ocean City fishing charter"
+          class="aspect-[4/3] w-full object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div>
+        <SectionHeading
+          eyebrow="The boat"
+          title="A 29' SeaVee tower boat with a serious fishing attitude."
+          copy="The platform matters. This 2006 SeaVee keeps the focus on fishability, clean movement around the center-console layout, and the sightline advantage of a tower when the water calls for it."
+        />
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div class="card p-5">
+            <ShipWheel class="mb-4 size-7 text-seafoam" aria-hidden="true" />
+            <h3 class="font-black text-white">Center-console layout</h3>
+            <p class="mt-2 text-sm leading-6 text-mist">Open, practical, and made for fishing days.</p>
+          </div>
+          <div class="card p-5">
+            <Compass class="mb-4 size-7 text-seafoam" aria-hidden="true" />
+            <h3 class="font-black text-white">Tower visibility</h3>
+            <p class="mt-2 text-sm leading-6 text-mist">A higher view when spotting water, birds, or movement matters.</p>
+          </div>
+          <div class="card p-5">
+            <Waves class="mb-4 size-7 text-seafoam" aria-hidden="true" />
+            <h3 class="font-black text-white">Ocean City ready</h3>
+            <p class="mt-2 text-sm leading-6 text-mist">Configured around private days from Maryland's coast.</p>
+          </div>
+        </div>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <CTAButton href="/boat/" label="See The Boat" />
+          <CTAButton href={smsHref(site.smsPhone)} label="Ask The Captain" icon="phone" variant="ghost" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad">
+    <div class="container-shell">
+      <SectionHeading
+        eyebrow="Why fish with us"
+        title="Premium without the noise."
+        copy="A simple private charter experience: clean communication, a capable boat, and a trip plan built around the real conditions."
+      />
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+        {
+          whyItems.map((item, index) => (
+            <article class="card p-5">
+              <div class="mb-5 grid size-10 place-items-center rounded-lg border border-gold/20 bg-gold/10 text-sm font-black text-gold">
+                {index + 1}
+              </div>
+              <h3 class="text-lg font-black text-white">{item.title}</h3>
+              <p class="mt-3 text-sm leading-7 text-mist">{item.copy}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-white/10 bg-harbor/54 section-pad">
+    <div class="container-shell">
+      <div class="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+        <div>
+          <SectionHeading
+            eyebrow="Gallery"
+            title="Boat days, catches, and Ocean City water."
+            copy="These are tasteful placeholders. Replace them with real SeaVee, catch, crew, inlet, and dock photos before launch."
+          />
+          <CTAButton href="/gallery/" label="View Gallery" variant="subtle" />
+        </div>
+        <GalleryGrid limit={4} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad">
+    <div class="container-shell grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+      <div>
+        <SectionHeading
+          eyebrow="FAQ"
+          title="Simple answers before you request a date."
+          copy="Booking starts online, but final trip details are confirmed directly with the captain."
+        />
+        <CTAButton href="/faq/" label="Read All FAQs" variant="subtle" />
+      </div>
+      <FAQAccordion limit={5} />
+    </div>
+  </section>
+
+  <section class="border-t border-white/10 bg-chart-lines bg-[length:38px_38px] py-16">
+    <div class="container-shell">
+      <div class="grid gap-6 rounded-lg border border-white/12 bg-ink/82 p-6 shadow-glow md:grid-cols-[1fr_auto] md:items-center md:p-8">
+        <div>
+          <p class="eyebrow mb-3">Reserve your window</p>
+          <h2 class="text-balance text-3xl font-black leading-tight text-white md:text-5xl">
+            Check the calendar, then fish the right day.
+          </h2>
+          <p class="mt-4 max-w-2xl text-sm leading-7 text-mist md:text-base">
+            No payment is collected here. Request a date and confirm the final plan directly with the captain.
+          </p>
+        </div>
+        <div class="flex flex-col gap-3 sm:flex-row md:flex-col">
+          <CTAButton href="/book/" label={site.primaryCTA} icon="calendar" />
+          <CTAButton href={smsHref(site.smsPhone)} label={site.secondaryCTA} icon="phone" variant="ghost" />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

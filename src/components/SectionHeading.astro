@@ -1,0 +1,25 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  copy?: string;
+  align?: "left" | "center";
+  narrow?: boolean;
+}
+
+const { eyebrow, title, copy, align = "left", narrow = false } = Astro.props;
+---
+
+<div
+  class:list={[
+    "mb-9",
+    align === "center" && "mx-auto text-center",
+    narrow ? "max-w-2xl" : "max-w-3xl"
+  ]}
+>
+  {eyebrow && <p class="eyebrow mb-3">{eyebrow}</p>}
+  <h2 class="text-balance font-display text-3xl font-black leading-tight text-white md:text-5xl">
+    {title}
+  </h2>
+  {copy && <p class="mt-4 max-w-2xl text-base leading-8 text-mist md:text-lg">{copy}</p>}
+</div>

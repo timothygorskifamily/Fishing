@@ -1,0 +1,28 @@
+---
+import type { FAQItem } from "@data/site";
+import { site } from "@data/site";
+
+interface Props {
+  items?: readonly FAQItem[];
+  limit?: number;
+}
+
+const { items = site.faqItems, limit } = Astro.props;
+const visibleItems = limit ? items.slice(0, limit) : items;
+---
+
+<div class="grid gap-3">
+  {
+    visibleItems.map((item, index) => (
+      <details class="group card p-5" open={index === 0 ? true : undefined}>
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left marker:hidden">
+          <span class="text-lg font-black text-white">{item.question}</span>
+          <span class="grid size-8 shrink-0 place-items-center rounded-lg border border-white/12 text-seafoam transition group-open:rotate-45">
+            +
+          </span>
+        </summary>
+        <p class="mt-4 text-sm leading-7 text-mist md:text-base">{item.answer}</p>
+      </details>
+    ))
+  }
+</div>
