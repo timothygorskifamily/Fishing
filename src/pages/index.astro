@@ -77,7 +77,7 @@ const fishingMoments = [
           src={imagePath("boat-running.jpg")}
           alt="29 foot SeaVee running on coastal water near Ocean City"
           class="aspect-[4/3] w-full object-cover"
-          loading="lazy"
+          loading="eager"
           decoding="async"
         />
       </div>
@@ -111,25 +111,11 @@ const fishingMoments = [
 
   <section class="border-y border-white/10 bg-harbor/54 section-pad">
     <div class="container-shell">
-      <div class="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
-        <div>
-          <SectionHeading
-            eyebrow="Gallery"
-            title="Boat days and catches."
-          />
-          <CTAButton href="/gallery/" label="View Gallery" variant="subtle" />
-        </div>
-        <GalleryGrid limit={4} minimal />
-      </div>
-    </div>
-  </section>
-
-  <section class="border-t border-white/10 py-10">
-    <div class="container-shell flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <p class="text-sm font-bold leading-6 text-mist md:text-base">
-        Questions before booking? Review trip details, weather notes, and what to bring.
-      </p>
-      <CTAButton href="/faq/" label="Read FAQ" variant="subtle" />
+      <SectionHeading
+        eyebrow="Gallery"
+        title="Boat days and catches."
+      />
+      <GalleryGrid minimal />
     </div>
   </section>
 </Layout>

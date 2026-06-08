@@ -1,7 +1,7 @@
 ---
 import { site } from "@data/site";
 import { emailHref, phoneHref } from "@lib/links";
-import { Mail, MapPin, Phone } from "@lucide/astro";
+import { Mail, Phone } from "@lucide/astro";
 
 const socials = [
   { label: "Instagram", href: site.instagramUrl },
@@ -26,12 +26,6 @@ const socials = [
             <a class="inline-flex items-center gap-2 hover:text-white" href={emailHref(site.email)}>
               <Mail class="size-4 text-seafoam" aria-hidden="true" />
               {site.email}
-            </a>
-          </li>
-          <li>
-            <a class="inline-flex items-center gap-2 hover:text-white" href={site.googleMapsUrl} target="_blank" rel="noreferrer">
-              <MapPin class="size-4 text-seafoam" aria-hidden="true" />
-              {site.shortLocation}
             </a>
           </li>
         </ul>

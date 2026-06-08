@@ -24,7 +24,7 @@ const visibleImages = limit ? images.slice(0, limit) : images;
             "w-full object-cover",
             index % 3 === 0 ? "aspect-[4/5]" : index % 3 === 1 ? "aspect-[16/11]" : "aspect-[1/1]"
           ]}
-          loading={index < 2 ? "eager" : "lazy"}
+          loading={minimal || index < 2 ? "eager" : "lazy"}
           decoding="async"
         />
         <figcaption class:list={[minimal ? "p-4" : "p-5"]}>
