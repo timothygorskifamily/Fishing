@@ -47,11 +47,11 @@ export type NavLink = {
   href: string;
 };
 
-const photorealFishModel = (fileName: string, title: string) =>
+const realisticGeneratedFishModel = (fileName: string, title: string) =>
   ({
     modelSrc: `/models/fish/${fileName}`,
-    modelCredit: `${title} from the photorealistic-style generated fish 3D asset pack`,
-    modelLicense: "Original generated/procedural asset; commercial use allowed; no attribution required"
+    modelCredit: `${title} from the realistic generated fish 3D asset pack`,
+    modelLicense: "Original generated asset; commercial use allowed; no attribution required"
   }) as const;
 
 // Launch checklist: confirm the Cal.com link, policies, rates, fish-size language,
@@ -203,7 +203,7 @@ export const site = {
       aka: "Summer flounder",
       image: "fish-flounder.jpg",
       specimenImage: "specimen-flounder.png",
-      ...photorealFishModel("summer_flounder_photoreal_style.glb", "Summer flounder photorealistic-style model"),
+      ...realisticGeneratedFishModel("summer_flounder_realistic_generated.glb", "Summer flounder realistic generated model"),
       category: "Bay / inlet",
       typicalSize: "16-22 in / 1-4 lb",
       highSize: "26-30+ in / 6-10+ lb",
@@ -215,7 +215,7 @@ export const site = {
       aka: "Striped bass",
       image: "fish-rockfish.jpg",
       specimenImage: "specimen-rockfish.png",
-      ...photorealFishModel("striped_bass_rockfish_photoreal_style.glb", "Striped bass / rockfish photorealistic-style model"),
+      ...realisticGeneratedFishModel("striped_bass_rockfish_realistic_generated.glb", "Striped bass / rockfish realistic generated model"),
       category: "Inshore / inlet / seasonal",
       typicalSize: "20-36 in / 3-20 lb",
       highSize: "40+ in / 30-50+ lb",
@@ -226,7 +226,7 @@ export const site = {
       name: "Bluefish",
       image: "fish-bluefish.jpg",
       specimenImage: "specimen-bluefish.png",
-      ...photorealFishModel("bluefish_photoreal_style.glb", "Bluefish photorealistic-style model"),
+      ...realisticGeneratedFishModel("bluefish_realistic_generated.glb", "Bluefish realistic generated model"),
       category: "Bay / inlet / nearshore",
       typicalSize: "18-30 in / 2-8 lb",
       highSize: "35+ in / 10-18 lb",
@@ -238,7 +238,7 @@ export const site = {
       aka: "Tog",
       image: "fish-tautog.jpg",
       specimenImage: "specimen-tautog.png",
-      ...photorealFishModel("tautog_blackfish_photoreal_style.glb", "Tautog / blackfish photorealistic-style model"),
+      ...realisticGeneratedFishModel("tautog_blackfish_realistic_generated.glb", "Tautog / blackfish realistic generated model"),
       category: "Structure / wreck",
       typicalSize: "15-22 in / 2-7 lb",
       highSize: "25+ in / 10-20 lb",
@@ -249,7 +249,7 @@ export const site = {
       name: "Sheepshead",
       image: "fish-sheepshead.jpg",
       specimenImage: "specimen-sheepshead.png",
-      ...photorealFishModel("sheepshead_photoreal_style.glb", "Sheepshead photorealistic-style model"),
+      ...realisticGeneratedFishModel("sheepshead_realistic_generated.glb", "Sheepshead realistic generated model"),
       category: "Structure / inlet",
       typicalSize: "14-22 in / 2-8 lb",
       highSize: "25+ in / 10-15+ lb",
@@ -261,7 +261,7 @@ export const site = {
       aka: "Redfish",
       image: "fish-red-drum.jpg",
       specimenImage: "specimen-red-drum.png",
-      ...photorealFishModel("red_drum_redfish_photoreal_style.glb", "Red drum / redfish photorealistic-style model"),
+      ...realisticGeneratedFishModel("red_drum_redfish_realistic_generated.glb", "Red drum / redfish realistic generated model"),
       category: "Inshore / seasonal",
       typicalSize: "18-32 in / 3-15 lb",
       highSize: "40+ in / 30-50+ lb",
@@ -272,7 +272,7 @@ export const site = {
       name: "Croaker",
       image: "fish-croaker.jpg",
       specimenImage: "specimen-croaker.png",
-      ...photorealFishModel("atlantic_croaker_photoreal_style.glb", "Atlantic croaker photorealistic-style model"),
+      ...realisticGeneratedFishModel("atlantic_croaker_realistic_generated.glb", "Atlantic croaker realistic generated model"),
       category: "Bay / inshore",
       typicalSize: "9-14 in / under 1-2 lb",
       highSize: "16+ in / 2-3+ lb",
@@ -284,7 +284,7 @@ export const site = {
       aka: "Rays and seasonal targets",
       image: "fish-bowfishing.jpg",
       specimenImage: "specimen-ray.png",
-      ...photorealFishModel("cownose_ray_photoreal_style.glb", "Cownose ray photorealistic-style model"),
+      ...realisticGeneratedFishModel("cownose_ray_realistic_generated.glb", "Cownose ray realistic generated model"),
       category: "Specialty trip",
       typicalSize: "Varies by target",
       highSize: "Large rays can be heavy, memorable fish",

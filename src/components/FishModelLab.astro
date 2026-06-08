@@ -511,7 +511,11 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
 
   function isPackagedFishModel(fish) {
     const modelPath = String(fish.modelSrc || "");
-    return modelPath.includes("_approx.glb") || modelPath.includes("_photoreal_style.glb");
+    return (
+      modelPath.includes("_approx.glb") ||
+      modelPath.includes("_photoreal_style.glb") ||
+      modelPath.includes("_realistic_generated.glb")
+    );
   }
 
   function polishImportedPackagedModel(model) {
