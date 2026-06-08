@@ -24,6 +24,26 @@ license screenshot with the launch records.
 
 Current active models:
 
+- `summer_flounder_photoreal_style.glb`
+- `striped_bass_rockfish_photoreal_style.glb`
+- `bluefish_photoreal_style.glb`
+- `tautog_blackfish_photoreal_style.glb`
+- `sheepshead_photoreal_style.glb`
+- `red_drum_redfish_photoreal_style.glb`
+- `atlantic_croaker_photoreal_style.glb`
+- `cownose_ray_photoreal_style.glb`
+
+These eight files came from `photorealistic-style-fish-models-web-safe.zip`.
+They are original generated/procedural photorealistic-style models, not
+photogrammetry scans or exact scientific models. The package license grants
+personal and commercial website use with no required attribution. The license
+and metadata are kept here as:
+
+- `photorealistic-style-fish-models-license.md`
+- `photorealistic-style-fish-models-manifest.json`
+
+Previous generated starter models kept for reference:
+
 - `summer_flounder_approx.glb`
 - `striped_bass_rockfish_approx.glb`
 - `bluefish_approx.glb`
@@ -33,10 +53,7 @@ Current active models:
 - `atlantic_croaker_approx.glb`
 - `cownose_ray_approx.glb`
 
-These eight files came from `free-use-fish-3d-models.zip`. They are
-procedural approximate models, not photogrammetry scans or exact scientific
-models. The package license grants personal and commercial website use with no
-required attribution. The license and metadata are kept here as:
+The previous starter-pack license and metadata are kept here as:
 
 - `free-use-fish-models-license.md`
 - `free-use-fish-models-manifest.json`

@@ -495,9 +495,9 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
   function createImportedFishModel(model, fish) {
     normalizeImportedModel(model);
 
-    if (isApproxFishModel(fish)) {
-      polishImportedApproxModel(model);
-      poseImportedApproxModel(model, fish);
+    if (isPackagedFishModel(fish)) {
+      polishImportedPackagedModel(model);
+      poseImportedPackagedModel(model, fish);
       return model;
     }
 
@@ -509,16 +509,18 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
     return group;
   }
 
-  function isApproxFishModel(fish) {
-    return String(fish.modelSrc || "").includes("_approx.glb");
+  function isPackagedFishModel(fish) {
+    const modelPath = String(fish.modelSrc || "");
+    return modelPath.includes("_approx.glb") || modelPath.includes("_photoreal_style.glb");
   }
 
-  function polishImportedApproxModel(model) {
+  function polishImportedPackagedModel(model) {
     model.traverse((item) => {
       if (!item.isMesh || !item.material) return;
       const materials = Array.isArray(item.material) ? item.material : [item.material];
       const polished = materials.map((material) => {
         const clone = material.clone();
+        if ("side" in clone) clone.side = THREE.DoubleSide;
         if ("roughness" in clone) clone.roughness = Math.min(clone.roughness ?? 0.42, 0.46);
         if ("metalness" in clone) clone.metalness = Math.max(clone.metalness ?? 0.02, 0.02);
         if ("clearcoat" in clone) clone.clearcoat = Math.max(clone.clearcoat ?? 0.35, 0.45);
@@ -530,7 +532,7 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
     });
   }
 
-  function poseImportedApproxModel(model, fish) {
+  function poseImportedPackagedModel(model, fish) {
     const modelPath = String(fish.modelSrc || "").toLowerCase();
 
     if (modelPath.includes("cownose_ray")) {
