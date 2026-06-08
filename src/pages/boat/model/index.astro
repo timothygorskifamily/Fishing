@@ -1,0 +1,56 @@
+---
+import BoatModelViewer from "@components/BoatModelViewer.astro";
+import CTAButton from "@components/CTAButton.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+import Layout from "@layouts/Layout.astro";
+import { site } from "@data/site";
+import { smsHref } from "@lib/links";
+
+const referenceCues = [
+  "Deep-V offshore center-console proportions",
+  "Open flush deck with fishbox and hatch cues",
+  "Large center console and leaning-post area",
+  "Tower, hardtop, rod holders, and sightline details",
+  "Twin-outboard placeholder geometry until the actual rigging is confirmed"
+];
+---
+
+<Layout
+  title="3D Boat Model | 29' SeaVee Tower Boat Concept"
+  description="Explore an original 360-degree 3D concept model inspired by a 29 foot 2006 SeaVee tower boat for an Ocean City, Maryland fishing charter."
+  canonicalPath="/boat/model/"
+>
+  <BoatModelViewer />
+
+  <section class="section-pad">
+    <div class="container-shell grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+      <div>
+        <SectionHeading
+          eyebrow="Model notes"
+          title="Original, editable, and intentionally approximate."
+          copy="This is a lightweight browser model built from primitive geometry and broad public reference cues. It should be refined with actual photos of the captain's boat before launch if exact accuracy matters."
+        />
+        <div class="flex flex-col gap-3 sm:flex-row">
+          <CTAButton href="/book/" label="Check Availability" icon="calendar" />
+          <CTAButton href={smsHref(site.smsPhone)} label="Call/Text Captain" icon="phone" variant="ghost" />
+        </div>
+      </div>
+
+      <div class="grid gap-4">
+        {
+          referenceCues.map((cue) => (
+            <div class="rounded-lg border border-white/12 bg-white/5 p-4 text-sm font-bold text-fog">
+              {cue}
+            </div>
+          ))
+        }
+        <div class="rounded-lg border border-gold/24 bg-gold/10 p-5 text-sm leading-7 text-fog">
+          <p>
+            The visual model does not claim exact engines, electronics, seating, safety gear, passenger capacity,
+            or rigging. Update those details only after the captain provides real specifications.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

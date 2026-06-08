@@ -9,5 +9,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 astro-dev*.log
+tmp/
 .DS_Store
 Thumbs.db

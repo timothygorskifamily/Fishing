@@ -14,5 +14,11 @@ export default defineConfig({
   base,
   output: "static",
   trailingSlash: "always",
-  integrations: [sitemap()]
+  integrations: [sitemap()],
+  vite: {
+    build: {
+      // The only larger route chunk is the opt-in Three.js boat model page.
+      chunkSizeWarningLimit: 650
+    }
+  }
 });
