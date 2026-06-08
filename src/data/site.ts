@@ -28,6 +28,12 @@ export type FishSpecies = {
   name: string;
   aka?: string;
   image: string;
+  // Optional licensed 3D model file. Put owned/purchased/commercial-safe GLB/GLTF
+  // files in /public/models/fish/ and reference them like "/models/fish/flounder.glb".
+  modelSrc?: string;
+  modelCredit?: string;
+  modelLicense?: string;
+  modelSourceUrl?: string;
   category: string;
   typicalSize: string;
   highSize: string;
@@ -188,6 +194,7 @@ export const site = {
       name: "Flounder",
       aka: "Summer flounder",
       image: "fish-flounder.jpg",
+      modelSrc: "",
       category: "Bay / inlet",
       typicalSize: "16-22 in / 1-4 lb",
       highSize: "26-30+ in / 6-10+ lb",
@@ -198,6 +205,7 @@ export const site = {
       name: "Rockfish",
       aka: "Striped bass",
       image: "fish-rockfish.jpg",
+      modelSrc: "",
       category: "Inshore / inlet / seasonal",
       typicalSize: "20-36 in / 3-20 lb",
       highSize: "40+ in / 30-50+ lb",
@@ -207,6 +215,7 @@ export const site = {
     {
       name: "Bluefish",
       image: "fish-bluefish.jpg",
+      modelSrc: "",
       category: "Bay / inlet / nearshore",
       typicalSize: "18-30 in / 2-8 lb",
       highSize: "35+ in / 10-18 lb",
@@ -217,6 +226,7 @@ export const site = {
       name: "Tautog",
       aka: "Tog",
       image: "fish-tautog.jpg",
+      modelSrc: "",
       category: "Structure / wreck",
       typicalSize: "15-22 in / 2-7 lb",
       highSize: "25+ in / 10-20 lb",
@@ -226,6 +236,7 @@ export const site = {
     {
       name: "Sheepshead",
       image: "fish-sheepshead.jpg",
+      modelSrc: "",
       category: "Structure / inlet",
       typicalSize: "14-22 in / 2-8 lb",
       highSize: "25+ in / 10-15+ lb",
@@ -236,6 +247,7 @@ export const site = {
       name: "Red Drum",
       aka: "Redfish",
       image: "fish-red-drum.jpg",
+      modelSrc: "",
       category: "Inshore / seasonal",
       typicalSize: "18-32 in / 3-15 lb",
       highSize: "40+ in / 30-50+ lb",
@@ -245,6 +257,7 @@ export const site = {
     {
       name: "Croaker",
       image: "fish-croaker.jpg",
+      modelSrc: "",
       category: "Bay / inshore",
       typicalSize: "9-14 in / under 1-2 lb",
       highSize: "16+ in / 2-3+ lb",
@@ -255,6 +268,7 @@ export const site = {
       name: "Bowfishing",
       aka: "Rays and seasonal targets",
       image: "fish-bowfishing.jpg",
+      modelSrc: "",
       category: "Specialty trip",
       typicalSize: "Varies by target",
       highSize: "Large rays can be heavy, memorable fish",

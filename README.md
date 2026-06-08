@@ -103,6 +103,21 @@ Species photos copied from the current Ocean City Guide Service site can also be
 
 Keep the same filenames if you want to update the images without editing code. Use optimized JPG or WebP files when possible.
 
+## Replace 3D Fish Models
+
+The interactive fish lab currently uses lightweight procedural models as safe
+fallbacks. To use purchased, commissioned, or otherwise licensed real models:
+
+1. Convert each model to `.glb` or `.gltf`.
+2. Put the files in `public/models/fish/`.
+3. Edit the matching fish in `src/data/site.ts`.
+4. Set `modelSrc`, for example `/models/fish/bluefish.glb`.
+5. Fill in `modelCredit`, `modelLicense`, and `modelSourceUrl` when attribution is required.
+
+Do not use models marked NonCommercial, Personal/Education, Editorial-only, or
+files without clear license terms. See `docs/fish-model-candidates.md` for
+researched model candidates and license notes.
+
 ## Cal.com Setup
 
 Admin schedule management happens in Cal.com, not on the website.
