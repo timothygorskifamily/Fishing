@@ -17,10 +17,14 @@ export default defineConfig({
   devToolbar: {
     enabled: false
   },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) => !page.endsWith("/boat/model/")
+    })
+  ],
   vite: {
     build: {
-      // The only larger route chunk is the opt-in Three.js boat model page.
+      // Keep room for the hidden legacy Three.js boat model route.
       chunkSizeWarningLimit: 650
     }
   }

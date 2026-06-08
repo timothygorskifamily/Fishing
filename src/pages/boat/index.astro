@@ -28,7 +28,7 @@ const boatImages = [
       />
       <div class="flex flex-col gap-3 sm:flex-row">
         <CTAButton href="/book/" label="Check Availability" icon="calendar" />
-        <CTAButton href="/boat/model/" label="Explore 3D Model" variant="secondary" />
+        <CTAButton href="/gallery/" label="View Boat Photos" variant="secondary" />
         <CTAButton href={smsHref(site.smsPhone)} label="Ask About The Boat" icon="phone" variant="ghost" />
       </div>
     </div>
@@ -103,7 +103,7 @@ const boatImages = [
         <h2 class="text-3xl font-black text-white md:text-4xl">Request a private date aboard the SeaVee.</h2>
       </div>
       <div class="flex flex-col gap-3 sm:flex-row">
-        <CTAButton href="/boat/model/" label="Open 3D Model" variant="ghost" />
+        <CTAButton href={smsHref(site.smsPhone)} label="Ask About The Boat" icon="phone" variant="ghost" />
         <CTAButton href="/book/" label="Check Availability" icon="calendar" />
       </div>
     </div>

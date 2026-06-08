@@ -12,9 +12,10 @@ interface Props {
   description?: string;
   canonicalPath?: string;
   image?: string;
+  noIndex?: boolean;
 }
 
-const { title, description, canonicalPath, image } = Astro.props;
+const { title, description, canonicalPath, image, noIndex } = Astro.props;
 ---
 
 <!doctype html>
@@ -23,7 +24,7 @@ const { title, description, canonicalPath, image } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#061016" />
-    <SEO title={title} description={description} canonicalPath={canonicalPath} image={image} />
+    <SEO title={title} description={description} canonicalPath={canonicalPath} image={image} noIndex={noIndex} />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
