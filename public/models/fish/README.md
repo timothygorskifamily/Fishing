@@ -30,5 +30,7 @@ Current included model:
   model as `artec-scanned-fish-license.txt`.
 
 This model is a real scanned fish, but it is not a species-exact Ocean City
-target. Use it only as a reference scan until exact purchased/commissioned
-models are available.
+target. The site currently reuses it as a shared high-realism placeholder for
+the finfish viewer, with per-species tinting, proportions, and markings in the
+Three.js layer. Replace each `modelSrc` in `src/data/site.ts` as exact
+purchased/commissioned models become available.

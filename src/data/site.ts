@@ -47,6 +47,13 @@ export type NavLink = {
   href: string;
 };
 
+const sharedScannedFishModel = {
+  modelSrc: "/models/fish/artec-scanned-fish.glb",
+  modelCredit: "Shared real fish scan by Artec 3D with species-specific visual overlay until species-exact models are licensed",
+  modelLicense: "CC BY 3.0",
+  modelSourceUrl: "https://www.artec3d.com/3d-models/fish"
+} as const;
+
 // Launch checklist: confirm the Cal.com link, policies, rates, fish-size language,
 // and all imagery with the captain before publishing. Fish photos copied from the
 // current Ocean City Guide Service site can be replaced later with newer photos.
@@ -196,7 +203,7 @@ export const site = {
       aka: "Summer flounder",
       image: "fish-flounder.jpg",
       specimenImage: "specimen-flounder.png",
-      modelSrc: "",
+      ...sharedScannedFishModel,
       category: "Bay / inlet",
       typicalSize: "16-22 in / 1-4 lb",
       highSize: "26-30+ in / 6-10+ lb",
@@ -208,7 +215,7 @@ export const site = {
       aka: "Striped bass",
       image: "fish-rockfish.jpg",
       specimenImage: "specimen-rockfish.png",
-      modelSrc: "",
+      ...sharedScannedFishModel,
       category: "Inshore / inlet / seasonal",
       typicalSize: "20-36 in / 3-20 lb",
       highSize: "40+ in / 30-50+ lb",
@@ -219,7 +226,7 @@ export const site = {
       name: "Bluefish",
       image: "fish-bluefish.jpg",
       specimenImage: "specimen-bluefish.png",
-      modelSrc: "",
+      ...sharedScannedFishModel,
       category: "Bay / inlet / nearshore",
       typicalSize: "18-30 in / 2-8 lb",
       highSize: "35+ in / 10-18 lb",
@@ -231,7 +238,7 @@ export const site = {
       aka: "Tog",
       image: "fish-tautog.jpg",
       specimenImage: "specimen-tautog.png",
-      modelSrc: "",
+      ...sharedScannedFishModel,
       category: "Structure / wreck",
       typicalSize: "15-22 in / 2-7 lb",
       highSize: "25+ in / 10-20 lb",
@@ -242,7 +249,7 @@ export const site = {
       name: "Sheepshead",
       image: "fish-sheepshead.jpg",
       specimenImage: "specimen-sheepshead.png",
-      modelSrc: "",
+      ...sharedScannedFishModel,
       category: "Structure / inlet",
       typicalSize: "14-22 in / 2-8 lb",
       highSize: "25+ in / 10-15+ lb",
@@ -254,7 +261,7 @@ export const site = {
       aka: "Redfish",
       image: "fish-red-drum.jpg",
       specimenImage: "specimen-red-drum.png",
-      modelSrc: "",
+      ...sharedScannedFishModel,
       category: "Inshore / seasonal",
       typicalSize: "18-32 in / 3-15 lb",
       highSize: "40+ in / 30-50+ lb",
@@ -265,10 +272,10 @@ export const site = {
       name: "Croaker",
       image: "fish-croaker.jpg",
       specimenImage: "specimen-croaker.png",
-      modelSrc: "/models/fish/artec-scanned-fish.glb",
+      modelSrc: sharedScannedFishModel.modelSrc,
       modelCredit: "Generic fish scan by Artec 3D, used as a real scanned reference model until a species-exact croaker model is licensed",
-      modelLicense: "CC BY 3.0",
-      modelSourceUrl: "https://www.artec3d.com/3d-models/fish",
+      modelLicense: sharedScannedFishModel.modelLicense,
+      modelSourceUrl: sharedScannedFishModel.modelSourceUrl,
       category: "Bay / inshore",
       typicalSize: "9-14 in / under 1-2 lb",
       highSize: "16+ in / 2-3+ lb",
