@@ -2,8 +2,6 @@
 import CTAButton from "@components/CTAButton.astro";
 import { site } from "@data/site";
 import { imagePath, smsHref } from "@lib/links";
-
-const stats = [`${site.boatLength} ${site.boatMake}`, "Private Charters", "Easy Booking"];
 ---
 
 <section class="relative min-h-[82svh] overflow-hidden border-b border-white/10">
@@ -20,27 +18,16 @@ const stats = [`${site.boatLength} ${site.boatMake}`, "Private Charters", "Easy 
 
   <div class="container-shell relative flex min-h-[82svh] items-center py-16">
     <div class="max-w-3xl">
-      <p class="eyebrow mb-5">Ocean City, Maryland private charter</p>
       <h1 class="text-balance font-display text-5xl font-black leading-[0.98] text-white md:text-7xl">
-        Private Fishing Charters in Ocean City, Maryland
+        Private Fishing Charters
       </h1>
       <p class="mt-6 max-w-2xl text-lg leading-8 text-fog md:text-xl">
-        Bring your crew for a private Ocean City fishing trip aboard a clean {site.boatLength} {site.boatMake}, with an easy day on the water from first call to final cast.
+        A clean {site.boatLength} {site.boatMake}, a private crew, and an easy day on the water.
       </p>
       <div class="mt-8 flex flex-col gap-3 sm:flex-row">
         <CTAButton href="/book/" label={site.primaryCTA} icon="calendar" />
         <CTAButton href={smsHref(site.smsPhone)} label={site.secondaryCTA} icon="phone" variant="ghost" />
       </div>
-      <dl class="mt-10 grid max-w-3xl grid-cols-1 overflow-hidden rounded-lg border border-white/14 bg-ink/56 backdrop-blur sm:grid-cols-3">
-        {
-          stats.map((stat) => (
-            <div class="border-b border-white/10 p-4 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
-              <dt class="sr-only">Charter highlight</dt>
-              <dd class="text-sm font-extrabold text-white">{stat}</dd>
-            </div>
-          ))
-        }
-      </dl>
     </div>
   </div>
 </section>
