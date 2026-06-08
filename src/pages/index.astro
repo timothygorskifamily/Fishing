@@ -8,9 +8,8 @@ import TripCard from "@components/TripCard.astro";
 import Layout from "@layouts/Layout.astro";
 import { site } from "@data/site";
 import { imagePath, smsHref } from "@lib/links";
-import { Compass, ShipWheel, Waves } from "@lucide/astro";
 
-const previewTrips = site.tripTypes.slice(0, 3);
+const tripOptions = site.tripTypes;
 const fishingMoments = [
   {
     src: "fish-tautog.jpg",
@@ -33,7 +32,7 @@ const fishingMoments = [
 
 <Layout
   title="Ocean City MD Fishing Charter | Private SeaVee Charters"
-  description="Book a private Ocean City, Maryland fishing charter aboard a 29' SeaVee tower boat. Review trips, see the boat, and request your date."
+  description="Book a private Ocean City, Maryland fishing charter aboard a 29' SeaVee. Review trips, see the boat, and request your date."
   canonicalPath="/"
 >
   <Hero />
@@ -63,13 +62,10 @@ const fishingMoments = [
       <SectionHeading
         eyebrow="Trip options"
         title="Fish the day that fits the season."
-        copy="Choose a starting point, then confirm the final plan with the captain. Availability, departure times, and target species vary with weather and conditions."
+        copy="Pick the trip that fits your crew. The captain confirms timing, weather, and the best plan before you go."
       />
-      <div class="grid gap-5 lg:grid-cols-3">
-        {previewTrips.map((trip) => <TripCard trip={trip} compact />)}
-      </div>
-      <div class="mt-8">
-        <CTAButton href="/trips/" label="View All Trips & Rates" variant="subtle" />
+      <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        {tripOptions.map((trip) => <TripCard trip={trip} compact />)}
       </div>
     </div>
   </section>
@@ -79,7 +75,7 @@ const fishingMoments = [
       <div class="image-sheen overflow-hidden rounded-lg border border-white/12 bg-panel shadow-lift">
         <img
           src={imagePath("boat-running.jpg")}
-          alt="29 foot SeaVee tower boat running on coastal water near Ocean City"
+          alt="29 foot SeaVee running on coastal water near Ocean City"
           class="aspect-[4/3] w-full object-cover"
           loading="lazy"
           decoding="async"
@@ -88,29 +84,11 @@ const fishingMoments = [
       <div>
         <SectionHeading
           eyebrow="The boat"
-          title="A 29' SeaVee tower boat with a serious fishing attitude."
-          copy="The platform matters. This 2006 SeaVee keeps the focus on fishability, clean movement around the center-console layout, and the sightline advantage of a tower when the water calls for it."
+          title="A clean 29' SeaVee ready for Ocean City water."
+          copy="A private center-console setup with room to fish, move, and enjoy the day without clutter."
         />
-        <div class="grid gap-4 sm:grid-cols-3">
-          <div class="card p-5">
-            <ShipWheel class="mb-4 size-7 text-seafoam" aria-hidden="true" />
-            <h3 class="font-black text-white">Center-console layout</h3>
-            <p class="mt-2 text-sm leading-6 text-mist">Open, practical, and made for fishing days.</p>
-          </div>
-          <div class="card p-5">
-            <Compass class="mb-4 size-7 text-seafoam" aria-hidden="true" />
-            <h3 class="font-black text-white">Tower visibility</h3>
-            <p class="mt-2 text-sm leading-6 text-mist">A higher view when spotting water, birds, or movement matters.</p>
-          </div>
-          <div class="card p-5">
-            <Waves class="mb-4 size-7 text-seafoam" aria-hidden="true" />
-            <h3 class="font-black text-white">Ocean City ready</h3>
-            <p class="mt-2 text-sm leading-6 text-mist">Configured around private days from Maryland's coast.</p>
-          </div>
-        </div>
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-          <CTAButton href="/boat/" label="See The Boat" />
-          <CTAButton href="/gallery/" label="View Boat Photos" variant="secondary" />
+          <CTAButton href="/boat/" label="See Boat & Photos" />
           <CTAButton href={smsHref(site.smsPhone)} label="Ask The Captain" icon="phone" variant="ghost" />
         </div>
       </div>
@@ -122,7 +100,7 @@ const fishingMoments = [
       <SectionHeading
         eyebrow="What we catch"
         title="Flounder, tog, rockfish, drum, and more."
-        copy="A quick look at common Ocean City Guide Service targets. Sizes are broad guide estimates, not guarantees or regulations, and should be confirmed with the captain."
+        copy="Common Ocean City targets with broad size ranges to help set expectations."
       />
       <FishSpeciesGrid limit={8} />
       <div class="mt-8">
@@ -137,12 +115,11 @@ const fishingMoments = [
         <div>
           <SectionHeading
             eyebrow="Gallery"
-            title="Boat days, catches, and Ocean City water."
-            copy="A clean look at the boat, the water, and the kind of fishing days this charter is built around."
+            title="Boat days and catches."
           />
           <CTAButton href="/gallery/" label="View Gallery" variant="subtle" />
         </div>
-        <GalleryGrid limit={4} />
+        <GalleryGrid limit={4} minimal />
       </div>
     </div>
   </section>

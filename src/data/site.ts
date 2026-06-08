@@ -60,12 +60,12 @@ const freeUseFishModel = (fileName: string, title: string) =>
 export const site = {
   businessName: "Ocean City Guide Service",
   captainName: "Captain Kyle Pelino",
-  tagline: "Ocean City Maryland inshore fishing, bay trips, and SeaVee charter days.",
+  tagline: "Private inshore and bay fishing trips in Ocean City, Maryland.",
   location: "Ocean City, Maryland",
   shortLocation: "Ocean City, MD",
-  boatName: "Refitted 29' SeaVee Tower Boat",
+  boatName: "Refitted 29' SeaVee",
   boatDescription:
-    "A completely refitted 29' 2006 SeaVee tower boat set up as a versatile fishing platform for Ocean City waters.",
+    "A completely refitted 29' 2006 SeaVee set up as a versatile fishing platform for Ocean City waters.",
   boatLength: "29'",
   boatYear: "2006",
   boatMake: "SeaVee",
@@ -337,9 +337,9 @@ export const site = {
     },
     {
       src: "boat-tower.jpg",
-      alt: "Tower detail on a center-console fishing boat",
-      title: "Tower visibility",
-      caption: "Tower, upper station, rod-holder, and sightline reference.",
+      alt: "Detail view of a center-console fishing boat",
+      title: "Boat detail",
+      caption: "Boat detail, rod-holder, and fishing setup reference.",
       category: "Boat"
     },
     {
@@ -353,7 +353,7 @@ export const site = {
   seo: {
     title: "Ocean City MD Fishing Charter | Ocean City Guide Service",
     description:
-      "Ocean City, Maryland inshore fishing charters aboard a refitted 29' SeaVee tower boat. Check availability, review trips, and request your date.",
+      "Ocean City, Maryland inshore fishing charters aboard a refitted 29' SeaVee. Check availability, review trips, and request your date.",
     image: "hero-boat.jpg",
     keywords: [
       "Ocean City MD fishing charter",

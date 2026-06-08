@@ -10,14 +10,14 @@ const boatImages = [
   {
     src: "boat-running.jpg",
     title: "Running shot",
-    alt: "SeaVee tower boat running on coastal water",
+    alt: "SeaVee running on coastal water",
     caption: "The 29' SeaVee underway out of Ocean City."
   },
   {
     src: "boat-tower.jpg",
-    title: "Tower detail",
-    alt: "Tower detail on the SeaVee center-console boat",
-    caption: "A higher sightline for reading water and spotting activity."
+    title: "Boat detail",
+    alt: "Detail view of the SeaVee center-console boat",
+    caption: "Clean rigging and a practical setup for private fishing days."
   },
   {
     src: "deck.jpg",
@@ -35,8 +35,8 @@ const boatImages = [
 ---
 
 <Layout
-  title="The Boat | 29' SeaVee Tower Boat in Ocean City MD"
-  description="Meet the 29' 2006 SeaVee tower boat used for private Ocean City, Maryland fishing charters."
+  title="The Boat | 29' SeaVee in Ocean City MD"
+  description="Meet the 29' 2006 SeaVee used for private Ocean City, Maryland fishing charters."
   canonicalPath="/boat/"
 >
   <section class="border-b border-white/10 bg-harbor/50 section-pad">
@@ -44,11 +44,11 @@ const boatImages = [
       <SectionHeading
         eyebrow="The boat"
         title="The Boat"
-        copy="A 29' 2006 SeaVee tower boat set up as a clean, serious Ocean City fishing platform."
+        copy="A 29' 2006 SeaVee set up as a clean, serious Ocean City fishing platform."
       />
       <div class="flex flex-col gap-3 sm:flex-row">
         <CTAButton href="/book/" label="Check Availability" icon="calendar" />
-        <CTAButton href="/gallery/" label="View Boat Photos" variant="secondary" />
+        <CTAButton href="/gallery/" label="Open Gallery" variant="secondary" />
         <CTAButton href={smsHref(site.smsPhone)} label="Ask About The Boat" icon="phone" variant="ghost" />
       </div>
     </div>
@@ -61,7 +61,7 @@ const boatImages = [
         <div class="image-sheen overflow-hidden rounded-lg border border-white/12 bg-panel shadow-lift">
           <img
             src={imagePath("hero-boat.jpg")}
-            alt="29 foot SeaVee tower boat running near Ocean City"
+            alt="29 foot SeaVee running near Ocean City"
             class="aspect-[16/10] w-full object-cover"
             loading="lazy"
             decoding="async"
@@ -70,15 +70,15 @@ const boatImages = [
         <div>
           <p class="eyebrow mb-3">Fishing platform</p>
           <h2 class="text-balance text-3xl font-black leading-tight text-white md:text-5xl">
-            Built for private days, clean movement, and better sightlines.
+            Built for private days, clean movement, and easy fishing.
           </h2>
           <p class="mt-5 text-base leading-8 text-mist">
             The SeaVee center-console layout keeps the day focused and practical: room to work, easy communication,
             and a boat-forward experience that feels serious without feeling corporate.
           </p>
           <p class="mt-4 text-base leading-8 text-mist">
-            The tower adds visibility when scanning water, finding life, and making real-time decisions. Exact gear,
-            passenger, electronics, safety, and capacity details should be added only after the captain approves them.
+            Exact gear, passenger, electronics, safety, and capacity details should be added only after the captain
+            approves them.
           </p>
         </div>
       </div>
@@ -90,7 +90,7 @@ const boatImages = [
       <SectionHeading
         eyebrow="Boat photos"
         title="A closer look at the platform."
-        copy="Running, tower, deck, and fishing-day views from a clean center-console charter setup."
+        copy="Running, deck, detail, and fishing-day views from a clean center-console charter setup."
       />
       <div class="grid gap-5 md:grid-cols-2">
         {

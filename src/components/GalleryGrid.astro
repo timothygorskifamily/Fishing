@@ -6,9 +6,10 @@ import { imagePath } from "@lib/links";
 interface Props {
   images?: readonly GalleryImage[];
   limit?: number;
+  minimal?: boolean;
 }
 
-const { images = site.galleryImages, limit } = Astro.props;
+const { images = site.galleryImages, limit, minimal = false } = Astro.props;
 const visibleImages = limit ? images.slice(0, limit) : images;
 ---
 
@@ -26,10 +27,10 @@ const visibleImages = limit ? images.slice(0, limit) : images;
           loading={index < 2 ? "eager" : "lazy"}
           decoding="async"
         />
-        <figcaption class="p-5">
+        <figcaption class:list={[minimal ? "p-4" : "p-5"]}>
           <p class="text-xs font-black uppercase tracking-[0.16em] text-seafoam">{image.category}</p>
           <h3 class="mt-2 text-xl font-black text-white">{image.title}</h3>
-          <p class="mt-2 text-sm leading-6 text-mist">{image.caption}</p>
+          {!minimal && <p class="mt-2 text-sm leading-6 text-mist">{image.caption}</p>}
         </figcaption>
       </figure>
     ))
