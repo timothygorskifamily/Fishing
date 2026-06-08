@@ -1,6 +1,5 @@
 ---
 import CTAButton from "@components/CTAButton.astro";
-import FAQAccordion from "@components/FAQAccordion.astro";
 import FishSpeciesGrid from "@components/FishSpeciesGrid.astro";
 import GalleryGrid from "@components/GalleryGrid.astro";
 import Hero from "@components/Hero.astro";
@@ -155,37 +154,12 @@ const whyItems = [
     </div>
   </section>
 
-  <section class="section-pad">
-    <div class="container-shell grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-      <div>
-        <SectionHeading
-          eyebrow="FAQ"
-          title="Simple answers before you request a date."
-          copy="Booking starts online, but final trip details are confirmed directly with the captain."
-        />
-        <CTAButton href="/faq/" label="Read All FAQs" variant="subtle" />
-      </div>
-      <FAQAccordion limit={5} />
-    </div>
-  </section>
-
-  <section class="border-t border-white/10 bg-chart-lines bg-[length:38px_38px] py-16">
-    <div class="container-shell">
-      <div class="grid gap-6 rounded-lg border border-white/12 bg-ink/82 p-6 shadow-glow md:grid-cols-[1fr_auto] md:items-center md:p-8">
-        <div>
-          <p class="eyebrow mb-3">Reserve your window</p>
-          <h2 class="text-balance text-3xl font-black leading-tight text-white md:text-5xl">
-            Check the calendar, then fish the right day.
-          </h2>
-          <p class="mt-4 max-w-2xl text-sm leading-7 text-mist md:text-base">
-            No payment is collected here. Request a date and confirm the final plan directly with the captain.
-          </p>
-        </div>
-        <div class="flex flex-col gap-3 sm:flex-row md:flex-col">
-          <CTAButton href="/book/" label={site.primaryCTA} icon="calendar" />
-          <CTAButton href={smsHref(site.smsPhone)} label={site.secondaryCTA} icon="phone" variant="ghost" />
-        </div>
-      </div>
+  <section class="border-t border-white/10 py-10">
+    <div class="container-shell flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-sm font-bold leading-6 text-mist md:text-base">
+        Questions before booking? Review trip details, weather notes, and what to bring.
+      </p>
+      <CTAButton href="/faq/" label="Read FAQ" variant="subtle" />
     </div>
   </section>
 </Layout>
