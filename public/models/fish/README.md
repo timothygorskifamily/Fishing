@@ -22,15 +22,30 @@ When using CC BY assets, fill in `modelCredit`, `modelLicense`, and
 `modelSourceUrl` in `src/data/site.ts`. Keep a copy of each license receipt or
 license screenshot with the launch records.
 
-Current included model:
+Current active models:
+
+- `summer_flounder_approx.glb`
+- `striped_bass_rockfish_approx.glb`
+- `bluefish_approx.glb`
+- `tautog_blackfish_approx.glb`
+- `sheepshead_approx.glb`
+- `red_drum_redfish_approx.glb`
+- `atlantic_croaker_approx.glb`
+- `cownose_ray_approx.glb`
+
+These eight files came from `free-use-fish-3d-models.zip`. They are
+procedural approximate models, not photogrammetry scans or exact scientific
+models. The package license grants personal and commercial website use with no
+required attribution. The license and metadata are kept here as:
+
+- `free-use-fish-models-license.md`
+- `free-use-fish-models-manifest.json`
+
+Legacy model kept for reference:
 
 - `artec-scanned-fish.glb` is a converted and optimized version of Artec 3D's
   free scanned fish model. It is licensed under CC BY 3.0 and requires
   attribution to Artec 3D. The full downloaded license text is kept beside the
   model as `artec-scanned-fish-license.txt`.
 
-This model is a real scanned fish, but it is not a species-exact Ocean City
-target. The site currently uses it only for the Croaker viewer state because it
-is the only included real 3D fish asset. Leave the other species on their
-species-shaped procedural models until exact purchased/commissioned GLB or GLTF
-files are available.
+This scanned model is not currently wired into the species viewer.

@@ -1,0 +1,74 @@
+[
+  {
+    "file": "models/fish/summer_flounder_approx.glb",
+    "public_path_example": "/models/fish/summer_flounder_approx.glb",
+    "title": "Summer flounder / Flounder approximate model",
+    "license": "Commercial-use grant included in LICENSE.md; no attribution required",
+    "source": "Procedurally generated in this ChatGPT session; not downloaded from a third-party marketplace",
+    "triangles_estimated": 14778,
+    "size_bytes": 187180
+  },
+  {
+    "file": "models/fish/striped_bass_rockfish_approx.glb",
+    "public_path_example": "/models/fish/striped_bass_rockfish_approx.glb",
+    "title": "Striped bass / Rockfish approximate model",
+    "license": "Commercial-use grant included in LICENSE.md; no attribution required",
+    "source": "Procedurally generated in this ChatGPT session; not downloaded from a third-party marketplace",
+    "triangles_estimated": 10956,
+    "size_bytes": 141384
+  },
+  {
+    "file": "models/fish/bluefish_approx.glb",
+    "public_path_example": "/models/fish/bluefish_approx.glb",
+    "title": "Bluefish approximate model",
+    "license": "Commercial-use grant included in LICENSE.md; no attribution required",
+    "source": "Procedurally generated in this ChatGPT session; not downloaded from a third-party marketplace",
+    "triangles_estimated": 10444,
+    "size_bytes": 133664
+  },
+  {
+    "file": "models/fish/tautog_blackfish_approx.glb",
+    "public_path_example": "/models/fish/tautog_blackfish_approx.glb",
+    "title": "Tautog / Blackfish approximate model",
+    "license": "Commercial-use grant included in LICENSE.md; no attribution required",
+    "source": "Procedurally generated in this ChatGPT session; not downloaded from a third-party marketplace",
+    "triangles_estimated": 8526,
+    "size_bytes": 134744
+  },
+  {
+    "file": "models/fish/sheepshead_approx.glb",
+    "public_path_example": "/models/fish/sheepshead_approx.glb",
+    "title": "Sheepshead approximate model",
+    "license": "Commercial-use grant included in LICENSE.md; no attribution required",
+    "source": "Procedurally generated in this ChatGPT session; not downloaded from a third-party marketplace",
+    "triangles_estimated": 9486,
+    "size_bytes": 141164
+  },
+  {
+    "file": "models/fish/red_drum_redfish_approx.glb",
+    "public_path_example": "/models/fish/red_drum_redfish_approx.glb",
+    "title": "Red drum / Redfish approximate model",
+    "license": "Commercial-use grant included in LICENSE.md; no attribution required",
+    "source": "Procedurally generated in this ChatGPT session; not downloaded from a third-party marketplace",
+    "triangles_estimated": 10956,
+    "size_bytes": 135188
+  },
+  {
+    "file": "models/fish/atlantic_croaker_approx.glb",
+    "public_path_example": "/models/fish/atlantic_croaker_approx.glb",
+    "title": "Atlantic croaker approximate model",
+    "license": "Commercial-use grant included in LICENSE.md; no attribution required",
+    "source": "Procedurally generated in this ChatGPT session; not downloaded from a third-party marketplace",
+    "triangles_estimated": 12044,
+    "size_bytes": 153708
+  },
+  {
+    "file": "models/fish/cownose_ray_approx.glb",
+    "public_path_example": "/models/fish/cownose_ray_approx.glb",
+    "title": "Cownose ray approximate model",
+    "license": "Commercial-use grant included in LICENSE.md; no attribution required",
+    "source": "Procedurally generated in this ChatGPT session; not downloaded from a third-party marketplace",
+    "triangles_estimated": 10624,
+    "size_bytes": 131600
+  }
+]

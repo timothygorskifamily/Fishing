@@ -363,7 +363,7 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
             return;
           }
 
-          const importedModel = createImportedScanModel(gltf.scene, fish);
+          const importedModel = createImportedFishModel(gltf.scene, fish);
           scene.remove(activeModel);
           disposeGroup(activeModel);
           activeModel = importedModel;
@@ -464,7 +464,7 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
     if (creditEl) {
       creditEl.textContent = creditParts.length
         ? `3D model: ${creditParts.join(" | ")}`
-        : "Photoreal specimen skin over interactive 3D form; species-exact scanned GLB still pending";
+        : "Interactive species concept model; add a licensed GLB in site config for launch-ready 3D";
       creditEl.classList.remove("hidden");
     }
 
@@ -492,14 +492,53 @@ const modelSpecies = site.fishSpecies.map((fish) => ({
     return createRay(fish);
   }
 
-  function createImportedScanModel(model, fish) {
+  function createImportedFishModel(model, fish) {
     normalizeImportedModel(model);
+
+    if (isApproxFishModel(fish)) {
+      polishImportedApproxModel(model);
+      poseImportedApproxModel(model, fish);
+      return model;
+    }
+
     styleImportedScan(model, fish);
 
     const group = new THREE.Group();
     group.add(model);
     group.add(createImportedScanOverlay(fish));
     return group;
+  }
+
+  function isApproxFishModel(fish) {
+    return String(fish.modelSrc || "").includes("_approx.glb");
+  }
+
+  function polishImportedApproxModel(model) {
+    model.traverse((item) => {
+      if (!item.isMesh || !item.material) return;
+      const materials = Array.isArray(item.material) ? item.material : [item.material];
+      const polished = materials.map((material) => {
+        const clone = material.clone();
+        if ("roughness" in clone) clone.roughness = Math.min(clone.roughness ?? 0.42, 0.46);
+        if ("metalness" in clone) clone.metalness = Math.max(clone.metalness ?? 0.02, 0.02);
+        if ("clearcoat" in clone) clone.clearcoat = Math.max(clone.clearcoat ?? 0.35, 0.45);
+        if ("clearcoatRoughness" in clone) clone.clearcoatRoughness = 0.28;
+        clone.needsUpdate = true;
+        return clone;
+      });
+      item.material = Array.isArray(item.material) ? polished : polished[0];
+    });
+  }
+
+  function poseImportedApproxModel(model, fish) {
+    const modelPath = String(fish.modelSrc || "").toLowerCase();
+
+    if (modelPath.includes("cownose_ray")) {
+      model.rotation.x = -Math.PI / 2;
+      model.rotation.z = Math.PI / 2;
+      model.position.y -= 0.08;
+      model.scale.multiplyScalar(1.06);
+    }
   }
 
   function normalizeImportedModel(model) {
