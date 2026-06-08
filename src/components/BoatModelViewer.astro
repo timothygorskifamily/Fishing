@@ -1,11 +1,24 @@
 ---
-import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
+import { Image as ImageIcon, RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
+import { imagePath } from "@lib/links";
+
+const runningImage = imagePath("boat-running.jpg");
 ---
 
 <section
   class="relative min-h-[84svh] overflow-hidden border-y border-white/10 bg-[radial-gradient(circle_at_72%_22%,rgba(53,224,202,0.18),transparent_28rem),linear-gradient(180deg,#071821,#061016_74%)]"
   data-boat-model
+  style={`--boat-photo: url("${runningImage}")`}
 >
+  <div
+    class="absolute inset-0 bg-[image:var(--boat-photo)] bg-cover bg-center opacity-[0.36] saturate-90"
+    aria-hidden="true"
+  ></div>
+  <div
+    class="absolute inset-0 bg-[radial-gradient(circle_at_58%_42%,rgba(255,255,255,0.08),transparent_22rem),linear-gradient(90deg,rgba(6,16,22,0.94),rgba(6,16,22,0.52)_44%,rgba(6,16,22,0.88))]"
+    aria-hidden="true"
+  ></div>
+
   <canvas
     class="absolute inset-0 h-full w-full touch-none"
     data-boat-model-canvas
@@ -19,7 +32,7 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
         29' SeaVee Tower Boat
       </h1>
       <p class="mt-4 max-w-2xl text-sm leading-7 text-fog md:text-base">
-        An original web model inspired by broad 29-foot SeaVee center-console and tower-boat cues.
+        A photo-blended web model using the real Ocean City Guide Service SeaVee photos as visual reference.
       </p>
     </div>
   </div>
@@ -34,6 +47,16 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
       data-boat-auto
     >
       <RotateCw class="size-5" aria-hidden="true" />
+    </button>
+    <button
+      type="button"
+      class="grid size-11 place-items-center rounded-lg border border-white/12 bg-white/6 text-seafoam transition hover:border-seafoam/50 hover:bg-white/12"
+      title="Toggle photo references"
+      aria-label="Toggle photo references"
+      aria-pressed="true"
+      data-boat-photo
+    >
+      <ImageIcon class="size-5" aria-hidden="true" />
     </button>
     <button
       type="button"
@@ -77,10 +100,12 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
     ACESFilmicToneMapping,
     BoxGeometry,
     BufferGeometry,
+    CanvasTexture,
     CatmullRomCurve3,
     CircleGeometry,
     CylinderGeometry,
     DirectionalLight,
+    DoubleSide,
     EllipseCurve,
     Float32BufferAttribute,
     Fog,
@@ -95,9 +120,13 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
     MeshStandardMaterial,
     PerspectiveCamera,
     PlaneGeometry,
+    RepeatWrapping,
     Scene,
+    Shape,
+    ShapeGeometry,
     SRGBColorSpace,
     TorusGeometry,
+    TextureLoader,
     TubeGeometry,
     Vector3,
     WebGLRenderer
@@ -108,10 +137,12 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
     ACESFilmicToneMapping,
     BoxGeometry,
     BufferGeometry,
+    CanvasTexture,
     CatmullRomCurve3,
     CircleGeometry,
     CylinderGeometry,
     DirectionalLight,
+    DoubleSide,
     EllipseCurve,
     Float32BufferAttribute,
     Fog,
@@ -126,13 +157,20 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
     MeshStandardMaterial,
     PerspectiveCamera,
     PlaneGeometry,
+    RepeatWrapping,
     Scene,
+    Shape,
+    ShapeGeometry,
     SRGBColorSpace,
     TorusGeometry,
+    TextureLoader,
     TubeGeometry,
     Vector3,
     WebGLRenderer
   };
+
+  const baseUrl = import.meta.env.BASE_URL || "/";
+  const cleanBase = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
 
   const root = document.querySelector("[data-boat-model]");
   const canvas = root?.querySelector("[data-boat-model-canvas]");
@@ -183,10 +221,14 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
 
     addLighting(scene);
     scene.add(createWater());
-    scene.add(createBoat());
+    const photoRefs = createPhotoReferences();
+    const boat = createBoat();
+    scene.add(photoRefs);
+    scene.add(boat);
     scene.add(createReferenceRings());
 
     const autoButton = root.querySelector("[data-boat-auto]");
+    const photoButton = root.querySelector("[data-boat-photo]");
     const resetButton = root.querySelector("[data-boat-reset]");
     const zoomInButton = root.querySelector("[data-boat-zoom-in]");
     const zoomOutButton = root.querySelector("[data-boat-zoom-out]");
@@ -195,6 +237,13 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
       controls.autoRotate = !controls.autoRotate;
       autoButton.setAttribute("aria-pressed", String(controls.autoRotate));
       autoButton.classList.toggle("text-seafoam", controls.autoRotate);
+    });
+
+    photoButton?.addEventListener("click", () => {
+      photoRefs.visible = !photoRefs.visible;
+      photoButton.setAttribute("aria-pressed", String(photoRefs.visible));
+      photoButton.classList.toggle("text-seafoam", photoRefs.visible);
+      photoButton.classList.toggle("text-white", !photoRefs.visible);
     });
 
     resetButton?.addEventListener("click", () => {
@@ -271,28 +320,41 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
   }
 
   function materials() {
+    const fiberglass = createFiberglassTexture();
+    fiberglass.wrapS = THREE.RepeatWrapping;
+    fiberglass.wrapT = THREE.RepeatWrapping;
+    fiberglass.repeat.set(3.2, 1.4);
+
     return {
       hull: new THREE.MeshPhysicalMaterial({
-        color: 0x07111a,
-        roughness: 0.34,
-        metalness: 0.08,
+        color: 0xf1f4ef,
+        map: fiberglass,
+        roughness: 0.28,
+        metalness: 0.02,
         clearcoat: 0.95,
-        clearcoatRoughness: 0.18
+        clearcoatRoughness: 0.12
       }),
       deck: new THREE.MeshPhysicalMaterial({
-        color: 0xe9f0ee,
-        roughness: 0.48,
-        metalness: 0.02
+        color: 0xf6f5ef,
+        roughness: 0.42,
+        metalness: 0.01,
+        clearcoat: 0.4,
+        clearcoatRoughness: 0.24
       }),
       accent: new THREE.MeshStandardMaterial({
-        color: 0x35e0ca,
+        color: 0x183343,
         roughness: 0.32,
         metalness: 0.1
       }),
+      seafoam: new THREE.MeshStandardMaterial({
+        color: 0x35e0ca,
+        roughness: 0.3,
+        metalness: 0.12
+      }),
       metal: new THREE.MeshStandardMaterial({
         color: 0xd8e6e4,
-        roughness: 0.18,
-        metalness: 0.82
+        roughness: 0.1,
+        metalness: 0.9
       }),
       darkMetal: new THREE.MeshStandardMaterial({
         color: 0x17242c,
@@ -309,8 +371,10 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
       }),
       black: new THREE.MeshStandardMaterial({
         color: 0x05080b,
-        roughness: 0.55,
-        metalness: 0.2
+        roughness: 0.38,
+        metalness: 0.42,
+        clearcoat: 0.7,
+        clearcoatRoughness: 0.18
       }),
       cushion: new THREE.MeshStandardMaterial({
         color: 0xcfd8d6,
@@ -335,6 +399,7 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
     boat.add(createOutboards(mats));
     boat.add(createDeckDetails(mats));
     boat.add(createRods(mats));
+    boat.add(createDecals(mats));
 
     return boat;
   }
@@ -431,20 +496,22 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
     const group = new THREE.Group();
     const port = stations().map((s) => new THREE.Vector3(-s.w * 1.01, 0.52, s.z));
     const starboard = stations().map((s) => new THREE.Vector3(s.w * 1.01, 0.52, s.z));
-    group.add(tube(port, 0.035, mats.metal));
-    group.add(tube(starboard, 0.035, mats.metal));
-    group.add(tube(port.map((p) => p.clone().setY(0.37)), 0.025, mats.accent));
-    group.add(tube(starboard.map((p) => p.clone().setY(0.37)), 0.025, mats.accent));
+    group.add(tube(port, 0.042, mats.black));
+    group.add(tube(starboard, 0.042, mats.black));
+    group.add(tube(port.map((p) => p.clone().setY(-0.44).multiplyScalar(0.94)), 0.028, mats.black));
+    group.add(tube(starboard.map((p) => p.clone().setY(-0.44).multiplyScalar(0.94)), 0.028, mats.black));
+    group.add(tube(port.map((p) => p.clone().setY(0.31)), 0.018, mats.seafoam));
+    group.add(tube(starboard.map((p) => p.clone().setY(0.31)), 0.018, mats.seafoam));
     return group;
   }
 
   function createConsole(mats) {
     const group = new THREE.Group();
 
-    const base = meshBox(1.08, 0.98, 1.26, mats.deck, 0, 1.05, -0.64);
+    const base = meshBox(1.18, 1.04, 1.34, mats.deck, 0, 1.05, -0.64);
     group.add(base);
 
-    const brow = meshBox(1.18, 0.28, 0.56, mats.deck, 0, 1.62, -0.91);
+    const brow = meshBox(1.26, 0.28, 0.62, mats.deck, 0, 1.62, -0.91);
     brow.rotation.x = -0.16;
     group.add(brow);
 
@@ -454,6 +521,9 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
 
     const dash = meshBox(0.82, 0.28, 0.06, mats.black, 0, 1.35, -0.04);
     group.add(dash);
+
+    const screens = [-0.23, 0.23].map((x) => meshBox(0.26, 0.16, 0.03, mats.glass, x, 1.4, -0.075));
+    screens.forEach((screen) => group.add(screen));
 
     const wheel = new THREE.Mesh(new THREE.TorusGeometry(0.18, 0.018, 10, 30), mats.darkMetal);
     wheel.position.set(0, 1.22, 0.02);
@@ -489,13 +559,24 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
       group.add(pipe(new THREE.Vector3(x1, y1, z1), new THREE.Vector3(x2, y2, z2), 0.028, mats.metal));
     });
 
-    const platform = meshBox(2.25, 0.09, 1.78, mats.darkMetal, 0, 2.67, -0.36);
+    const platform = roundedPlate(2.45, 1.96, mats.darkMetal, 0, 2.67, -0.36, 0.24);
     group.add(platform);
 
-    const top = meshBox(2.55, 0.12, 2.18, mats.deck, 0, 3.08, -0.36);
+    const top = roundedPlate(2.82, 2.34, mats.deck, 0, 3.08, -0.36, 0.28);
     group.add(top);
 
-    const upperConsole = meshBox(0.72, 0.38, 0.46, mats.deck, 0, 2.94, -0.44);
+    const topEdge = [
+      new THREE.Vector3(-1.28, 3.1, -1.35),
+      new THREE.Vector3(1.28, 3.1, -1.35),
+      new THREE.Vector3(1.36, 3.1, -0.36),
+      new THREE.Vector3(1.28, 3.1, 0.7),
+      new THREE.Vector3(-1.28, 3.1, 0.7),
+      new THREE.Vector3(-1.36, 3.1, -0.36),
+      new THREE.Vector3(-1.28, 3.1, -1.35)
+    ];
+    group.add(tube(topEdge, 0.026, mats.metal));
+
+    const upperConsole = meshBox(0.82, 0.42, 0.5, mats.deck, 0, 2.96, -0.44);
     group.add(upperConsole);
 
     const upperWheel = new THREE.Mesh(new THREE.TorusGeometry(0.12, 0.012, 8, 24), mats.darkMetal);
@@ -516,6 +597,15 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
     group.add(pipe(new THREE.Vector3(1.15, 2.7, 0.72), new THREE.Vector3(1.15, 3.42, 1.56), 0.014, mats.darkMetal));
     group.add(pipe(new THREE.Vector3(-0.3, 3.1, -1.1), new THREE.Vector3(-0.65, 4.15, -2.25), 0.012, mats.darkMetal));
     group.add(pipe(new THREE.Vector3(0.3, 3.1, -1.1), new THREE.Vector3(0.65, 4.15, -2.25), 0.012, mats.darkMetal));
+
+    const radar = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.16, 32), mats.deck);
+    radar.position.set(0, 3.23, -1.2);
+    radar.rotation.z = Math.PI / 2;
+    group.add(radar);
+
+    [-0.86, -0.43, 0, 0.43, 0.86].forEach((x) => {
+      group.add(pipe(new THREE.Vector3(x, 2.62, 0.86), new THREE.Vector3(x, 2.36, 1.18), 0.026, mats.metal));
+    });
 
     return group;
   }
@@ -538,9 +628,17 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
     [-0.43, 0.43].forEach((x) => {
       const motor = new THREE.Group();
       motor.position.set(x, 0, 5.42);
-      motor.add(meshBox(0.44, 0.78, 0.36, mats.black, 0, 0.48, 0));
-      motor.add(meshBox(0.28, 0.74, 0.18, mats.darkMetal, 0, -0.1, 0.1));
+      motor.add(meshBox(0.5, 0.86, 0.42, mats.black, 0, 0.5, 0));
+      motor.add(meshBox(0.3, 0.78, 0.18, mats.darkMetal, 0, -0.12, 0.1));
       motor.add(meshBox(0.18, 0.18, 0.5, mats.darkMetal, 0, -0.52, 0.18));
+      const decal = textPlane("SUZUKI", 0.42, 0.15, "#ffffff", "rgba(0,0,0,0)");
+      decal.position.set(0, 0.55, -0.22);
+      decal.rotation.y = Math.PI;
+      motor.add(decal);
+      const number = textPlane("300", 0.3, 0.12, "#ffffff", "rgba(0,0,0,0)");
+      number.position.set(0.26, 0.28, 0);
+      number.rotation.y = Math.PI / 2;
+      motor.add(number);
       const prop = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.012, 8, 24), mats.metal);
       prop.position.set(0, -0.5, 0.42);
       prop.rotation.y = Math.PI / 2;
@@ -575,6 +673,14 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
     group.add(meshBox(1.6, 0.12, 0.42, mats.cushion, 0, 0.68, -4.18));
     group.add(meshBox(1.48, 0.16, 0.5, mats.cushion, 0, 0.7, 3.94));
 
+    [-1.34, 1.34].forEach((x) => {
+      [-4.5, -1.2, 1.85, 4.3].forEach((z) => {
+        const cleat = meshBox(0.18, 0.035, 0.08, mats.metal, x, 0.66, z);
+        cleat.rotation.y = x < 0 ? -0.18 : 0.18;
+        group.add(cleat);
+      });
+    });
+
     return group;
   }
 
@@ -596,16 +702,66 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
     return group;
   }
 
+  function createDecals() {
+    const group = new THREE.Group();
+
+    [
+      { x: -1.78, ry: -Math.PI / 2 },
+      { x: 1.78, ry: Math.PI / 2 }
+    ].forEach(({ x, ry }) => {
+      const logo = textPlane("SEA VEE", 0.72, 0.22, "#0a1118", "rgba(255,255,255,0)");
+      logo.position.set(x, 0.04, 3.62);
+      logo.rotation.y = ry;
+      group.add(logo);
+    });
+
+    return group;
+  }
+
+  function createPhotoReferences() {
+    const group = new THREE.Group();
+    group.renderOrder = -1;
+
+    group.add(
+      photoPlane("images/boat-running.jpg", 11.4, 6.4, {
+        position: new THREE.Vector3(-0.35, 2.12, 7.6),
+        rotation: new THREE.Vector3(0, 0, 0),
+        opacity: 0.2
+      })
+    );
+
+    return group;
+  }
+
+  function photoPlane(src, width, height, { position, rotation, opacity }) {
+    const texture = new THREE.TextureLoader().load(assetPath(src), (loaded) => {
+      loaded.colorSpace = THREE.SRGBColorSpace;
+    });
+    texture.colorSpace = THREE.SRGBColorSpace;
+
+    const material = new THREE.MeshBasicMaterial({
+      map: texture,
+      transparent: true,
+      opacity,
+      depthWrite: false,
+      side: THREE.DoubleSide
+    });
+    const plane = new THREE.Mesh(new THREE.PlaneGeometry(width, height), material);
+    plane.position.copy(position);
+    plane.rotation.set(rotation.x, rotation.y, rotation.z);
+    return plane;
+  }
+
   function createWater() {
     const group = new THREE.Group();
     const plane = new THREE.Mesh(
       new THREE.CircleGeometry(18, 96),
       new THREE.MeshStandardMaterial({
-        color: 0x082f3f,
+        color: 0x0a4554,
         transparent: true,
-        opacity: 0.56,
-        roughness: 0.22,
-        metalness: 0.1
+        opacity: 0.48,
+        roughness: 0.18,
+        metalness: 0.22
       })
     );
     plane.rotation.x = -Math.PI / 2;
@@ -622,6 +778,22 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
       const points = curve.getPoints(128).map((p) => new THREE.Vector3(p.x, -0.95, p.y));
       const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), ringMaterial);
       group.add(line);
+    });
+
+    const wakeMaterial = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.18,
+      side: THREE.DoubleSide,
+      depthWrite: false
+    });
+
+    [-0.75, 0.75].forEach((x) => {
+      const wake = new THREE.Mesh(new THREE.PlaneGeometry(2.8, 0.36), wakeMaterial);
+      wake.position.set(x, -0.91, 5.62);
+      wake.rotation.x = -Math.PI / 2;
+      wake.rotation.z = x < 0 ? -0.18 : 0.18;
+      group.add(wake);
     });
 
     return group;
@@ -645,6 +817,82 @@ import { RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
     const mesh = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), material);
     mesh.position.set(x, y, z);
     return mesh;
+  }
+
+  function roundedPlate(width, depth, material, x, y, z, radius) {
+    const halfW = width / 2;
+    const halfD = depth / 2;
+    const r = Math.min(radius, halfW, halfD);
+    const shape = new THREE.Shape();
+    shape.moveTo(-halfW + r, -halfD);
+    shape.lineTo(halfW - r, -halfD);
+    shape.quadraticCurveTo(halfW, -halfD, halfW, -halfD + r);
+    shape.lineTo(halfW, halfD - r);
+    shape.quadraticCurveTo(halfW, halfD, halfW - r, halfD);
+    shape.lineTo(-halfW + r, halfD);
+    shape.quadraticCurveTo(-halfW, halfD, -halfW, halfD - r);
+    shape.lineTo(-halfW, -halfD + r);
+    shape.quadraticCurveTo(-halfW, -halfD, -halfW + r, -halfD);
+
+    const mesh = new THREE.Mesh(new THREE.ShapeGeometry(shape, 32), material);
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.position.set(x, y, z);
+    return mesh;
+  }
+
+  function textPlane(text, width, height, color, background) {
+    const canvas = document.createElement("canvas");
+    canvas.width = 512;
+    canvas.height = 160;
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = background;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = color;
+    ctx.font = "900 74px Arial, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(text, canvas.width / 2, canvas.height / 2 + 4);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+
+    return new THREE.Mesh(
+      new THREE.PlaneGeometry(width, height),
+      new THREE.MeshBasicMaterial({
+        map: texture,
+        transparent: true,
+        side: THREE.DoubleSide,
+        depthWrite: false
+      })
+    );
+  }
+
+  function createFiberglassTexture() {
+    const canvas = document.createElement("canvas");
+    canvas.width = 384;
+    canvas.height = 192;
+    const ctx = canvas.getContext("2d");
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, "#ffffff");
+    gradient.addColorStop(0.45, "#eef3f0");
+    gradient.addColorStop(1, "#f9faf6");
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < 900; i += 1) {
+      const shade = 220 + Math.floor(Math.random() * 34);
+      ctx.fillStyle = `rgba(${shade}, ${shade + 2}, ${shade + 4}, ${0.035 + Math.random() * 0.06})`;
+      ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 1.2, 1.2);
+    }
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    return texture;
+  }
+
+  function assetPath(path) {
+    return `${cleanBase}${path.replace(/^\/+/, "")}`;
   }
 
   function pipe(start, end, radius, material) {

@@ -7,11 +7,11 @@ import { site } from "@data/site";
 import { smsHref } from "@lib/links";
 
 const referenceCues = [
-  "Deep-V offshore center-console proportions",
-  "Open flush deck with fishbox and hatch cues",
-  "Large center console and leaning-post area",
-  "Tower, hardtop, rod holders, and sightline details",
-  "Twin-outboard placeholder geometry until the actual rigging is confirmed"
+  "Real OCGS SeaVee running, deck, and tower photos used as visual reference",
+  "White SeaVee-style center-console hull with black rub rail and twin-outboard cues",
+  "Open flush deck with hatch, leaning-post, rod-holder, and tower details",
+  "Photo-reference overlay can be toggled in the 360 viewer",
+  "Still a lightweight web model, not a scanned CAD model"
 ];
 ---
 
@@ -27,8 +27,8 @@ const referenceCues = [
       <div>
         <SectionHeading
           eyebrow="Model notes"
-          title="Original, editable, and intentionally approximate."
-          copy="This is a lightweight browser model built from primitive geometry and broad public reference cues. It should be refined with actual photos of the captain's boat before launch if exact accuracy matters."
+          title="Photo-blended, editable, and still approximate."
+          copy="This lightweight browser model now uses real Ocean City Guide Service boat photos as visual reference and background context. For true 1:1 accuracy, commission a scanned or CAD-based GLB model from the captain's boat."
         />
         <div class="flex flex-col gap-3 sm:flex-row">
           <CTAButton href="/book/" label="Check Availability" icon="calendar" />
@@ -47,7 +47,8 @@ const referenceCues = [
         <div class="rounded-lg border border-gold/24 bg-gold/10 p-5 text-sm leading-7 text-fog">
           <p>
             The visual model does not claim exact engines, electronics, seating, safety gear, passenger capacity,
-            or rigging. Update those details only after the captain provides real specifications.
+            or rigging beyond what is visible in the current photos. Update those details only after the captain
+            confirms final specifications.
           </p>
         </div>
       </div>

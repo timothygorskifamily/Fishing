@@ -90,6 +90,10 @@ Replace these placeholder files with real boat, catch, crew, inlet, marina, and 
 - `catch-3.jpg`
 - `sunset.jpg`
 
+The current boat files use photos from the existing Ocean City Guide Service
+website as launch references. Replace them with newer owner-approved files when
+the captain sends updated photography.
+
 Species photos copied from the current Ocean City Guide Service site can also be replaced later:
 
 - `fish-bluefish.jpg`

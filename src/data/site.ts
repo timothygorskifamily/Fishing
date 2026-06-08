@@ -281,28 +281,28 @@ export const site = {
       src: "hero-boat.jpg",
       alt: "Center-console fishing boat running offshore near Ocean City, Maryland",
       title: "Boat-forward charter days",
-      caption: "Replace with a real running shot of the boat.",
+      caption: "The refitted 29' SeaVee running out of Ocean City.",
       category: "Boat"
     },
     {
       src: "boat-running.jpg",
       alt: "Fishing charter boat running across clean coastal water",
       title: "Running shot",
-      caption: "Add an actual photo of the SeaVee underway.",
+      caption: "Real OCGS SeaVee reference photo from the current site.",
       category: "Boat"
     },
     {
       src: "boat-tower.jpg",
       alt: "Tower detail on a center-console fishing boat",
       title: "Tower visibility",
-      caption: "Swap in a detail shot of the tower and sightlines.",
+      caption: "Tower, upper station, rod-holder, and sightline reference.",
       category: "Boat"
     },
     {
       src: "deck.jpg",
       alt: "Clean fishing deck on a private charter boat",
       title: "Clean fishable deck",
-      caption: "Use a real cockpit or console shot here.",
+      caption: "Cockpit, transom, twin outboards, and open deck reference.",
       category: "Deck"
     },
     {
