@@ -12,6 +12,7 @@ interface Props {
 
 const { species = site.fishSpecies, limit } = Astro.props;
 const visibleSpecies = limit ? species.slice(0, limit) : species;
+const fishWithoutPhotoThumbs = new Set(["Rockfish", "False albacore", "Cobia"]);
 ---
 
 <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -23,6 +24,7 @@ const visibleSpecies = limit ? species.slice(0, limit) : species;
             title={fish.name}
             frames={fish.imageFrames}
             alt={`${fish.name} photo gallery`}
+            showThumbs={!fishWithoutPhotoThumbs.has(fish.name)}
           />
         ) : fish.spinFrames?.length ? (
           <FishSpinViewer

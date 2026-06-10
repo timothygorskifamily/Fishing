@@ -6,15 +6,16 @@ interface Props {
   title?: string;
   frames: readonly string[];
   alt?: string;
+  showThumbs?: boolean;
 }
 
-const { title = "Fish", frames, alt = `${title} photo viewer` } = Astro.props;
+const { title = "Fish", frames, alt = `${title} photo viewer`, showThumbs = true } = Astro.props;
 const resolvedFrames = frames.map((frame) => imagePath(frame));
 const firstFrame = resolvedFrames[0] ?? "";
 ---
 
 <div
-  class="fish-photo-viewer"
+  class:list={["fish-photo-viewer", !showThumbs && "fish-photo-viewer--no-thumbs"]}
   data-fish-photo
   data-fish-photo-frames={JSON.stringify(resolvedFrames)}
   data-fish-photo-title={title}
@@ -32,21 +33,23 @@ const firstFrame = resolvedFrames[0] ?? "";
     <ChevronRight class="size-5" aria-hidden="true" />
   </button>
 
-  <div class="fish-photo-thumbs" aria-label={`${title} photos`}>
-    {
-      resolvedFrames.map((frame, index) => (
-        <button
-          type="button"
-          class:list={["fish-photo-thumb", index === 0 && "is-active"]}
-          aria-label={`Show ${title} photo ${index + 1}`}
-          aria-pressed={index === 0 ? "true" : "false"}
-          data-photo-thumb={index}
-        >
-          <img src={frame} alt="" loading="lazy" decoding="async" aria-hidden="true" />
-        </button>
-      ))
-    }
-  </div>
+  {
+    showThumbs && (
+      <div class="fish-photo-thumbs" aria-label={`${title} photos`}>
+        {resolvedFrames.map((frame, index) => (
+          <button
+            type="button"
+            class:list={["fish-photo-thumb", index === 0 && "is-active"]}
+            aria-label={`Show ${title} photo ${index + 1}`}
+            aria-pressed={index === 0 ? "true" : "false"}
+            data-photo-thumb={index}
+          >
+            <img src={frame} alt="" loading="lazy" decoding="async" aria-hidden="true" />
+          </button>
+        ))}
+      </div>
+    )
+  }
 </div>
 
 <script>
@@ -132,11 +135,21 @@ const firstFrame = resolvedFrames[0] ?? "";
     filter: drop-shadow(0 18px 24px rgba(8, 32, 43, 0.14));
   }
 
-  .fish-photo-viewer[data-fish-photo-title="False albacore"] .fish-photo-stage img {
-    transform: scale(1.16);
+  .fish-photo-viewer--no-thumbs .fish-photo-stage {
+    padding: 1.1rem 2.65rem 1.35rem;
   }
 
-  .fish-photo-viewer[data-fish-photo-title="False albacore"] .fish-photo-step {
+  .fish-photo-viewer--no-thumbs[data-fish-photo-title="False albacore"][data-frame="1"] .fish-photo-stage img,
+  .fish-photo-viewer--no-thumbs[data-fish-photo-title="False albacore"][data-frame="4"] .fish-photo-stage img {
+    transform: translateX(0.25rem);
+  }
+
+  .fish-photo-viewer--no-thumbs[data-fish-photo-title="False albacore"] .fish-photo-stage,
+  .fish-photo-viewer--no-thumbs[data-fish-photo-title="Cobia"] .fish-photo-stage {
+    padding-inline: 3.05rem;
+  }
+
+  .fish-photo-viewer:not(.fish-photo-viewer--no-thumbs)[data-fish-photo-title="False albacore"] .fish-photo-step {
     top: 31%;
   }
 
@@ -169,6 +182,12 @@ const firstFrame = resolvedFrames[0] ?? "";
 
   .fish-photo-step.right {
     right: 0.72rem;
+  }
+
+  .fish-photo-viewer--no-thumbs .fish-photo-step {
+    top: 50%;
+    width: 2.35rem;
+    height: 2.35rem;
   }
 
   .fish-photo-thumbs {

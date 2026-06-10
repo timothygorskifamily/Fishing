@@ -129,6 +129,12 @@ const fishSpinFrames = (slug: string) =>
     (_, index) => `fish-spin/${slug}/${slug}-frame-${String(index + 1).padStart(2, "0")}.png`
   );
 
+const fishPhotoCropFrames = (slug: string) =>
+  Array.from(
+    { length: 4 },
+    (_, index) => `fish-photo-crops/${slug}/${slug}-crop-${String(index + 1).padStart(2, "0")}.png`
+  );
+
 export const site = {
   businessName: "Ocean City Guide Service",
   captainName: "Captain Kyle Pelino",
@@ -674,7 +680,7 @@ export const site = {
       name: "False albacore",
       aka: "Albie",
       image: "fish-spin/false-albacore/false-albacore-frame-01.png",
-      imageFrames: fishSpinFrames("false-albacore").slice(0, 4),
+      imageFrames: fishPhotoCropFrames("false-albacore"),
       category: "Inshore trolling",
       typicalSize: "20-30 in",
       highSize: "Larger fish depend on bait",
@@ -694,7 +700,7 @@ export const site = {
     {
       name: "Cobia",
       image: "fish-spin/cobia/cobia-frame-01.png",
-      imageFrames: fishSpinFrames("cobia").slice(0, 4),
+      imageFrames: fishPhotoCropFrames("cobia"),
       category: "Nearshore / trolling",
       typicalSize: "30-45 in",
       highSize: "Larger fish depend on bait and water",
