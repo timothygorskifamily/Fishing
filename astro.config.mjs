@@ -11,7 +11,7 @@ const base = process.env.PUBLIC_BASE_PATH || "/";
 
 export default defineConfig({
   site,
-  base,
+  base: '/Fishing',
   output: "static",
   trailingSlash: "always",
   devToolbar: {
