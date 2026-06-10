@@ -30,6 +30,7 @@ export type FishSpecies = {
   name: string;
   aka?: string;
   image: string;
+  imageFrames?: readonly string[];
   spinFrames?: readonly string[];
   category: string;
   typicalSize: string;
@@ -142,7 +143,7 @@ export const site = {
   boatMake: "SeaVee",
   logoImage: "brand/ocean-city-guide-service-logo.png",
   captainDescription:
-    "Captain Kyle is equipped with his 6-pack U.S. Coast Guard Captain's license. He has been professionally fishing for the last 8 years and has plenty of knowledge when it comes to the Ocean City Maryland fishery. From offshore trips to the wrecks to inshore fishing in the bay, Captain Kyle will use his experience and skill to give his charters an unforgettable day on the water.",
+    "Captain Kyle is equipped with his 6 pack U.S. Coast Guard Captains license. He has been professionally fishing for the last 8 years and has plenty of knowledge when it comes to the Ocean City Maryland fishery. From offshore trips to the wrecks to inshore fishing in the bay, captain Kyle will use his experience and skill to give his charters an unforgettable day on the water.",
   charterIncludedNote:
     "All charters accommodate up to 6 guests. License, bait, and tackle are provided for each trip option as well. Please remember to tip the mate.",
   phone: "856-357-3113",
@@ -185,7 +186,7 @@ export const site = {
       included: [...standardIncluded, "Morning or afternoon departure"],
       description:
         "Fish the bay for flounder, rockfish, bluefish, tautog, sheepshead, and the best seasonal bite.",
-      image: "young-angler-flounder.jpg"
+      image: "family-bay-catch.jpg"
     },
     {
       name: "5 hr Bay Fishing Trip",
@@ -223,7 +224,7 @@ export const site = {
       times: "6am-12pm or 1pm-7pm",
       price: "$1,000",
       bestFor: "Anglers who want to fish structure and target bottom fish around the wrecks.",
-      targetSpecies: ["Black sea bass", "Flounder", "Tautog", "Triggerfish", "Bluefish", "Golden tilefish", "Blueline tilefish"],
+      targetSpecies: ["Black sea bass", "Flounder", "Tautog", "Triggerfish", "Bluefish"],
       included: [...standardIncluded, "Morning or afternoon departure"],
       description:
         "A structure-focused wreck trip targeting black sea bass, flounder, tautog, and seasonal bycatch.",
@@ -237,7 +238,7 @@ export const site = {
       times: "6am-2pm",
       price: "$1,200",
       bestFor: "Groups who want a fuller day of wreck fishing with more time to work different pieces.",
-      targetSpecies: ["Black sea bass", "Flounder", "Tautog", "Triggerfish", "Bluefish", "Golden tilefish", "Blueline tilefish"],
+      targetSpecies: ["Black sea bass", "Flounder", "Tautog", "Triggerfish", "Bluefish"],
       included: [...standardIncluded, "Full morning trip"],
       description:
         "An extended wreck trip with more fishing time for structure species and changing conditions.",
@@ -251,10 +252,24 @@ export const site = {
       times: "6am-4pm",
       price: "$1,400",
       bestFor: "Dedicated anglers looking for the longest wreck fishing option.",
-      targetSpecies: ["Black sea bass", "Flounder", "Tautog", "Triggerfish", "Bluefish", "Golden tilefish", "Blueline tilefish"],
+      targetSpecies: ["Black sea bass", "Flounder", "Tautog", "Triggerfish", "Bluefish"],
       included: [...standardIncluded, "Longest wreck option"],
       description:
         "The longest wreck option for guests who want a full day targeting productive structure.",
+      image: "charter-wreck-catch.jpg"
+    },
+    {
+      name: "12 hr Off Shore Fishing Trip",
+      slug: "12-hour-off-shore-fishing",
+      eyebrow: "Off Shore",
+      duration: "12 hours",
+      times: "6am-6pm",
+      price: "$1,800",
+      bestFor: "Dedicated crews who want the full-day run for deeper bottom fishing.",
+      targetSpecies: ["Golden tilefish", "Blueline tilefish"],
+      included: [...standardIncluded, "Full-day offshore departure"],
+      description:
+        "A full-day Off Shore trip targeting golden tilefish and blueline tilefish in deeper bottom-fishing areas.",
       image: "charter-wreck-catch.jpg"
     },
     {
@@ -322,8 +337,13 @@ export const site = {
     },
     {
       title: "Wreck",
-      copy: "Structure trips over and around wrecks for black sea bass, flounder, tautog, triggerfish, bluefish, golden tilefish, and blueline tilefish.",
+      copy: "Structure trips over and around wrecks for black sea bass, flounder, tautog, triggerfish, and bluefish.",
       tripSlugs: ["6-hour-wreck-fishing", "8-hour-wreck-fishing", "10-hour-wreck-fishing"]
+    },
+    {
+      title: "Off Shore",
+      copy: "A full-day deeper bottom-fishing option for golden tilefish and blueline tilefish.",
+      tripSlugs: ["12-hour-off-shore-fishing"]
     },
     {
       title: "Trolling",
@@ -350,7 +370,12 @@ export const site = {
     {
       title: "Wreck fishing",
       copy:
-        "When wreck fishing, we like to target black sea bass, flounder, tautog, golden tilefish, and blueline tilefish with the occasional bycatch of triggerfish and bluefish."
+        "When wreck fishing, we like to target black sea bass, flounder, and tautog with the occasional bycatch of triggerfish and bluefish."
+    },
+    {
+      title: "Off Shore fishing",
+      copy:
+        "The Off Shore trip is a full-day run for golden tilefish and blueline tilefish."
     },
     {
       title: "Sunset cruise",
@@ -412,7 +437,7 @@ export const site = {
     {
       title: "Bay bite",
       area: "Back bay, bridges, and structure",
-      image: "young-angler-flounder.jpg",
+      image: "family-bay-catch.jpg",
       targetSpecies: ["Flounder", "Rockfish", "Bluefish", "Tautog", "Sheepshead"],
       tripSlugs: ["4-hour-bay-fishing", "5-hour-bay-fishing", "2-hour-evening-bay-fishing"],
       conditions:
@@ -424,12 +449,23 @@ export const site = {
       title: "Wreck bite",
       area: "Nearshore structure and wrecks",
       image: "charter-wreck-catch.jpg",
-      targetSpecies: ["Black sea bass", "Flounder", "Tautog", "Triggerfish", "Bluefish", "Golden tilefish", "Blueline tilefish"],
+      targetSpecies: ["Black sea bass", "Flounder", "Tautog", "Triggerfish", "Bluefish"],
       tripSlugs: ["6-hour-wreck-fishing", "8-hour-wreck-fishing", "10-hour-wreck-fishing"],
       conditions:
         "Wreck trips depend on sea conditions, current, regulations, and which pieces of structure are fishing best.",
       tripFit:
         "Best fit for crews who want bottom fishing, structure fishing, and a longer run with more time on target."
+    },
+    {
+      title: "Off Shore bottom fishing",
+      area: "Deeper offshore bottom",
+      image: "charter-wreck-catch.jpg",
+      targetSpecies: ["Golden tilefish", "Blueline tilefish"],
+      tripSlugs: ["12-hour-off-shore-fishing"],
+      conditions:
+        "Off Shore trips depend on sea conditions, run distance, current, regulations, and the deeper bottom bite.",
+      tripFit:
+        "Best fit for dedicated crews who want a 12-hour full-day trip targeting tilefish."
     },
     {
       title: "Inshore trolling",
@@ -556,7 +592,7 @@ export const site = {
       name: "Rockfish",
       aka: "Striped bass",
       image: "fish-spin/rockfish/rockfish-frame-01.png",
-      spinFrames: fishSpinFrames("rockfish"),
+      imageFrames: fishSpinFrames("rockfish").slice(0, 4),
       category: "Bay / inshore",
       typicalSize: "20-36 in",
       highSize: "Larger fish depend on season",
@@ -638,7 +674,7 @@ export const site = {
       name: "False albacore",
       aka: "Albie",
       image: "fish-spin/false-albacore/false-albacore-frame-01.png",
-      spinFrames: fishSpinFrames("false-albacore"),
+      imageFrames: fishSpinFrames("false-albacore").slice(0, 4),
       category: "Inshore trolling",
       typicalSize: "20-30 in",
       highSize: "Larger fish depend on bait",
@@ -658,7 +694,7 @@ export const site = {
     {
       name: "Cobia",
       image: "fish-spin/cobia/cobia-frame-01.png",
-      spinFrames: fishSpinFrames("cobia"),
+      imageFrames: fishSpinFrames("cobia").slice(0, 4),
       category: "Nearshore / trolling",
       typicalSize: "30-45 in",
       highSize: "Larger fish depend on bait and water",
@@ -744,13 +780,6 @@ export const site = {
       title: "Captain Kyle with rockfish",
       caption: "Captain Kyle brings professional experience to each trip on Ocean City water.",
       category: "Captain"
-    },
-    {
-      src: "young-angler-flounder.jpg",
-      alt: "Young angler smiling with a flounder aboard the charter boat",
-      title: "Young angler flounder",
-      caption: "Bay trips are a natural fit for families and younger anglers.",
-      category: "Bay"
     },
     {
       src: "charter-flounder-dock.jpg",

@@ -394,13 +394,6 @@ export const sourceGalleryImages = [
     category: "Source site"
   },
   {
-    src: "source-site/ocgs-959-sea_duck.png",
-    alt: "Ocean City Guide Service source site photo: sea duck",
-    title: "sea duck",
-    caption: "Photo carried over from the original Ocean City Guide Service website.",
-    category: "Source site"
-  },
-  {
     src: "source-site/ocgs-963-austin_1.jpg",
     alt: "Ocean City Guide Service source site photo: austin 1",
     title: "austin 1",

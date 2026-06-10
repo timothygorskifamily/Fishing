@@ -1,0 +1,217 @@
+---
+import { ChevronLeft, ChevronRight } from "@lucide/astro";
+import { imagePath } from "@lib/links";
+
+interface Props {
+  title?: string;
+  frames: readonly string[];
+  alt?: string;
+}
+
+const { title = "Fish", frames, alt = `${title} photo viewer` } = Astro.props;
+const resolvedFrames = frames.map((frame) => imagePath(frame));
+const firstFrame = resolvedFrames[0] ?? "";
+---
+
+<div
+  class="fish-photo-viewer"
+  data-fish-photo
+  data-fish-photo-frames={JSON.stringify(resolvedFrames)}
+  data-fish-photo-title={title}
+  aria-label={alt}
+>
+  <div class="fish-photo-stage">
+    <img src={firstFrame} alt={alt} draggable="false" loading="lazy" decoding="async" data-fish-photo-image />
+  </div>
+
+  <button type="button" class="fish-photo-step left" aria-label={`Show previous ${title} photo`} data-photo-prev>
+    <ChevronLeft class="size-5" aria-hidden="true" />
+  </button>
+
+  <button type="button" class="fish-photo-step right" aria-label={`Show next ${title} photo`} data-photo-next>
+    <ChevronRight class="size-5" aria-hidden="true" />
+  </button>
+
+  <div class="fish-photo-thumbs" aria-label={`${title} photos`}>
+    {
+      resolvedFrames.map((frame, index) => (
+        <button
+          type="button"
+          class:list={["fish-photo-thumb", index === 0 && "is-active"]}
+          aria-label={`Show ${title} photo ${index + 1}`}
+          aria-pressed={index === 0 ? "true" : "false"}
+          data-photo-thumb={index}
+        >
+          <img src={frame} alt="" loading="lazy" decoding="async" aria-hidden="true" />
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll("[data-fish-photo]").forEach((root) => {
+    if (!(root instanceof HTMLElement) || root.dataset.fishPhotoInitialized === "true") return;
+
+    const image = root.querySelector("[data-fish-photo-image]");
+    const previousButton = root.querySelector("[data-photo-prev]");
+    const nextButton = root.querySelector("[data-photo-next]");
+    const thumbs = Array.from(root.querySelectorAll("[data-photo-thumb]"));
+    const frames = parseFrames(root.dataset.fishPhotoFrames);
+
+    if (!(image instanceof HTMLImageElement) || !frames.length) return;
+
+    root.dataset.fishPhotoInitialized = "true";
+
+    frames.forEach((src) => {
+      const preload = new Image();
+      preload.src = src;
+    });
+
+    let frameIndex = 0;
+
+    const render = () => {
+      image.src = frames[frameIndex];
+      root.dataset.frame = String(frameIndex + 1);
+      thumbs.forEach((thumb) => {
+        const active = Number(thumb.getAttribute("data-photo-thumb")) === frameIndex;
+        thumb.classList.toggle("is-active", active);
+        thumb.setAttribute("aria-pressed", String(active));
+      });
+    };
+
+    const show = (nextIndex) => {
+      frameIndex = (nextIndex + frames.length) % frames.length;
+      render();
+    };
+
+    previousButton?.addEventListener("click", () => show(frameIndex - 1));
+    nextButton?.addEventListener("click", () => show(frameIndex + 1));
+
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener("click", () => show(Number(thumb.getAttribute("data-photo-thumb")) || 0));
+    });
+
+    render();
+  });
+
+  function parseFrames(value) {
+    if (!value) return [];
+    try {
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed) ? parsed.filter((item) => typeof item === "string") : [];
+    } catch (_error) {
+      return [];
+    }
+  }
+</script>
+
+<style>
+  .fish-photo-viewer {
+    position: relative;
+    isolation: isolate;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(225, 247, 250, 0.9)),
+      linear-gradient(135deg, rgba(53, 224, 202, 0.12), rgba(243, 184, 91, 0.08));
+  }
+
+  .fish-photo-stage {
+    display: grid;
+    height: 100%;
+    place-items: center;
+    padding: 1rem 1.55rem 3.8rem;
+  }
+
+  .fish-photo-stage img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    filter: drop-shadow(0 18px 24px rgba(8, 32, 43, 0.14));
+  }
+
+  .fish-photo-viewer[data-fish-photo-title="False albacore"] .fish-photo-stage img {
+    transform: scale(1.16);
+  }
+
+  .fish-photo-viewer[data-fish-photo-title="False albacore"] .fish-photo-step {
+    top: 31%;
+  }
+
+  .fish-photo-step {
+    position: absolute;
+    top: 44%;
+    z-index: 3;
+    display: grid;
+    width: 2.15rem;
+    height: 2.15rem;
+    place-items: center;
+    border: 1px solid rgba(8, 32, 43, 0.12);
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.84);
+    color: #08202b;
+    box-shadow: 0 12px 30px rgba(16, 80, 103, 0.14);
+    transform: translateY(-50%);
+    transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+  }
+
+  .fish-photo-step:hover {
+    border-color: rgba(7, 136, 165, 0.42);
+    background: #ffffff;
+    transform: translateY(calc(-50% - 1px));
+  }
+
+  .fish-photo-step.left {
+    left: 0.72rem;
+  }
+
+  .fish-photo-step.right {
+    right: 0.72rem;
+  }
+
+  .fish-photo-thumbs {
+    position: absolute;
+    inset-inline: 0.75rem;
+    bottom: 0.75rem;
+    z-index: 4;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+
+  .fish-photo-thumb {
+    height: 2.35rem;
+    overflow: hidden;
+    border: 1px solid rgba(8, 32, 43, 0.14);
+    border-radius: 0.45rem;
+    background: rgba(255, 255, 255, 0.88);
+    opacity: 0.78;
+    transition: border-color 140ms ease, opacity 140ms ease, transform 140ms ease;
+  }
+
+  .fish-photo-thumb:hover,
+  .fish-photo-thumb.is-active {
+    border-color: rgba(7, 136, 165, 0.58);
+    opacity: 1;
+    transform: translateY(-1px);
+  }
+
+  .fish-photo-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  @media (max-width: 520px) {
+    .fish-photo-stage {
+      padding-inline: 1.35rem;
+    }
+
+    .fish-photo-step {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+</style>

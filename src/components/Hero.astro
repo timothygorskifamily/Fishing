@@ -17,9 +17,14 @@ import { imagePath, smsHref } from "@lib/links";
   </div>
 
   <div class="border-t border-sky-200/80 bg-white/90 px-4 py-4 shadow-[0_-16px_40px_rgba(6,45,68,0.08)] md:py-5">
-    <div class="mx-auto flex w-full max-w-xl flex-col justify-center gap-3 sm:flex-row">
-      <CTAButton href="/book/" label={site.primaryCTA} icon="calendar" />
-      <CTAButton href={smsHref(site.smsPhone)} label={site.secondaryCTA} icon="phone" variant="secondary" />
+    <div class="mx-auto grid w-full max-w-3xl gap-4">
+      <div class="flex flex-col justify-center gap-3 sm:flex-row">
+        <CTAButton href="/book/" label={site.primaryCTA} icon="calendar" />
+        <CTAButton href={smsHref(site.smsPhone)} label={site.secondaryCTA} icon="phone" variant="secondary" />
+      </div>
+      <p class="mx-auto max-w-2xl text-center text-sm font-bold leading-7 text-mist md:text-base">
+        {site.captainDescription}
+      </p>
     </div>
   </div>
 </section>

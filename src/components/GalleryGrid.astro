@@ -16,7 +16,7 @@ const visibleImages = limit ? images.slice(0, limit) : images;
 <div class="columns-1 gap-5 sm:columns-2 lg:columns-3">
   {
     visibleImages.map((image, index) => (
-      <figure class="mb-5 break-inside-avoid overflow-hidden rounded-lg border border-white/12 bg-white shadow-[0_18px_45px_rgba(16,80,103,0.12)]">
+      <figure class="mb-5 break-inside-avoid overflow-hidden rounded-lg border border-white/12 bg-white shadow-[0_18px_45px_rgba(16,80,103,0.12)] transition hover:-translate-y-1 hover:border-seafoam/45">
         <img
           src={imagePath(image.src)}
           alt={image.alt}

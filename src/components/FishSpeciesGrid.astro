@@ -1,5 +1,6 @@
 ---
 import type { FishSpecies } from "@data/site";
+import FishPhotoViewer from "@components/FishPhotoViewer.astro";
 import FishSpinViewer from "@components/FishSpinViewer.astro";
 import { site } from "@data/site";
 import { imagePath } from "@lib/links";
@@ -17,7 +18,13 @@ const visibleSpecies = limit ? species.slice(0, limit) : species;
   {
     visibleSpecies.map((fish) => (
       <article class="card group overflow-hidden">
-        {fish.spinFrames?.length ? (
+        {fish.imageFrames?.length ? (
+          <FishPhotoViewer
+            title={fish.name}
+            frames={fish.imageFrames}
+            alt={`${fish.name} photo gallery`}
+          />
+        ) : fish.spinFrames?.length ? (
           <FishSpinViewer
             title={fish.name}
             frames={fish.spinFrames}
@@ -28,7 +35,10 @@ const visibleSpecies = limit ? species.slice(0, limit) : species;
             <img
               src={imagePath(fish.image)}
               alt={`${fish.name} caught on an Ocean City Maryland fishing charter`}
-              class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+              class:list={[
+                "h-full w-full transition duration-500 group-hover:scale-[1.04]",
+                fish.image.startsWith("fish-spin/") ? "object-contain" : "object-cover"
+              ]}
               loading="lazy"
               decoding="async"
             />

@@ -4,8 +4,6 @@ import PageHeader from "@components/PageHeader.astro";
 import { site } from "@data/site";
 import { sourceGalleryImages } from "@data/sourceGallery";
 import Layout from "@layouts/Layout.astro";
-import { imagePath } from "@lib/links";
-import { Play } from "@lucide/astro";
 
 const normalizeGalleryLabel = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, "");
 const hiddenGalleryLabels = new Set(
@@ -59,11 +57,40 @@ const hiddenGalleryLabels = new Set(
     "10406989 10152904923821520 1195909264112858817 n"
   ].map(normalizeGalleryLabel)
 );
-const hiddenGalleryPrefixes = ["image1", "image3", "image5", "bowfishing", "wlcome", "81717"].map(normalizeGalleryLabel);
+const hiddenGalleryPrefixes = ["image1", "image3", "image5", "bowfishing", "wlcome", "81717", "bird", "duck", "seaduck", "gull"].map(normalizeGalleryLabel);
+const duplicateGallerySources = new Set([
+  "source-site/ocgs-1407-crc_4822-edit-edit.jpg",
+  "source-site/ocgs-1406-crc_4792-edit-edit.jpg",
+  "source-site/ocgs-1404-crc_4780-edit-edit.jpg",
+  "source-site/ocgs-1275-photo-copy-2.jpg",
+  "source-site/ocgs-998-11225278_831661573549989_1951854338364712173_n-2.jpg",
+  "source-site/ocgs-999-11225278_831661573549989_1951854338364712173_n-3.jpg",
+  "source-site/ocgs-986-crc_3163.jpg",
+  "source-site/ocgs-929-crc_2904-2.jpg",
+  "source-site/ocgs-1320-image4-4.jpeg",
+  "source-site/ocgs-1379-img_0862-2.jpeg",
+  "source-site/ocgs-1115-olympus-digital-camera-2.jpg"
+]);
+const towerBoatGallerySources = new Set([
+  "fishingbooker/fishingbooker-01-boat-running.jpg",
+  "boat-running.jpg",
+  "deck.jpg",
+  "boat-tower.jpg",
+  "source-site/ocgs-500-dsc_1737.jpg",
+  "source-site/ocgs-934-dsc_1550.jpg",
+  "source-site/ocgs-939-dsc_1549-2.jpg",
+  "source-site/ocgs-940-background.jpg",
+  "source-site/ocgs-1110-img_06762.jpg",
+  "source-site/ocgs-1403-crc_4712-edit.jpg",
+  "source-site/ocgs-1404-crc_4780-edit-edit.jpg",
+  "source-site/ocgs-1405-crc_4786-edit.jpg",
+  "source-site/ocgs-1406-crc_4792-edit-edit.jpg",
+  "source-site/ocgs-1407-crc_4822-edit-edit.jpg"
+]);
 
 const shouldHideGalleryImage = (image: typeof sourceGalleryImages[number] | typeof site.galleryImages[number]) => {
   const keys = [image.title, image.alt, image.src].map(normalizeGalleryLabel);
-  return keys.some(
+  return duplicateGallerySources.has(image.src) || towerBoatGallerySources.has(image.src) || keys.some(
     (key) =>
       hiddenGalleryLabels.has(key) ||
       hiddenGalleryPrefixes.some((prefix) => key.startsWith(prefix) || key.includes(`source${prefix}`))
@@ -97,36 +124,12 @@ const allGalleryImages = [...curatedGalleryImages, ...orderedSourceGalleryImages
 >
   <PageHeader
     title="Gallery"
-    mascot="gallery-mascot.png"
-    mascotAlt="A fish mascot holding an underwater camera for the gallery"
-    background="gallery-mascot.png"
-    backgroundPosition="center top"
-    showTitle={false}
+    background="charter-flounder-dock.jpg"
+    backgroundPosition="center 35%"
   />
 
   <section class="section-pad">
     <div class="container-shell">
-      <a
-        href="https://www.youtube.com/watch?v=Q10Z3CSnYoQ&t=39s"
-        target="_blank"
-        rel="noreferrer"
-        class="image-sheen group relative mb-10 block overflow-hidden rounded-lg border border-white/16 bg-panel shadow-lift"
-        aria-label="Open Captain Kyle boat tour video on YouTube"
-      >
-        <img
-          src={imagePath("captain-kyle-video-thumbnail.png")}
-          alt="Captain Kyle SeaVee boat tour video thumbnail"
-          class="aspect-video w-full object-cover transition duration-500 group-hover:scale-[1.02]"
-          loading="eager"
-          decoding="async"
-        />
-        <span class="absolute inset-0 grid place-items-center bg-ink/10 transition group-hover:bg-ink/0">
-          <span class="grid size-16 place-items-center rounded-full border border-white/50 bg-white/20 text-white shadow-lift backdrop-blur">
-            <Play class="size-8 fill-current" aria-hidden="true" />
-          </span>
-        </span>
-      </a>
-
       <GalleryGrid images={allGalleryImages} />
     </div>
   </section>

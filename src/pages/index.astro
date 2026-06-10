@@ -12,10 +12,6 @@ const fishingMoments = [
     alt: "Captain Kyle holding a large rockfish aboard the charter boat"
   },
   {
-    src: "young-angler-flounder.jpg",
-    alt: "Young angler smiling with a flounder aboard the charter boat"
-  },
-  {
     src: "charter-trolling-catch.jpg",
     alt: "Guests with an inshore trolling catch on the dock"
   },
@@ -30,6 +26,8 @@ const homeTripGroups = site.tripGroups.map((group) => ({
   ...group,
   trips: group.tripSlugs.map((slug) => tripsBySlug.get(slug)).filter(Boolean)
 }));
+const featuredMomentSources = new Set(fishingMoments.map((image) => image.src));
+const homeGalleryImages = site.galleryImages.filter((image) => !featuredMomentSources.has(image.src));
 ---
 
 <Layout
@@ -41,17 +39,14 @@ const homeTripGroups = site.tripGroups.map((group) => ({
 
   <section class="border-b border-sky-100 bg-white/70 py-4 md:py-5">
     <div class="container-shell">
-      <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {
           fishingMoments.map((image) => (
             <figure class="overflow-hidden rounded-lg border border-white/12 bg-white/90 shadow-lift">
               <img
                 src={imagePath(image.src)}
                 alt={image.alt}
-                class:list={[
-                  "aspect-[4/5] w-full bg-white",
-                  image.src === "young-angler-flounder.jpg" ? "object-contain" : "object-cover"
-                ]}
+                class="aspect-[4/5] w-full bg-white object-cover"
                 loading="eager"
                 decoding="async"
               />
@@ -108,7 +103,7 @@ const homeTripGroups = site.tripGroups.map((group) => ({
 
   <section class="border-y border-white/10 bg-white/5 section-pad">
     <div class="container-shell">
-      <GalleryGrid minimal />
+      <GalleryGrid images={homeGalleryImages} minimal />
     </div>
   </section>
 </Layout>

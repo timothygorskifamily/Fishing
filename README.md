@@ -96,7 +96,6 @@ New supplied charter photos used by the live pages:
 - `dock-mixed-catch.jpg`
 - `family-bay-catch.jpg`
 - `sunset-boat-rail.jpg`
-- `young-angler-flounder.jpg`
 
 The current boat files use photos from the existing Ocean City Guide Service
 website as launch references. Replace them with newer owner-approved files when

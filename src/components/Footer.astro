@@ -5,8 +5,7 @@ import { Mail, MapPin, Phone } from "@lucide/astro";
 
 const socials = [
   { label: "Instagram", href: site.instagramUrl, image: site.instagramImage },
-  { label: "Facebook", href: site.facebookUrl, image: site.facebookImage },
-  { label: "YouTube", href: site.youtubeUrl, image: "captain-kyle-video-thumbnail.png" }
+  { label: "Facebook", href: site.facebookUrl, image: site.facebookImage }
 ].filter((social) => social.href && social.href !== "#");
 ---
 
@@ -39,7 +38,7 @@ const socials = [
 
       <div class="min-w-0">
         <h2 class="text-sm font-black uppercase tracking-[0.16em] text-white">Social</h2>
-        <div class="mt-4 grid gap-3 sm:grid-cols-3">
+        <div class="mt-4 grid gap-3 sm:grid-cols-2">
           {
             socials.map((social) => (
               <a
