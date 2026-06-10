@@ -48,7 +48,10 @@ const homeTripGroups = site.tripGroups.map((group) => ({
               <img
                 src={imagePath(image.src)}
                 alt={image.alt}
-                class:list={["aspect-[4/5] w-full object-cover", image.src === "young-angler-flounder.jpg" && "scale-80"]}
+                class:list={[
+                  "aspect-[4/5] w-full bg-white",
+                  image.src === "young-angler-flounder.jpg" ? "object-contain" : "object-cover"
+                ]}
                 loading="eager"
                 decoding="async"
               />

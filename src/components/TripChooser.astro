@@ -93,7 +93,10 @@ const initialTripSlug = site.tripGroups[0]?.tripSlugs[0] ?? site.tripTypes[0]?.s
               <img
                 src={imagePath(trip.image)}
                 alt={`${trip.name} Ocean City charter trip`}
-                class:list={["aspect-[16/10] w-full rounded-lg object-cover", trip.image === "young-angler-flounder.jpg" && "scale-80"]}
+                class:list={[
+                  "aspect-[16/10] w-full rounded-lg bg-white",
+                  trip.image === "young-angler-flounder.jpg" ? "object-contain" : "object-cover"
+                ]}
                 loading="lazy"
                 decoding="async"
               />
