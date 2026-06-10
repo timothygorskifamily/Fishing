@@ -7,47 +7,65 @@ import { Mail, MapPin, MessageCircle, Phone } from "@lucide/astro";
 const cards = [
   {
     title: "Call",
-    copy: "Talk through trip fit, timing, and weather windows.",
+    detail: site.phone,
+    copy: "Talk directly with Captain Kyle.",
     href: phoneHref(site.phone),
-    label: site.phone,
-    icon: Phone
+    label: "Call Now",
+    icon: Phone,
+    tone: "gold"
   },
   {
     title: "Text",
-    copy: "Fastest option for quick questions after checking the calendar.",
+    detail: site.smsPhone,
+    copy: "Quick questions, trip fit, and timing.",
     href: smsHref(site.smsPhone),
-    label: "Text captain",
-    icon: MessageCircle
+    label: "Text Captain",
+    icon: MessageCircle,
+    tone: "seafoam"
   },
   {
     title: "Email",
-    copy: "Best for detailed private charter requests and group notes.",
+    detail: site.email,
+    copy: "Send group details or longer notes.",
     href: emailHref(site.email),
-    label: site.email,
-    icon: Mail
+    label: "Email Captain",
+    icon: Mail,
+    tone: "aqua"
   },
   {
     title: "Location",
-    copy: "Ocean City, Maryland. Exact meeting details are confirmed before the trip.",
+    detail: site.marinaAddress,
+    copy: "Open the marina address in Maps.",
     href: site.googleMapsUrl,
-    label: site.marinaName,
+    label: "Open Map",
     icon: MapPin,
-    external: true
+    external: true,
+    tone: "sunset"
   }
 ];
+
+const toneClasses = {
+  gold: "border-gold/30 bg-gold/10 text-gold",
+  seafoam: "border-seafoam/30 bg-seafoam/10 text-seafoam",
+  aqua: "border-aqua/30 bg-aqua/10 text-aqua",
+  sunset: "border-sunset/30 bg-sunset/10 text-sunset"
+};
 ---
 
-<div class="grid gap-4 md:grid-cols-2">
+<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
   {
     cards.map((card) => {
       const Icon = card.icon;
       return (
-        <article class="card p-5 md:p-6">
-          <div class="mb-5 grid size-11 place-items-center rounded-lg border border-seafoam/25 bg-seafoam/10 text-seafoam">
+        <article class="card group flex h-full flex-col justify-between p-5 transition duration-200 hover:-translate-y-1 hover:border-seafoam/35 md:p-6">
+          <div>
+            <div class:list={["mb-5 grid size-12 place-items-center rounded-lg border", toneClasses[card.tone]]}>
             <Icon class="size-5" aria-hidden="true" />
+            </div>
+            <h2 class="text-2xl font-black text-white">{card.title}</h2>
+            <p class="mt-3 text-base font-black leading-6 text-fog break-words">{card.detail}</p>
+            <p class="mt-3 text-sm leading-6 text-mist">{card.copy}</p>
           </div>
-          <h2 class="text-2xl font-black text-white">{card.title}</h2>
-          <p class="mt-3 text-sm leading-7 text-mist">{card.copy}</p>
           <div class="mt-5">
             <CTAButton
               href={card.href}

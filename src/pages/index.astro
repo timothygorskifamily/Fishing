@@ -1,31 +1,28 @@
 ---
 import CTAButton from "@components/CTAButton.astro";
-import FishSpeciesGrid from "@components/FishSpeciesGrid.astro";
 import GalleryGrid from "@components/GalleryGrid.astro";
 import Hero from "@components/Hero.astro";
 import SectionHeading from "@components/SectionHeading.astro";
-import TripCard from "@components/TripCard.astro";
 import Layout from "@layouts/Layout.astro";
 import { site } from "@data/site";
-import { imagePath, smsHref } from "@lib/links";
+import { imagePath } from "@lib/links";
 
-const tripOptions = site.tripTypes;
 const fishingMoments = [
   {
-    src: "fish-tautog.jpg",
-    alt: "Smiling angler holding a large tautog on an Ocean City fishing trip"
+    src: "captain-rockfish.jpg",
+    alt: "Captain Kyle holding a large rockfish aboard the charter boat"
   },
   {
-    src: "fish-red-drum.jpg",
-    alt: "Angler smiling with a red drum beside the boat"
+    src: "young-angler-flounder.jpg",
+    alt: "Young angler smiling with a flounder aboard the charter boat"
   },
   {
-    src: "fish-sheepshead.jpg",
-    alt: "Angler holding a sheepshead on calm Ocean City water"
+    src: "charter-trolling-catch.jpg",
+    alt: "Guests with an inshore trolling catch on the dock"
   },
   {
-    src: "fish-bowfishing.jpg",
-    alt: "Two anglers bowfishing beside the Ocean City Guide Service boat"
+    src: "sunset-boat-rail.jpg",
+    alt: "Sunset over the water from the charter boat rail"
   }
 ];
 ---
@@ -37,7 +34,7 @@ const fishingMoments = [
 >
   <Hero />
 
-  <section class="border-b border-white/10 bg-[#061016] py-4 md:py-5">
+  <section class="border-b border-sky-100 bg-white/70 py-4 md:py-5">
     <div class="container-shell">
       <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
         {
@@ -60,53 +57,28 @@ const fishingMoments = [
   <section class="section-pad">
     <div class="container-shell">
       <SectionHeading
-        eyebrow="Trip options"
-        title="Fish the day that fits the season."
-        copy="Pick the trip that fits your crew. The captain confirms timing, weather, and the best plan before you go."
+        eyebrow="Trips"
+        title="Trips, rates, and timing in one place."
+        copy="Bay, wreck, trolling, shark, and sunset options are organized on the trips page."
       />
-      <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        {tripOptions.map((trip) => <TripCard trip={trip} compact />)}
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          site.tripGroups.map((group) => (
+            <a href="/trips/" class="rounded-lg border border-white/12 bg-panel/78 p-5 transition hover:-translate-y-1 hover:border-seafoam/35 hover:bg-panel">
+              <p class="eyebrow mb-2">{group.title}</p>
+              <h3 class="text-xl font-black text-white">{group.title} trips</h3>
+              <p class="mt-2 text-sm font-bold text-mist">{group.tripSlugs.length} options</p>
+            </a>
+          ))
+        }
+      </div>
+      <div class="mt-8">
+        <CTAButton href="/trips/" label="View Trips & Rates" />
       </div>
     </div>
   </section>
 
-  <section class="border-y border-white/10 bg-[#081720] section-pad">
-    <div class="container-shell grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
-      <div class="image-sheen overflow-hidden rounded-lg border border-white/12 bg-panel shadow-lift">
-        <img
-          src={imagePath("boat-running.jpg")}
-          alt="29 foot SeaVee running on coastal water near Ocean City"
-          class="aspect-[4/3] w-full object-cover"
-          loading="eager"
-          decoding="async"
-        />
-      </div>
-      <div>
-        <SectionHeading
-          eyebrow="The boat"
-          title="A clean 29' SeaVee ready for Ocean City water."
-          copy="A private center-console setup with room to fish, move, and enjoy the day without clutter."
-        />
-        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-          <CTAButton href="/boat/" label="See Boat & Photos" />
-          <CTAButton href={smsHref(site.smsPhone)} label="Ask The Captain" icon="phone" variant="ghost" />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section-pad">
-    <div class="container-shell">
-      <SectionHeading
-        eyebrow="What we catch"
-        title="Flounder, tog, rockfish, drum, and more."
-        copy="Common Ocean City targets with broad size ranges to help set expectations."
-      />
-      <FishSpeciesGrid limit={8} />
-    </div>
-  </section>
-
-  <section class="border-y border-white/10 bg-harbor/54 section-pad">
+  <section class="border-y border-white/10 bg-white/5 section-pad">
     <div class="container-shell">
       <SectionHeading
         eyebrow="Gallery"
@@ -115,4 +87,5 @@ const fishingMoments = [
       <GalleryGrid minimal />
     </div>
   </section>
+
 </Layout>

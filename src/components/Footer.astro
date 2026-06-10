@@ -1,16 +1,16 @@
 ---
 import { site } from "@data/site";
-import { emailHref, phoneHref } from "@lib/links";
-import { Mail, Phone } from "@lucide/astro";
+import { emailHref, imagePath, phoneHref } from "@lib/links";
+import { Mail, MapPin, Phone } from "@lucide/astro";
 
 const socials = [
-  { label: "Instagram", href: site.instagramUrl },
-  { label: "Facebook", href: site.facebookUrl },
+  { label: "Instagram", href: site.instagramUrl, image: site.instagramImage },
+  { label: "Facebook", href: site.facebookUrl, image: site.facebookImage },
   { label: "YouTube", href: site.youtubeUrl }
 ].filter((social) => social.href && social.href !== "#");
 ---
 
-<footer class="border-t border-white/10 bg-[#050c11] pb-24 pt-14 md:pb-10">
+<footer class="border-t border-white/10 bg-[#071b25] pb-24 pt-14 md:pb-10">
   <div class="container-shell">
     <div class="grid gap-10 md:grid-cols-2">
       <div>
@@ -28,21 +28,39 @@ const socials = [
               {site.email}
             </a>
           </li>
+          <li>
+            <a class="inline-flex items-start gap-2 hover:text-white" href={site.googleMapsUrl} target="_blank" rel="noreferrer">
+              <MapPin class="mt-0.5 size-4 shrink-0 text-seafoam" aria-hidden="true" />
+              <span>{site.marinaAddress}</span>
+            </a>
+          </li>
         </ul>
       </div>
 
-      <div>
+      <div class="md:justify-self-end">
         <h2 class="text-sm font-black uppercase tracking-[0.16em] text-white">Social</h2>
-        <div class="mt-4 flex flex-wrap gap-2">
+        <div class="mt-4 grid gap-3 sm:grid-cols-2 md:max-w-2xl">
           {
             socials.map((social) => (
               <a
                 href={social.href}
                 target="_blank"
                 rel="noreferrer"
-                class="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/12 px-3 text-sm font-bold text-mist transition hover:border-seafoam/45 hover:text-white"
+                class="group overflow-hidden rounded-lg border border-white/12 bg-panel shadow-lift transition hover:-translate-y-1 hover:border-seafoam/45"
               >
-                {social.label}
+                {"image" in social && social.image ? (
+                  <img
+                    src={imagePath(social.image)}
+                    alt={`${site.businessName} ${social.label} promo`}
+                    class="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <span class="inline-flex min-h-10 items-center justify-center px-3 text-sm font-bold text-mist transition group-hover:text-white">
+                    {social.label}
+                  </span>
+                )}
               </a>
             ))
           }
@@ -52,7 +70,17 @@ const socials = [
 
     <div class="wave-rule my-10"></div>
     <div class="flex flex-col gap-3 text-xs text-mist md:flex-row md:items-center md:justify-between">
-      <p>&copy; {new Date().getFullYear()} {site.businessName}. All rights reserved.</p>
+      <div class="flex items-center gap-3">
+        <img
+          src={imagePath(site.logoImage)}
+          alt=""
+          class="hidden h-8 w-auto rounded bg-white px-1 py-0.5 md:block"
+          loading="lazy"
+          decoding="async"
+          aria-hidden="true"
+        />
+        <p>&copy; {new Date().getFullYear()} {site.businessName}. All rights reserved.</p>
+      </div>
     </div>
   </div>
 </footer>

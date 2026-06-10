@@ -1,9 +1,93 @@
 ---
-import CTAButton from "@components/CTAButton.astro";
 import GalleryGrid from "@components/GalleryGrid.astro";
-import SectionHeading from "@components/SectionHeading.astro";
-import Layout from "@layouts/Layout.astro";
+import PageHeader from "@components/PageHeader.astro";
 import { site } from "@data/site";
+import { sourceGalleryImages } from "@data/sourceGallery";
+import Layout from "@layouts/Layout.astro";
+import { imagePath } from "@lib/links";
+import { Play } from "@lucide/astro";
+
+const normalizeGalleryLabel = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, "");
+const hiddenGalleryLabels = new Set(
+  [
+    "2015 01 03 13.06.46",
+    "IMG 2671",
+    "2014 12 27 10.02.51",
+    "Dec9 1",
+    "Dec9 4",
+    "Dec9 5",
+    "Sunset cruise",
+    "short white black",
+    "white cotton",
+    "long white",
+    "BD024A84 1D4C 4768 8310 1246382F0C6F",
+    "salt life",
+    "CD9166EF 1FBC 4238 8FB6 27D7B02A7EB5",
+    "IMG 0048",
+    "CRC 2326",
+    "64ABF48E DC88 4A23 BE2C F4FB8D4D7C4E",
+    "CRC 2633",
+    "2015 01 22 11.13.10",
+    "2013 01 16 10.23.51",
+    "2013 01 16 11.41.04",
+    "2013 01 17 17.37.13",
+    "2013 01 17 17.38.00",
+    "2013 01 17 17.38.07",
+    "2013 01 17 17.38.12",
+    "2013 01 18 11.11.47",
+    "2013 01 19 08.34.28",
+    "2013 01 19 09.28.41",
+    "2015 01 07 12.08.50",
+    "IMG 5872",
+    "2015 01 07 12.08.52",
+    "2015 01 17 10.23.59",
+    "2015 01 20 15.10.58",
+    "2015 01 23 08.26.15",
+    "2015 01 29 10.42.19",
+    "2015 01 29 10.42.37",
+    "2015 01 29 10.42.39",
+    "CRC 0435 2012 12 03 at 17 14 32",
+    "DSC 1606",
+    "bckg",
+    "wlcomeOCGS",
+    "sea rays",
+    "fall winter",
+    "jimmy",
+    "featured",
+    "81717 1",
+    "2014 12 23 15.06.26",
+    "10406989 10152904923821520 1195909264112858817 n"
+  ].map(normalizeGalleryLabel)
+);
+const hiddenGalleryPrefixes = ["image1", "image3", "image5", "bowfishing", "wlcome", "81717"].map(normalizeGalleryLabel);
+
+const shouldHideGalleryImage = (image: typeof sourceGalleryImages[number] | typeof site.galleryImages[number]) => {
+  const keys = [image.title, image.alt, image.src].map(normalizeGalleryLabel);
+  return keys.some(
+    (key) =>
+      hiddenGalleryLabels.has(key) ||
+      hiddenGalleryPrefixes.some((prefix) => key.startsWith(prefix) || key.includes(`source${prefix}`))
+  );
+};
+
+const galleryPriority = (image: typeof sourceGalleryImages[number]) => {
+  const key = normalizeGalleryLabel(`${image.title} ${image.src}`);
+  let score = 0;
+  if (key.includes("hammerhead")) score += 100;
+  if (key.includes("shark")) score += 90;
+  if (key.includes("flounder")) score += 70;
+  if (key.includes("rockfish") || key.includes("stripedbass")) score += 65;
+  if (key.includes("seabass") || key.includes("tautog") || key.includes("bluefish")) score += 60;
+  if (key.includes("catch") || key.includes("fish")) score += 35;
+  if (key.includes("fullsizerender") || key.includes("photo")) score += 5;
+  return score;
+};
+
+const curatedGalleryImages = site.galleryImages.filter((image) => !shouldHideGalleryImage(image));
+const orderedSourceGalleryImages = sourceGalleryImages
+  .filter((image) => !shouldHideGalleryImage(image))
+  .sort((a, b) => galleryPriority(b) - galleryPriority(a) || a.title.localeCompare(b.title));
+const allGalleryImages = [...curatedGalleryImages, ...orderedSourceGalleryImages];
 ---
 
 <Layout
@@ -11,32 +95,39 @@ import { site } from "@data/site";
   description="View boat, catch, and Ocean City water photos for a private SeaVee fishing charter gallery."
   canonicalPath="/gallery/"
 >
-  <section class="border-b border-white/10 bg-harbor/50 section-pad">
-    <div class="container-shell">
-      <SectionHeading
-        eyebrow="Gallery"
-        title="Photos from the water."
-      />
-      <CTAButton href="/book/" label="Book A Day Like This" icon="calendar" />
-    </div>
-  </section>
+  <PageHeader
+    title="Gallery"
+    mascot="gallery-mascot.png"
+    mascotAlt="A fish mascot holding an underwater camera for the gallery"
+    background="section-art/gallery-section-title.webp"
+    backgroundPosition="center top"
+    showTitle={false}
+  />
 
   <section class="section-pad">
     <div class="container-shell">
-      <GalleryGrid />
-    </div>
-  </section>
+      <a
+        href="https://www.youtube.com/watch?v=Q10Z3CSnYoQ&t=39s"
+        target="_blank"
+        rel="noreferrer"
+        class="image-sheen group relative mb-10 block overflow-hidden rounded-lg border border-white/16 bg-panel shadow-lift"
+        aria-label="Open Captain Kyle boat tour video on YouTube"
+      >
+        <img
+          src={imagePath("captain-kyle-video-thumbnail.jpg")}
+          alt="Captain Kyle SeaVee boat tour video thumbnail"
+          class="aspect-video w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+          loading="eager"
+          decoding="async"
+        />
+        <span class="absolute inset-0 grid place-items-center bg-ink/10 transition group-hover:bg-ink/0">
+          <span class="grid size-16 place-items-center rounded-full border border-white/50 bg-white/20 text-white shadow-lift backdrop-blur">
+            <Play class="size-8 fill-current" aria-hidden="true" />
+          </span>
+        </span>
+      </a>
 
-  <section class="border-t border-white/10 bg-[#081720] py-16">
-    <div class="container-shell grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
-      <div>
-        <p class="eyebrow mb-3">Follow along</p>
-        <h2 class="text-3xl font-black text-white md:text-4xl">See the latest catches on social.</h2>
-      </div>
-      <div class="flex flex-wrap gap-3">
-        <CTAButton href={site.instagramUrl} label="Instagram" variant="ghost" external />
-        <CTAButton href={site.facebookUrl} label="Facebook" variant="ghost" external />
-      </div>
+      <GalleryGrid images={allGalleryImages} />
     </div>
   </section>
 </Layout>

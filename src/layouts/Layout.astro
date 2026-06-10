@@ -23,19 +23,19 @@ const { title, description, canonicalPath, image, noIndex } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#061016" />
+    <meta name="theme-color" content="#0b2a38" />
     <SEO title={title} description={description} canonicalPath={canonicalPath} image={image} noIndex={noIndex} />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <Header />
-    <main id="main">
+    <main id="main" class="site-main">
       <slot />
     </main>
     <Footer />
 
     <nav
-      class="fixed inset-x-0 bottom-0 z-40 border-t border-white/12 bg-ink/92 px-3 py-3 shadow-[0_-18px_40px_rgba(0,0,0,0.36)] backdrop-blur md:hidden"
+      class="fixed inset-x-0 bottom-0 z-40 border-t border-white/12 bg-ink/95 px-3 py-3 shadow-[0_-18px_40px_rgba(0,0,0,0.36)] backdrop-blur md:hidden"
       aria-label="Mobile quick actions"
     >
       <div class="grid grid-cols-2 gap-2">
@@ -48,7 +48,7 @@ const { title, description, canonicalPath, image, noIndex } = Astro.props;
         </a>
         <a
           href={smsHref(site.smsPhone) || phoneHref(site.phone)}
-          class="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border border-seafoam/45 bg-seafoam/12 px-4 py-3 text-sm font-extrabold text-white"
+          class="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border border-seafoam/50 bg-seafoam/20 px-4 py-3 text-sm font-extrabold text-white"
         >
           <MessageCircle class="size-4" aria-hidden="true" />
           <span>Call/Text</span>

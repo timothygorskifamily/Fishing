@@ -32,17 +32,6 @@ const visibleSpecies = limit ? species.slice(0, limit) : species;
             {fish.aka && <p class="mt-1 text-sm font-bold text-mist">{fish.aka}</p>}
           </div>
 
-          <dl class="grid grid-cols-2 gap-3">
-            <div class="rounded-lg border border-white/10 bg-white/5 p-3">
-              <dt class="text-[0.68rem] font-black uppercase tracking-[0.14em] text-mist">Typical</dt>
-              <dd class="mt-1 text-sm font-black leading-5 text-white">{fish.typicalSize}</dd>
-            </div>
-            <div class="rounded-lg border border-gold/20 bg-gold/10 p-3">
-              <dt class="text-[0.68rem] font-black uppercase tracking-[0.14em] text-gold">Larger fish</dt>
-              <dd class="mt-1 text-sm font-black leading-5 text-white">{fish.highSize}</dd>
-            </div>
-          </dl>
-
           <p class="text-sm font-bold text-fog">{fish.season}</p>
           <p class="text-sm leading-7 text-mist">{fish.notes}</p>
         </div>

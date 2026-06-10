@@ -54,6 +54,7 @@ Review these values before launch:
 - `tiktokUrl`
 - `calComLink`
 - trip durations, rates, included items, and target species
+- seasonal fishing report highlights
 - FAQ policy language
 
 Current live details in `site.ts` include:
@@ -79,28 +80,32 @@ Image files live in:
 public/images/
 ```
 
-Replace these placeholder files with real boat, catch, crew, inlet, marina, and sunset photos:
+Current source-site photos used by the live pages:
 
 - `hero-boat.jpg`
 - `boat-running.jpg`
 - `boat-tower.jpg`
 - `deck.jpg`
-- `catch-1.jpg`
-- `catch-2.jpg`
-- `catch-3.jpg`
-- `sunset.jpg`
+
+New supplied charter photos used by the live pages:
+
+- `captain-rockfish.jpg`
+- `charter-flounder-dock.jpg`
+- `charter-trolling-catch.jpg`
+- `charter-wreck-catch.jpg`
+- `dock-mixed-catch.jpg`
+- `family-bay-catch.jpg`
+- `sunset-boat-rail.jpg`
+- `young-angler-flounder.jpg`
 
 The current boat files use photos from the existing Ocean City Guide Service
 website as launch references. Replace them with newer owner-approved files when
 the captain sends updated photography.
 
-Species photos copied from the current Ocean City Guide Service site can also be replaced later:
+Additional source-site fish photos are kept in `public/images/` as backups, but the current live trip, species, and gallery sections use the supplied charter photos above:
 
 - `fish-bluefish.jpg`
-- `fish-bowfishing.jpg`
-- `fish-croaker.jpg`
 - `fish-flounder.jpg`
-- `fish-red-drum.jpg`
 - `fish-rockfish.jpg`
 - `fish-sheepshead.jpg`
 - `fish-tautog.jpg`
@@ -170,8 +175,8 @@ Leave `PUBLIC_BASE_PATH` empty.
 - Add the real Cal.com booking event link.
 - Confirm Instagram, Facebook, YouTube, and TikTok links.
 - Confirm the final marina, parking, and meeting-location instructions.
-- Replace remaining placeholder boat photos with real boat and catch photos.
-- Confirm trip rates, durations, target species, included items, fish-size estimates, cancellation language, deposit/payment wording, and license guidance with the captain.
+- Add newly supplied charter photos to `public/images/` and reference them in `src/data/site.ts`.
+- Confirm cancellation language, deposit/payment wording, and the live Cal.com booking link with the captain.
 
 ## Notes
 

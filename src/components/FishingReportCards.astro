@@ -1,0 +1,55 @@
+---
+import { site } from "@data/site";
+import { withBase } from "@lib/links";
+import { Fish, MapPin, Waves } from "@lucide/astro";
+
+interface Props {
+  compact?: boolean;
+  limit?: number;
+}
+
+const { compact = false, limit } = Astro.props;
+const reports =
+  typeof limit === "number"
+    ? site.fishingReportHighlights.slice(0, limit)
+    : site.fishingReportHighlights;
+---
+
+<div class:list={["grid gap-4", compact ? "md:grid-cols-2 xl:grid-cols-4" : "md:grid-cols-2"]}>
+  {
+    reports.map((report) => (
+      <article class="rounded-lg border border-white/14 bg-white/8 p-5 shadow-[0_22px_60px_rgba(4,24,33,0.18)] backdrop-blur">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="eyebrow mb-2">Fishing report</p>
+            <h3 class="text-2xl font-black text-white">{report.title}</h3>
+          </div>
+          <Fish class="mt-1 size-6 shrink-0 text-gold" aria-hidden="true" />
+        </div>
+
+        <p class="mt-4 flex items-start gap-2 text-sm font-bold text-fog">
+          <MapPin class="mt-0.5 size-4 shrink-0 text-seafoam" aria-hidden="true" />
+          <span>{report.area}</span>
+        </p>
+
+        <p class="mt-4 flex gap-2 text-sm leading-7 text-mist">
+          <Waves class="mt-1 size-4 shrink-0 text-seafoam" aria-hidden="true" />
+          <span>{report.conditions}</span>
+        </p>
+
+        {!compact && <p class="mt-3 text-sm leading-7 text-mist">{report.tripFit}</p>}
+
+        <div class="mt-5 flex flex-wrap gap-2">
+          {report.targetSpecies.map((species) => (
+            <a
+              href={withBase("/fishing-report/#common-catches")}
+              class="rounded-lg border border-seafoam/25 bg-seafoam/10 px-3 py-1 text-xs font-bold text-fog transition hover:border-seafoam/50 hover:text-white"
+            >
+              {species}
+            </a>
+          ))}
+        </div>
+      </article>
+    ))
+  }
+</div>

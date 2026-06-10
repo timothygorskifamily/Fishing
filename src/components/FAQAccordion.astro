@@ -1,6 +1,7 @@
 ---
 import type { FAQItem } from "@data/site";
 import { site } from "@data/site";
+import { CheckCircle2, Search } from "@lucide/astro";
 
 interface Props {
   items?: readonly FAQItem[];
@@ -11,18 +12,76 @@ const { items = site.faqItems, limit } = Astro.props;
 const visibleItems = limit ? items.slice(0, limit) : items;
 ---
 
-<div class="grid gap-3">
-  {
-    visibleItems.map((item, index) => (
-      <details class="group card p-5" open={index === 0 ? true : undefined}>
-        <summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left marker:hidden">
-          <span class="text-lg font-black text-white">{item.question}</span>
-          <span class="grid size-8 shrink-0 place-items-center rounded-lg border border-white/12 text-seafoam transition group-open:rotate-45">
-            +
-          </span>
-        </summary>
+<div class="faq-list">
+  <label class="relative mb-6 block" for="faq-filter">
+    <span class="sr-only">Filter FAQ questions</span>
+    <Search class="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-seafoam" aria-hidden="true" />
+    <input
+      id="faq-filter"
+      type="search"
+      placeholder="Search questions"
+      class="min-h-14 w-full rounded-lg border border-white/12 bg-white/6 py-3 pl-12 pr-4 text-base font-bold text-white placeholder:text-mist transition focus:border-seafoam/50"
+      autocomplete="off"
+    />
+  </label>
+
+  <div class="grid gap-3" data-faq-items>
+    {
+      visibleItems.map((item) => (
+        <article
+          class="card p-5 md:p-6"
+          data-faq-item
+          data-faq-text={`${item.question} ${item.answer} ${item.checklist?.map((checklistItem) => `${checklistItem.title} ${checklistItem.copy}`).join(" ") ?? ""}`.toLowerCase()}
+        >
+          <h2 class="text-lg font-black text-white md:text-xl">{item.question}</h2>
         <p class="mt-4 text-sm leading-7 text-mist md:text-base">{item.answer}</p>
-      </details>
-    ))
-  }
+        {
+          item.checklist && (
+            <div class="mt-5 grid gap-3 sm:grid-cols-2">
+              {item.checklist.map((checklistItem) => (
+                <div class="rounded-lg border border-white/10 bg-white/5 p-4">
+                  <div class="flex items-start gap-3">
+                    <CheckCircle2 class="mt-0.5 size-4 shrink-0 text-seafoam" aria-hidden="true" />
+                    <div>
+                      <h3 class="text-sm font-black text-white">{checklistItem.title}</h3>
+                      <p class="mt-1 text-sm leading-6 text-mist">{checklistItem.copy}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )
+        }
+        </article>
+      ))
+    }
+  </div>
+
+  <p class="card mt-3 hidden p-5 text-sm font-bold text-mist" data-faq-empty>
+    No matching questions. Try a different search.
+  </p>
 </div>
+
+<script>
+  const filterInput = document.querySelector<HTMLInputElement>("#faq-filter");
+  const faqItems = Array.from(document.querySelectorAll<HTMLElement>("[data-faq-item]"));
+  const emptyState = document.querySelector<HTMLElement>("[data-faq-empty]");
+
+  filterInput?.addEventListener("input", () => {
+    const query = filterInput.value.trim().toLowerCase();
+    let visibleCount = 0;
+
+    faqItems.forEach((item) => {
+      const matches = !query || item.dataset.faqText?.includes(query);
+      item.hidden = !matches;
+      if (matches) {
+        visibleCount += 1;
+      }
+    });
+
+    if (emptyState) {
+      emptyState.hidden = visibleCount > 0;
+      emptyState.classList.toggle("hidden", visibleCount > 0);
+    }
+  });
+</script>

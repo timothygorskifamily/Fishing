@@ -1,68 +1,37 @@
 ---
-import CTAButton from "@components/CTAButton.astro";
-import FishSpeciesGrid from "@components/FishSpeciesGrid.astro";
-import SectionHeading from "@components/SectionHeading.astro";
-import TripCard from "@components/TripCard.astro";
+import CommonCatchesSection from "@components/CommonCatchesSection.astro";
+import PageHeader from "@components/PageHeader.astro";
+import TripGroups from "@components/TripGroups.astro";
 import Layout from "@layouts/Layout.astro";
 import { site } from "@data/site";
-import { smsHref } from "@lib/links";
 ---
 
 <Layout
   title="Trips & Rates | Ocean City MD Private Fishing Charter"
-  description="Review Ocean City Guide Service charter options, current inshore bay pricing, wreck fishing, and common Ocean City fish species."
+  description="Review Ocean City Guide Service bay fishing, wreck fishing, inshore trolling, night shark fishing, and sunset cruise rates and trip times."
   canonicalPath="/trips/"
 >
-  <section class="border-b border-white/10 bg-harbor/50 section-pad">
-    <div class="container-shell">
-      <SectionHeading
-        eyebrow="Trips & rates"
-        title="Choose the right private fishing charter."
-        copy="These trip cards use current source-site details where available. Rates, run times, targets, and departure windows should still be confirmed by the captain before launch."
-      />
-      <div class="flex flex-col gap-3 sm:flex-row">
-        <CTAButton href="/book/" label="Check Availability" icon="calendar" />
-        <CTAButton href={smsHref(site.smsPhone)} label="Call/Text Captain" icon="phone" variant="ghost" />
-      </div>
-    </div>
-  </section>
+  <PageHeader
+    title="Trips"
+    mascot="trips-mascot.png"
+    mascotAlt="A fish mascot planning fishing trips with a chart"
+    background="section-art/trips-section-title.webp"
+    backgroundPosition="center top"
+    showTitle={false}
+  />
 
   <section class="section-pad">
     <div class="container-shell">
-      <div class="grid gap-6 lg:grid-cols-2">
-        {site.tripTypes.map((trip) => <TripCard trip={trip} />)}
-      </div>
+      <TripGroups />
 
-      <div class="mt-10 rounded-lg border border-gold/24 bg-gold/10 p-5 text-sm leading-7 text-fog">
+      <div class="mt-10 rounded-lg border border-gold/25 bg-gold/10 p-5 text-sm leading-7 text-fog">
         <p>
-          <strong class="text-white">Trip note:</strong> Trip availability, departure times, and target species vary by season,
-          weather, and conditions. Confirm details with the captain before your trip.
+          <strong class="text-white">Trip note:</strong> Fishing locations, route, and target species may vary by season,
+          weather, tide, and current regulations. Captain Kyle confirms the final plan before your trip.
         </p>
       </div>
     </div>
   </section>
 
-  <section class="border-t border-white/10 bg-harbor/54 section-pad">
-    <div class="container-shell">
-      <SectionHeading
-        eyebrow="Fish species"
-        title="Common catches around Ocean City."
-        copy="Current OCGS photos and content highlight flounder, tog, bluefish, rockfish, drum, sheepshead, croakers, and bowfishing options. Final targets depend on season, weather, and regulations."
-      />
-      <FishSpeciesGrid />
-    </div>
-  </section>
-
-  <section class="border-t border-white/10 bg-[#081720] py-16">
-    <div class="container-shell grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
-      <div>
-        <p class="eyebrow mb-3">Next step</p>
-        <h2 class="text-3xl font-black text-white md:text-4xl">Request a date and confirm the plan.</h2>
-        <p class="mt-3 max-w-2xl text-sm leading-7 text-mist">
-          The calendar starts the conversation. The captain confirms the trip style, timing, and final arrangements.
-        </p>
-      </div>
-      <CTAButton href="/book/" label="Open Booking Calendar" icon="calendar" />
-    </div>
-  </section>
+  <CommonCatchesSection />
 </Layout>

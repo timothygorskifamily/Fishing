@@ -1,10 +1,10 @@
 ---
-import CTAButton from "@components/CTAButton.astro";
+import CharterPolicies from "@components/CharterPolicies.astro";
+import DirectionsBlock from "@components/DirectionsBlock.astro";
 import FAQAccordion from "@components/FAQAccordion.astro";
+import PageHeader from "@components/PageHeader.astro";
 import SectionHeading from "@components/SectionHeading.astro";
 import Layout from "@layouts/Layout.astro";
-import { site } from "@data/site";
-import { smsHref } from "@lib/links";
 ---
 
 <Layout
@@ -12,42 +12,41 @@ import { smsHref } from "@lib/links";
   description="Answers to common questions about booking, payment, weather, kids, licenses, departure location, and private Ocean City fishing charter policies."
   canonicalPath="/faq/"
 >
-  <section class="border-b border-white/10 bg-harbor/50 section-pad">
-    <div class="container-shell">
-      <SectionHeading
-        eyebrow="FAQ"
-        title="Good questions before a day on the water."
-        copy="A quick read on booking, weather, what to bring, and how final trip details are confirmed."
-      />
-      <div class="flex flex-col gap-3 sm:flex-row">
-        <CTAButton href="/book/" label="Check Availability" icon="calendar" />
-        <CTAButton href={smsHref(site.smsPhone)} label="Call/Text Captain" icon="phone" variant="ghost" />
-      </div>
-    </div>
-  </section>
+  <PageHeader
+    title="FAQ"
+    mascot="thinking-fish-faq.png"
+    mascotAlt="A curious fish thinking about charter questions"
+    background="section-art/faq-section-title.webp"
+    backgroundPosition="center bottom"
+    showTitle={false}
+  />
 
   <section class="section-pad">
-    <div class="container-shell grid gap-10 lg:grid-cols-[0.75fr_1.25fr]">
-      <aside class="lg:sticky lg:top-28 lg:self-start">
-        <div class="card p-5">
-          <p class="eyebrow mb-3">Need something specific?</p>
-          <h2 class="text-2xl font-black text-white">Ask the captain.</h2>
-          <p class="mt-3 text-sm leading-7 text-mist">
-            Weather, target species, trip timing, and group details are always confirmed directly before the day is locked in.
-          </p>
-        </div>
-      </aside>
+    <div class="container-shell">
       <FAQAccordion />
     </div>
   </section>
 
-  <section class="border-t border-white/10 bg-[#081720] py-16">
-    <div class="container-shell grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
-      <div>
-        <p class="eyebrow mb-3">Still deciding?</p>
-        <h2 class="text-3xl font-black text-white md:text-4xl">Ask a question, then request your date.</h2>
-      </div>
-      <CTAButton href={smsHref(site.smsPhone)} label="Call/Text Captain" icon="phone" variant="ghost" />
+  <section class="border-t border-white/10 py-16">
+    <div class="container-shell">
+      <SectionHeading
+        eyebrow="Charter policies"
+        title="The main trip policies in one place."
+        copy="Deposits, cancellations, weather, payment, and mate tipping are the details guests usually need before booking."
+      />
+      <CharterPolicies compact />
     </div>
   </section>
+
+  <section class="border-t border-white/10 bg-white/5 py-16">
+    <div class="container-shell">
+      <SectionHeading
+        eyebrow="Marina & directions"
+        title="Arrival details."
+        copy="Use this as the starting point, then follow the exact parking and dock instructions Captain Kyle confirms before the trip."
+      />
+      <DirectionsBlock />
+    </div>
+  </section>
+
 </Layout>

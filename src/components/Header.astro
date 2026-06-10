@@ -1,7 +1,7 @@
 ---
 import { site } from "@data/site";
-import { phoneHref, withBase } from "@lib/links";
-import { Anchor, CalendarDays, Menu, Phone, X } from "@lucide/astro";
+import { imagePath, phoneHref, withBase } from "@lib/links";
+import { CalendarDays, Menu, Phone, X } from "@lucide/astro";
 
 const currentPath = Astro.url.pathname.replace(import.meta.env.BASE_URL, "/");
 const isActive = (href: string) => {
@@ -10,37 +10,61 @@ const isActive = (href: string) => {
   }
   return currentPath.startsWith(href);
 };
+
+const navMascots: Record<string, string> = {
+  "/trips/": "trips-mascot.png",
+  "/fishing-report/": "report-mascot.png",
+  "/boat/": "boat-mascot.png",
+  "/gallery/": "gallery-mascot.png",
+  "/faq/": "thinking-fish-faq.png",
+  "/contact/": "contact-mascot.png",
+  "/book/": "book-mascot.png"
+};
 ---
 
-<header class="sticky top-0 z-50 border-b border-white/10 bg-ink/82 backdrop-blur-xl">
+<header class="sticky top-0 z-50 border-b border-white/10 bg-ink/95 backdrop-blur-xl">
   <div class="container-shell flex min-h-20 items-center justify-between gap-4">
-    <a href={withBase("/")} class="group flex items-center gap-3" aria-label={`${site.businessName} home`}>
-      <span
-        class="grid size-11 place-items-center rounded-lg border border-seafoam/30 bg-seafoam/10 text-seafoam transition group-hover:border-seafoam/70"
-        aria-hidden="true"
-      >
-        <Anchor class="size-5" />
-      </span>
-      <span class="min-w-0">
-        <span class="block text-sm font-black leading-tight text-white md:text-base">
-          {site.businessName}
-        </span>
+    <a href={withBase("/")} class="group flex items-center" aria-label={`${site.businessName} home`}>
+      <span class="rounded-lg bg-white px-2 py-1 shadow-[0_10px_32px_rgba(0,0,0,0.24)] ring-1 ring-white/18 transition group-hover:ring-seafoam/55">
+        <img
+          src={imagePath(site.logoImage)}
+          alt={site.businessName}
+          class="h-10 w-auto max-w-[13rem] object-contain md:h-11 md:max-w-[16rem]"
+          loading="eager"
+          decoding="async"
+        />
       </span>
     </a>
 
     <nav class="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
       {
-        site.navLinks.map((link) => (
-          <a
-            href={withBase(link.href)}
-            class:list={[
-              "rounded-lg px-3 py-2 text-sm font-bold text-mist transition hover:bg-white/6 hover:text-white",
-              isActive(link.href) && "bg-white/8 text-white"
-            ]}
-          >
-            {link.label}
-          </a>
-        ))
+        site.navLinks.map((link) => {
+          const mascot = navMascots[link.href];
+
+          return (
+            <span class="nav-preview-item relative inline-flex">
+              <a
+                href={withBase(link.href)}
+                class:list={[
+                  "rounded-lg px-3 py-2 text-sm font-bold text-mist transition hover:bg-white/6 hover:text-white",
+                  isActive(link.href) && "bg-white/8 text-white"
+                ]}
+              >
+                {link.label}
+              </a>
+              {mascot && (
+                <img
+                  src={imagePath(mascot)}
+                  alt=""
+                  class="nav-preview pointer-events-none absolute left-1/2 top-[calc(100%+0.75rem)] z-50 aspect-square w-44 max-w-none -translate-x-1/2 translate-y-2 rounded-2xl border border-white/30 bg-white object-cover p-1 opacity-0 shadow-[0_22px_70px_rgba(0,0,0,0.38)]"
+                  loading="lazy"
+                  decoding="async"
+                  aria-hidden="true"
+                />
+              )}
+            </span>
+          );
+        })
       }
     </nav>
 
@@ -52,13 +76,23 @@ const isActive = (href: string) => {
         <Phone class="size-4" aria-hidden="true" />
         <span>{site.phone}</span>
       </a>
-      <a
-        href={withBase("/book/")}
-        class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-gold px-4 py-2 text-sm font-extrabold text-ink transition hover:bg-[#ffd083]"
-      >
-        <CalendarDays class="size-4" aria-hidden="true" />
-        <span>Book Now</span>
-      </a>
+      <span class="nav-preview-item relative inline-flex">
+        <a
+          href={withBase("/book/")}
+          class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-gold px-4 py-2 text-sm font-extrabold text-ink transition hover:bg-[#ffd083]"
+        >
+          <CalendarDays class="size-4" aria-hidden="true" />
+          <span>Book Now</span>
+        </a>
+        <img
+          src={imagePath(navMascots["/book/"])}
+          alt=""
+          class="nav-preview pointer-events-none absolute left-1/2 top-[calc(100%+0.75rem)] z-50 aspect-square w-44 max-w-none -translate-x-1/2 translate-y-2 rounded-2xl border border-white/30 bg-white object-cover p-1 opacity-0 shadow-[0_22px_70px_rgba(0,0,0,0.38)]"
+          loading="lazy"
+          decoding="async"
+          aria-hidden="true"
+        />
+      </span>
     </div>
 
     <details class="group relative md:hidden">
@@ -99,3 +133,25 @@ const isActive = (href: string) => {
     </details>
   </div>
 </header>
+
+<style>
+  .nav-preview {
+    transition:
+      opacity 220ms ease,
+      transform 220ms ease;
+    transition-delay: 0ms;
+  }
+
+  .nav-preview-item:hover .nav-preview,
+  .nav-preview-item:focus-within .nav-preview {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    transition-delay: 1000ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-preview {
+      transition: none;
+    }
+  }
+</style>

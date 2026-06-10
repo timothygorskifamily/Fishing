@@ -1,128 +1,59 @@
 ---
 import BoatSpecs from "@components/BoatSpecs.astro";
-import CTAButton from "@components/CTAButton.astro";
-import SectionHeading from "@components/SectionHeading.astro";
+import PageHeader from "@components/PageHeader.astro";
 import Layout from "@layouts/Layout.astro";
-import { site } from "@data/site";
-import { imagePath, smsHref } from "@lib/links";
+import { imagePath } from "@lib/links";
 
 const boatImages = [
   {
     src: "boat-running.jpg",
-    title: "Running shot",
-    alt: "SeaVee running on coastal water",
-    caption: "The 29' SeaVee underway out of Ocean City."
+    alt: "SeaVee running on coastal water"
   },
   {
     src: "boat-tower.jpg",
-    title: "Boat detail",
-    alt: "Detail view of the SeaVee center-console boat",
-    caption: "Clean rigging and a practical setup for private fishing days."
+    alt: "Detail view of the SeaVee center-console boat"
   },
   {
     src: "deck.jpg",
-    title: "Console and deck",
-    alt: "Clean center-console fishing deck",
-    caption: "Open deck space and a practical fishing layout."
-  },
-  {
-    src: "fish-bowfishing.jpg",
-    title: "Fishing day",
-    alt: "Anglers bowfishing beside the Ocean City Guide Service boat",
-    caption: "Private trips can be shaped around the right seasonal window."
+    alt: "Clean center-console fishing deck"
   }
 ];
 ---
 
 <Layout
   title="The Boat | 29' SeaVee in Ocean City MD"
-  description="Meet the 29' 2006 SeaVee used for private Ocean City, Maryland fishing charters."
+  description="Meet the 29 foot SeaVee center console used for private Ocean City, Maryland fishing charters and sunset cruises."
   canonicalPath="/boat/"
 >
-  <section class="border-b border-white/10 bg-harbor/50 section-pad">
-    <div class="container-shell">
-      <SectionHeading
-        eyebrow="The boat"
-        title="The Boat"
-        copy="A 29' 2006 SeaVee set up as a clean, serious Ocean City fishing platform."
-      />
-      <div class="flex flex-col gap-3 sm:flex-row">
-        <CTAButton href="/book/" label="Check Availability" icon="calendar" />
-        <CTAButton href="/gallery/" label="Open Gallery" variant="secondary" />
-        <CTAButton href={smsHref(site.smsPhone)} label="Ask About The Boat" icon="phone" variant="ghost" />
-      </div>
-    </div>
-  </section>
+  <PageHeader
+    title="The Boat"
+    mascot="boat-mascot.png"
+    mascotAlt="A delighted fish mascot looking up at a center-console fishing boat"
+    background="section-art/boat-section-title.webp"
+    backgroundPosition="center top"
+    showTitle={false}
+  />
 
   <section class="section-pad">
     <div class="container-shell">
-      <BoatSpecs />
-      <div class="mt-12 grid gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
-        <div class="image-sheen overflow-hidden rounded-lg border border-white/12 bg-panel shadow-lift">
-          <img
-            src={imagePath("hero-boat.jpg")}
-            alt="29 foot SeaVee running near Ocean City"
-            class="aspect-[16/10] w-full object-cover"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-        <div>
-          <p class="eyebrow mb-3">Fishing platform</p>
-          <h2 class="text-balance text-3xl font-black leading-tight text-white md:text-5xl">
-            Built for private days, clean movement, and easy fishing.
-          </h2>
-          <p class="mt-5 text-base leading-8 text-mist">
-            The SeaVee center-console layout keeps the day focused and practical: room to work, easy communication,
-            and a boat-forward experience that feels serious without feeling corporate.
-          </p>
-          <p class="mt-4 text-base leading-8 text-mist">
-            Exact gear, passenger, electronics, safety, and capacity details should be added only after the captain
-            approves them.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="border-y border-white/10 bg-[#081720] section-pad">
-    <div class="container-shell">
-      <SectionHeading
-        eyebrow="Boat photos"
-        title="A closer look at the platform."
-        copy="Running, deck, detail, and fishing-day views from a clean center-console charter setup."
-      />
-      <div class="grid gap-5 md:grid-cols-2">
+      <div class="grid gap-5 md:grid-cols-3">
         {
           boatImages.map((image) => (
             <figure class="card overflow-hidden">
               <img
                 src={imagePath(image.src)}
                 alt={image.alt}
-                class="aspect-[16/10] w-full object-cover"
+                class="aspect-[4/3] w-full object-cover brightness-[1.06] saturate-[1.1] contrast-[1.02]"
                 loading="lazy"
                 decoding="async"
               />
-              <figcaption class="p-5">
-                <h3 class="text-xl font-black text-white">{image.title}</h3>
-                <p class="mt-2 text-sm leading-7 text-mist">{image.caption}</p>
-              </figcaption>
             </figure>
           ))
         }
       </div>
-    </div>
-  </section>
 
-  <section class="py-16">
-    <div class="container-shell grid gap-6 rounded-lg border border-white/12 bg-soft-horizon p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8">
-      <div>
-        <p class="eyebrow mb-3">Ready to fish?</p>
-        <h2 class="text-3xl font-black text-white md:text-4xl">Request a private date aboard the SeaVee.</h2>
-      </div>
-      <div class="flex flex-col gap-3 sm:flex-row">
-        <CTAButton href={smsHref(site.smsPhone)} label="Ask About The Boat" icon="phone" variant="ghost" />
-        <CTAButton href="/book/" label="Check Availability" icon="calendar" />
+      <div class="mt-8 md:mt-10">
+        <BoatSpecs />
       </div>
     </div>
   </section>

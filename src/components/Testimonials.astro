@@ -1,0 +1,45 @@
+---
+import { site } from "@data/site";
+import { Star } from "@lucide/astro";
+---
+
+<div class="grid gap-5 md:grid-cols-3">
+  {
+    site.testimonials.map((testimonial) => (
+      <article class="card p-5 md:p-6">
+        {typeof testimonial.rating === "number" ? (
+          <div class="mb-4 flex gap-1 text-gold" aria-label={`${testimonial.rating}-star review`}>
+            {Array.from({ length: testimonial.rating }).map(() => (
+              <Star class="size-4 fill-current" aria-hidden="true" />
+            ))}
+          </div>
+        ) : (
+          <p class="eyebrow mb-4">{testimonial.label}</p>
+        )}
+        <h3 class="text-xl font-black leading-snug text-white">
+          {testimonial.heading}
+        </h3>
+        <p class="mt-4 text-sm leading-7 text-mist">{testimonial.context}</p>
+        <footer class="mt-5 border-t border-white/10 pt-4">
+          <p class="text-sm font-black text-white">{testimonial.reviewer}</p>
+          {
+            testimonial.sourceUrl && testimonial.sourceLabel ? (
+              <a
+                href={testimonial.sourceUrl}
+                target="_blank"
+                rel="noreferrer"
+                class="mt-1 inline-block text-xs font-black uppercase tracking-[0.14em] text-seafoam hover:text-white"
+              >
+                {testimonial.sourceLabel}
+              </a>
+            ) : testimonial.sourceLabel ? (
+              <p class="mt-1 text-xs font-black uppercase tracking-[0.14em] text-seafoam">
+                {testimonial.sourceLabel}
+              </p>
+            ) : null
+          }
+        </footer>
+      </article>
+    ))
+  }
+</div>

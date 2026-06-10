@@ -4,13 +4,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        ink: "#061016",
-        navy: "#071821",
-        harbor: "#0c2531",
-        panel: "#102632",
+        ink: "#08202b",
+        navy: "#0b2a38",
+        harbor: "#123847",
+        panel: "#174456",
         line: "rgba(186, 225, 229, 0.16)",
-        fog: "#d7e4e5",
-        mist: "#9fb3b8",
+        fog: "#f2fbfb",
+        mist: "#c1d7dc",
         seafoam: "#35e0ca",
         aqua: "#7de7ee",
         gold: "#f3b85b",

@@ -1,0 +1,29 @@
+---
+import CommonCatchesSection from "@components/CommonCatchesSection.astro";
+import FishingReportCards from "@components/FishingReportCards.astro";
+import PageHeader from "@components/PageHeader.astro";
+import Layout from "@layouts/Layout.astro";
+---
+
+<Layout
+  title="Fishing Report | Ocean City MD Charter Bite"
+  description="Seasonal Ocean City, Maryland fishing report guidance for bay fishing, wreck fishing, inshore trolling, night shark fishing, and sunset trips."
+  canonicalPath="/fishing-report/"
+>
+  <PageHeader
+    title="Fishing Report"
+    mascot="report-mascot.png"
+    mascotAlt="A fish mascot reporting the latest fishing bite"
+    background="section-art/report-section-title.webp"
+    backgroundPosition="center top"
+    showTitle={false}
+  />
+
+  <section class="section-pad">
+    <div class="container-shell">
+      <FishingReportCards />
+    </div>
+  </section>
+
+  <CommonCatchesSection />
+</Layout>

@@ -1,0 +1,30 @@
+---
+import CTAButton from "@components/CTAButton.astro";
+import { site } from "@data/site";
+import { MapPin } from "@lucide/astro";
+---
+
+<div class="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+  <aside class="card p-5 md:p-6">
+    <div class="mb-5 grid size-11 place-items-center rounded-lg border border-gold/25 bg-gold/10 text-gold">
+      <MapPin class="size-5" aria-hidden="true" />
+    </div>
+    <p class="eyebrow mb-3">Marina</p>
+    <h3 class="text-2xl font-black text-white">{site.marinaAddress}</h3>
+    <p class="mt-4 text-sm leading-7 text-mist">{site.marinaDirectionsNote}</p>
+    <div class="mt-6">
+      <CTAButton href={site.googleMapsUrl} label="Open Map" variant="ghost" external />
+    </div>
+  </aside>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    {
+      site.directionsDetails.map((detail) => (
+        <article class="card p-5 md:p-6">
+          <h3 class="text-xl font-black text-white">{detail.title}</h3>
+          <p class="mt-3 text-sm leading-7 text-mist">{detail.copy}</p>
+        </article>
+      ))
+    }
+  </div>
+</div>

@@ -31,6 +31,7 @@ const jsonLd = {
   telephone: site.phone,
   email: site.email,
   image: ogImage,
+  logo: absoluteUrl(imagePath(site.logoImage), Astro.site ?? Astro.url),
   address: {
     "@type": "PostalAddress",
     addressLocality: "Ocean City",

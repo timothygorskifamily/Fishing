@@ -4,30 +4,22 @@ import { site } from "@data/site";
 import { imagePath, smsHref } from "@lib/links";
 ---
 
-<section class="relative min-h-[82svh] overflow-hidden border-b border-white/10">
-  <img
-    src={imagePath("hero-boat.jpg")}
-    alt="Private center-console fishing charter boat running offshore near Ocean City, Maryland"
-    class="absolute inset-0 h-full w-full object-cover"
-    loading="eager"
-    decoding="async"
-    fetchpriority="high"
-  />
-  <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,16,22,0.92),rgba(6,16,22,0.66)_42%,rgba(6,16,22,0.22)),linear-gradient(180deg,rgba(6,16,22,0.20),rgba(6,16,22,0.90))]"></div>
-  <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-ink to-transparent"></div>
+<section class="overflow-hidden border-b border-white/10 bg-[#d9f4ff]">
+  <div class="mx-auto grid max-w-[1500px] place-items-center px-2 py-2 md:px-5 md:py-5">
+    <img
+      src={imagePath("section-art/home-hero-current.png")}
+      alt="Ocean City Guide Service SeaVee charter boat running on Ocean City water"
+      class="max-h-[calc(100svh-13rem)] w-full object-contain"
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+    />
+  </div>
 
-  <div class="container-shell relative flex min-h-[82svh] items-center py-16">
-    <div class="max-w-3xl">
-      <h1 class="text-balance font-display text-5xl font-black leading-[0.98] text-white md:text-7xl">
-        Private Fishing Charters
-      </h1>
-      <p class="mt-6 max-w-2xl text-lg leading-8 text-fog md:text-xl">
-        A clean {site.boatLength} {site.boatMake}, a private crew, and an easy day on the water.
-      </p>
-      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-        <CTAButton href="/book/" label={site.primaryCTA} icon="calendar" />
-        <CTAButton href={smsHref(site.smsPhone)} label={site.secondaryCTA} icon="phone" variant="ghost" />
-      </div>
+  <div class="border-t border-sky-200/80 bg-white/90 px-4 py-4 shadow-[0_-16px_40px_rgba(6,45,68,0.08)] md:py-5">
+    <div class="mx-auto flex w-full max-w-xl flex-col justify-center gap-3 sm:flex-row">
+      <CTAButton href="/book/" label={site.primaryCTA} icon="calendar" />
+      <CTAButton href={smsHref(site.smsPhone)} label={site.secondaryCTA} icon="phone" variant="secondary" />
     </div>
   </div>
 </section>

@@ -1,0 +1,23 @@
+---
+import FishSpeciesGrid from "@components/FishSpeciesGrid.astro";
+import SectionHeading from "@components/SectionHeading.astro";
+
+interface Props {
+  copy?: string;
+}
+
+const {
+  copy = "A quick scan of the species Captain Kyle may target around Ocean City, depending on season, weather, tide, and regulations."
+} = Astro.props;
+---
+
+<section id="common-catches" class="scroll-mt-24 border-t border-white/10 section-pad">
+  <div class="container-shell">
+    <SectionHeading
+      eyebrow="Common catches"
+      title="Common catches around Ocean City."
+      copy={copy}
+    />
+    <FishSpeciesGrid />
+  </div>
+</section>
