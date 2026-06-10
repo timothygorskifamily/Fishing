@@ -24,7 +24,6 @@ export type GalleryImage = {
   title: string;
   caption: string;
   category: string;
-  homeFit?: "cover" | "contain";
 };
 
 export type FishSpecies = {
@@ -122,6 +121,12 @@ const whatToBringItems = [
     copy: "License, bait, rods, reels, and tackle are provided for fishing trips."
   }
 ] satisfies WhatToBringItem[];
+
+const fishSpinFrames = (slug: string) =>
+  Array.from(
+    { length: 8 },
+    (_, index) => `fish-spin/${slug}/${slug}-frame-${String(index + 1).padStart(2, "0")}.png`
+  );
 
 export const site = {
   businessName: "Ocean City Guide Service",
@@ -539,7 +544,8 @@ export const site = {
     {
       name: "Flounder",
       aka: "Summer flounder",
-      image: "young-angler-flounder.jpg",
+      image: "fish-spin/flounder/flounder-frame-01.png",
+      spinFrames: fishSpinFrames("flounder"),
       category: "Bay / wreck",
       typicalSize: "16-24 in",
       highSize: "Larger fish depend on season",
@@ -549,7 +555,8 @@ export const site = {
     {
       name: "Rockfish",
       aka: "Striped bass",
-      image: "captain-rockfish.jpg",
+      image: "fish-spin/rockfish/rockfish-frame-01.png",
+      spinFrames: fishSpinFrames("rockfish"),
       category: "Bay / inshore",
       typicalSize: "20-36 in",
       highSize: "Larger fish depend on season",
@@ -558,7 +565,8 @@ export const site = {
     },
     {
       name: "Bluefish",
-      image: "charter-trolling-catch.jpg",
+      image: "fish-spin/bluefish/bluefish-frame-01.png",
+      spinFrames: fishSpinFrames("bluefish"),
       category: "Bay / inshore trolling / wreck",
       typicalSize: "14-30 in",
       highSize: "Larger fish depend on season",
@@ -568,7 +576,8 @@ export const site = {
     {
       name: "Tautog",
       aka: "Tog",
-      image: "charter-wreck-catch.jpg",
+      image: "fish-spin/tautog/tautog-frame-01.png",
+      spinFrames: fishSpinFrames("tautog"),
       category: "Bay / wreck",
       typicalSize: "16-24 in",
       highSize: "Larger fish depend on structure",
@@ -577,7 +586,8 @@ export const site = {
     },
     {
       name: "Sheepshead",
-      image: "dock-mixed-catch.jpg",
+      image: "fish-spin/sheepshead/sheepshead-frame-01.png",
+      spinFrames: fishSpinFrames("sheepshead"),
       category: "Bay / structure",
       typicalSize: "14-24 in",
       highSize: "Larger fish depend on structure",
@@ -587,16 +597,7 @@ export const site = {
     {
       name: "Black sea bass",
       image: "fish-spin/black-sea-bass/black-sea-bass-frame-01.png",
-      spinFrames: [
-        "fish-spin/black-sea-bass/black-sea-bass-frame-01.png",
-        "fish-spin/black-sea-bass/black-sea-bass-frame-02.png",
-        "fish-spin/black-sea-bass/black-sea-bass-frame-03.png",
-        "fish-spin/black-sea-bass/black-sea-bass-frame-04.png",
-        "fish-spin/black-sea-bass/black-sea-bass-frame-05.png",
-        "fish-spin/black-sea-bass/black-sea-bass-frame-06.png",
-        "fish-spin/black-sea-bass/black-sea-bass-frame-07.png",
-        "fish-spin/black-sea-bass/black-sea-bass-frame-08.png"
-      ],
+      spinFrames: fishSpinFrames("black-sea-bass"),
       category: "Wreck / structure",
       typicalSize: "12-18 in",
       highSize: "Larger fish depend on structure",
@@ -605,7 +606,8 @@ export const site = {
     },
     {
       name: "Triggerfish",
-      image: "charter-wreck-catch.jpg",
+      image: "fish-spin/triggerfish/triggerfish-frame-01.png",
+      spinFrames: fishSpinFrames("triggerfish"),
       category: "Wreck / structure",
       typicalSize: "12-18 in",
       highSize: "Larger fish depend on structure",
@@ -614,7 +616,8 @@ export const site = {
     },
     {
       name: "Spanish mackerel",
-      image: "charter-trolling-catch.jpg",
+      image: "fish-spin/spanish-mackerel/spanish-mackerel-frame-01.png",
+      spinFrames: fishSpinFrames("spanish-mackerel"),
       category: "Inshore trolling",
       typicalSize: "14-24 in",
       highSize: "Larger fish depend on bait and water",
@@ -623,7 +626,8 @@ export const site = {
     },
     {
       name: "King mackerel",
-      image: "charter-trolling-catch.jpg",
+      image: "fish-spin/king-mackerel/king-mackerel-frame-01.png",
+      spinFrames: fishSpinFrames("king-mackerel"),
       category: "Inshore trolling",
       typicalSize: "24-40 in",
       highSize: "Larger fish depend on warm water",
@@ -633,7 +637,8 @@ export const site = {
     {
       name: "False albacore",
       aka: "Albie",
-      image: "charter-trolling-catch.jpg",
+      image: "fish-spin/false-albacore/false-albacore-frame-01.png",
+      spinFrames: fishSpinFrames("false-albacore"),
       category: "Inshore trolling",
       typicalSize: "20-30 in",
       highSize: "Larger fish depend on bait",
@@ -642,7 +647,8 @@ export const site = {
     },
     {
       name: "Shark",
-      image: "source-site/ocgs-1189-hammerhead_oceancityguideservice.jpg",
+      image: "fish-spin/shark/shark-frame-01.png",
+      spinFrames: fishSpinFrames("shark"),
       category: "Evening / nearshore",
       typicalSize: "3-6 ft",
       highSize: "Larger fish depend on season",
@@ -651,7 +657,8 @@ export const site = {
     },
     {
       name: "Cobia",
-      image: "charter-trolling-catch.jpg",
+      image: "fish-spin/cobia/cobia-frame-01.png",
+      spinFrames: fishSpinFrames("cobia"),
       category: "Nearshore / trolling",
       typicalSize: "30-45 in",
       highSize: "Larger fish depend on bait and water",
@@ -661,7 +668,8 @@ export const site = {
     {
       name: "Golden tilefish",
       aka: "Golden tile",
-      image: "charter-wreck-catch.jpg",
+      image: "fish-spin/golden-tilefish/golden-tilefish-frame-01.png",
+      spinFrames: fishSpinFrames("golden-tilefish"),
       category: "Offshore bottom",
       typicalSize: "20-35 in",
       highSize: "Larger fish depend on depth and bottom",
@@ -671,7 +679,8 @@ export const site = {
     {
       name: "Blueline tilefish",
       aka: "Blue line",
-      image: "charter-wreck-catch.jpg",
+      image: "fish-spin/blueline-tilefish/blueline-tilefish-frame-01.png",
+      spinFrames: fishSpinFrames("blueline-tilefish"),
       category: "Offshore bottom",
       typicalSize: "16-28 in",
       highSize: "Larger fish depend on depth and bottom",
@@ -734,64 +743,56 @@ export const site = {
       alt: "Captain Kyle holding a large rockfish aboard the Ocean City Guide Service boat",
       title: "Captain Kyle with rockfish",
       caption: "Captain Kyle brings professional experience to each trip on Ocean City water.",
-      category: "Captain",
-      homeFit: "contain"
+      category: "Captain"
     },
     {
       src: "young-angler-flounder.jpg",
       alt: "Young angler smiling with a flounder aboard the charter boat",
       title: "Young angler flounder",
       caption: "Bay trips are a natural fit for families and younger anglers.",
-      category: "Bay",
-      homeFit: "contain"
+      category: "Bay"
     },
     {
       src: "charter-flounder-dock.jpg",
       alt: "Three guests holding flounder on the dock after an Ocean City fishing trip",
       title: "Flounder at the dock",
       caption: "A dockside finish after a productive flounder trip.",
-      category: "Fishing",
-      homeFit: "contain"
+      category: "Fishing"
     },
     {
       src: "charter-trolling-catch.jpg",
       alt: "Guests with a cobia and a deck full of trolling fish on the dock",
       title: "Trolling catch",
       caption: "Inshore trolling targets the active bite a couple miles off the beach.",
-      category: "Trolling",
-      homeFit: "contain"
+      category: "Trolling"
     },
     {
       src: "charter-wreck-catch.jpg",
       alt: "Three anglers on the dock with a wreck fishing catch laid out",
       title: "Wreck fishing haul",
       caption: "Wreck trips target black sea bass, flounder, tautog, and seasonal bycatch.",
-      category: "Wreck",
-      homeFit: "contain"
+      category: "Wreck"
     },
     {
       src: "family-bay-catch.jpg",
       alt: "Family kneeling on the dock behind a mixed bay fishing catch",
       title: "Family bay catch",
       caption: "Private trips accommodate up to 6 guests.",
-      category: "Bay",
-      homeFit: "contain"
+      category: "Bay"
     },
     {
       src: "dock-mixed-catch.jpg",
       alt: "Two young anglers and an adult with a mixed catch on the dock",
       title: "Mixed bay catch",
       caption: "Bay fishing targets flounder, rockfish, bluefish, tautog, and sheepshead.",
-      category: "Bay",
-      homeFit: "contain"
+      category: "Bay"
     },
     {
       src: "sunset-boat-rail.jpg",
       alt: "Sunset over the water from the rail of the charter boat",
       title: "Sunset cruise",
       caption: "A relaxed evening on the water as the sun drops over Ocean City.",
-      category: "Cruise",
-      homeFit: "contain"
+      category: "Cruise"
     },
     {
       src: "boat-running.jpg",

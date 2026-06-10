@@ -16,17 +16,13 @@ const visibleImages = limit ? images.slice(0, limit) : images;
 <div class="columns-1 gap-5 sm:columns-2 lg:columns-3">
   {
     visibleImages.map((image, index) => (
-      <figure class:list={[
-        "mb-5 break-inside-avoid overflow-hidden rounded-lg border border-white/12 bg-white shadow-[0_18px_45px_rgba(16,80,103,0.12)]",
-        minimal && "p-2"
-      ]}>
+      <figure class="mb-5 break-inside-avoid overflow-hidden rounded-lg border border-white/12 bg-white shadow-[0_18px_45px_rgba(16,80,103,0.12)]">
         <img
           src={imagePath(image.src)}
           alt={image.alt}
           class:list={[
-            "w-full",
+            "w-full object-cover",
             minimal && "aspect-[4/3]",
-            minimal && image.homeFit === "contain" ? "object-contain" : "object-cover",
             !minimal && (index % 3 === 0 ? "aspect-[4/5]" : index % 3 === 1 ? "aspect-[16/11]" : "aspect-[1/1]")
           ]}
           loading={minimal || index < 2 ? "eager" : "lazy"}
