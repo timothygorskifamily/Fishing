@@ -1,5 +1,6 @@
 ---
 import type { FishSpecies } from "@data/site";
+import FishSpinViewer from "@components/FishSpinViewer.astro";
 import { site } from "@data/site";
 import { imagePath } from "@lib/links";
 
@@ -16,15 +17,23 @@ const visibleSpecies = limit ? species.slice(0, limit) : species;
   {
     visibleSpecies.map((fish) => (
       <article class="card group overflow-hidden">
-        <div class="image-sheen aspect-[4/3] bg-harbor">
-          <img
-            src={imagePath(fish.image)}
-            alt={`${fish.name} caught on an Ocean City Maryland fishing charter`}
-            class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-            loading="lazy"
-            decoding="async"
+        {fish.spinFrames?.length ? (
+          <FishSpinViewer
+            title={fish.name}
+            frames={fish.spinFrames}
+            alt={`Interactive 360 viewer of ${fish.name}`}
           />
-        </div>
+        ) : (
+          <div class="image-sheen aspect-[4/3] bg-harbor">
+            <img
+              src={imagePath(fish.image)}
+              alt={`${fish.name} caught on an Ocean City Maryland fishing charter`}
+              class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        )}
         <div class="grid gap-4 p-5">
           <div>
             <p class="text-xs font-black uppercase tracking-[0.16em] text-seafoam">{fish.category}</p>

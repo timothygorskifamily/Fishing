@@ -30,6 +30,7 @@ export type FishSpecies = {
   name: string;
   aka?: string;
   image: string;
+  spinFrames?: readonly string[];
   category: string;
   typicalSize: string;
   highSize: string;
@@ -584,7 +585,17 @@ export const site = {
     },
     {
       name: "Black sea bass",
-      image: "charter-wreck-catch.jpg",
+      image: "fish-spin/black-sea-bass/black-sea-bass-frame-01.png",
+      spinFrames: [
+        "fish-spin/black-sea-bass/black-sea-bass-frame-01.png",
+        "fish-spin/black-sea-bass/black-sea-bass-frame-02.png",
+        "fish-spin/black-sea-bass/black-sea-bass-frame-03.png",
+        "fish-spin/black-sea-bass/black-sea-bass-frame-04.png",
+        "fish-spin/black-sea-bass/black-sea-bass-frame-05.png",
+        "fish-spin/black-sea-bass/black-sea-bass-frame-06.png",
+        "fish-spin/black-sea-bass/black-sea-bass-frame-07.png",
+        "fish-spin/black-sea-bass/black-sea-bass-frame-08.png"
+      ],
       category: "Wreck / structure",
       typicalSize: "12-18 in",
       highSize: "Larger fish depend on structure",
