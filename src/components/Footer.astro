@@ -12,7 +12,7 @@ const socials = [
 
 <footer class="border-t border-white/10 bg-[#071b25] pb-24 pt-14 md:pb-10">
   <div class="container-shell">
-    <div class="grid gap-10 md:grid-cols-2">
+    <div class="grid gap-10 lg:grid-cols-[minmax(14rem,0.65fr)_minmax(0,1.35fr)]">
       <div>
         <h2 class="text-sm font-black uppercase tracking-[0.16em] text-white">Contact</h2>
         <ul class="mt-4 grid gap-3 text-sm text-mist">
@@ -37,9 +37,9 @@ const socials = [
         </ul>
       </div>
 
-      <div class="md:justify-self-end">
+      <div class="min-w-0">
         <h2 class="text-sm font-black uppercase tracking-[0.16em] text-white">Social</h2>
-        <div class="mt-4 grid gap-3 sm:grid-cols-2 md:max-w-2xl">
+        <div class="mt-4 grid gap-3 sm:grid-cols-3">
           {
             socials.map((social) => (
               <a

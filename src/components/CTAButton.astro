@@ -45,7 +45,7 @@ const variants: Record<Variant, string> = {
   target={isExternal ? "_blank" : undefined}
   rel={isExternal ? "noreferrer" : undefined}
   class:list={[
-    "inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border px-5 py-3 text-sm font-extrabold transition duration-200",
+    "inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border px-5 py-3 text-center text-sm font-extrabold leading-tight transition duration-200",
     "focus-visible:shadow-[var(--focus-ring)]",
     full && "w-full",
     variants[variant],

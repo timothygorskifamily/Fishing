@@ -23,13 +23,13 @@ const navMascots: Record<string, string> = {
 ---
 
 <header class="sticky top-0 z-50 border-b border-white/10 bg-ink/95 backdrop-blur-xl">
-  <div class="container-shell flex min-h-20 items-center justify-between gap-4">
+  <div class="container-shell flex min-h-20 items-center justify-between gap-2 md:gap-4">
     <a href={withBase("/")} class="group flex items-center" aria-label={`${site.businessName} home`}>
       <span class="rounded-lg bg-white px-2 py-1 shadow-[0_10px_32px_rgba(0,0,0,0.24)] ring-1 ring-white/18 transition group-hover:ring-seafoam/55">
         <img
           src={imagePath(site.logoImage)}
           alt={site.businessName}
-          class="h-10 w-auto max-w-[13rem] object-contain md:h-11 md:max-w-[16rem]"
+          class="h-10 w-auto max-w-[11.5rem] object-contain sm:max-w-[13rem] md:h-11 md:max-w-[16rem]"
           loading="eager"
           decoding="async"
         />

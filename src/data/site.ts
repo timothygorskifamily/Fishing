@@ -24,6 +24,7 @@ export type GalleryImage = {
   title: string;
   caption: string;
   category: string;
+  homeFit?: "cover" | "contain";
 };
 
 export type FishSpecies = {
@@ -733,56 +734,64 @@ export const site = {
       alt: "Captain Kyle holding a large rockfish aboard the Ocean City Guide Service boat",
       title: "Captain Kyle with rockfish",
       caption: "Captain Kyle brings professional experience to each trip on Ocean City water.",
-      category: "Captain"
+      category: "Captain",
+      homeFit: "contain"
     },
     {
       src: "young-angler-flounder.jpg",
       alt: "Young angler smiling with a flounder aboard the charter boat",
       title: "Young angler flounder",
       caption: "Bay trips are a natural fit for families and younger anglers.",
-      category: "Bay"
+      category: "Bay",
+      homeFit: "contain"
     },
     {
       src: "charter-flounder-dock.jpg",
       alt: "Three guests holding flounder on the dock after an Ocean City fishing trip",
       title: "Flounder at the dock",
       caption: "A dockside finish after a productive flounder trip.",
-      category: "Fishing"
+      category: "Fishing",
+      homeFit: "contain"
     },
     {
       src: "charter-trolling-catch.jpg",
       alt: "Guests with a cobia and a deck full of trolling fish on the dock",
       title: "Trolling catch",
       caption: "Inshore trolling targets the active bite a couple miles off the beach.",
-      category: "Trolling"
+      category: "Trolling",
+      homeFit: "contain"
     },
     {
       src: "charter-wreck-catch.jpg",
       alt: "Three anglers on the dock with a wreck fishing catch laid out",
       title: "Wreck fishing haul",
       caption: "Wreck trips target black sea bass, flounder, tautog, and seasonal bycatch.",
-      category: "Wreck"
+      category: "Wreck",
+      homeFit: "contain"
     },
     {
       src: "family-bay-catch.jpg",
       alt: "Family kneeling on the dock behind a mixed bay fishing catch",
       title: "Family bay catch",
       caption: "Private trips accommodate up to 6 guests.",
-      category: "Bay"
+      category: "Bay",
+      homeFit: "contain"
     },
     {
       src: "dock-mixed-catch.jpg",
       alt: "Two young anglers and an adult with a mixed catch on the dock",
       title: "Mixed bay catch",
       caption: "Bay fishing targets flounder, rockfish, bluefish, tautog, and sheepshead.",
-      category: "Bay"
+      category: "Bay",
+      homeFit: "contain"
     },
     {
       src: "sunset-boat-rail.jpg",
       alt: "Sunset over the water from the rail of the charter boat",
       title: "Sunset cruise",
       caption: "A relaxed evening on the water as the sun drops over Ocean City.",
-      category: "Cruise"
+      category: "Cruise",
+      homeFit: "contain"
     },
     {
       src: "boat-running.jpg",

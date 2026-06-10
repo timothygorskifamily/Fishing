@@ -24,6 +24,12 @@ const fishingMoments = [
     alt: "Sunset over the water from the charter boat rail"
   }
 ];
+
+const tripsBySlug = new Map(site.tripTypes.map((trip) => [trip.slug, trip]));
+const homeTripGroups = site.tripGroups.map((group) => ({
+  ...group,
+  trips: group.tripSlugs.map((slug) => tripsBySlug.get(slug)).filter(Boolean)
+}));
 ---
 
 <Layout
@@ -38,11 +44,11 @@ const fishingMoments = [
       <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
         {
           fishingMoments.map((image) => (
-            <figure class="image-sheen overflow-hidden rounded-lg border border-white/12 bg-panel shadow-lift">
+            <figure class="overflow-hidden rounded-lg border border-white/12 bg-white/90 shadow-lift">
               <img
                 src={imagePath(image.src)}
                 alt={image.alt}
-                class="aspect-[4/3] w-full object-cover"
+                class="aspect-[4/5] w-full object-cover"
                 loading="eager"
                 decoding="async"
               />
@@ -55,17 +61,39 @@ const fishingMoments = [
 
   <section class="section-pad">
     <div class="container-shell">
-      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="grid gap-7">
         {
-          site.tripTypes.map((trip) => (
-            <a
-              href={withBase(`/trips/#${trip.slug}`)}
-              class="rounded-lg border border-white/12 bg-white/90 p-4 shadow-[0_14px_36px_rgba(16,80,103,0.10)] transition hover:-translate-y-1 hover:border-seafoam/40"
-            >
-              <p class="eyebrow mb-2">{trip.eyebrow}</p>
-              <h3 class="text-lg font-black text-white">{trip.name}</h3>
-              <p class="mt-2 text-sm font-bold text-mist">{trip.duration} · {trip.price}</p>
-            </a>
+          homeTripGroups.map((group) => (
+            <section class="border-b border-sky-100 pb-7 last:border-b-0 last:pb-0" aria-label={`${group.title} trips`}>
+              <div class="mb-3">
+                <div>
+                  <p class="text-xs font-black uppercase tracking-[0.16em] text-[#0788a5]">{group.title}</p>
+                  <p class="mt-1 text-sm font-bold text-mist">{group.tripSlugs.length} options</p>
+                </div>
+              </div>
+
+              <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {
+                  group.trips.map((trip) => trip && (
+                    <a
+                      href={withBase(`/trips/#${trip.slug}`)}
+                      class="group min-w-0 rounded-lg border border-white/12 bg-white/90 p-4 shadow-[0_14px_36px_rgba(16,80,103,0.10)] transition hover:-translate-y-1 hover:border-seafoam/40"
+                    >
+                      <div class="flex min-w-0 items-start justify-between gap-3">
+                        <div class="min-w-0">
+                          <p class="eyebrow mb-2">{trip.eyebrow}</p>
+                          <h3 class="text-lg font-black leading-tight text-white">{trip.name}</h3>
+                        </div>
+                        <span class="shrink-0 rounded-md bg-sky-50 px-2 py-1 text-xs font-black text-ink ring-1 ring-sky-100">
+                          {trip.price}
+                        </span>
+                      </div>
+                      <p class="mt-3 text-sm font-bold leading-6 text-mist">{trip.duration} / {trip.times}</p>
+                    </a>
+                  ))
+                }
+              </div>
+            </section>
           ))
         }
       </div>
@@ -80,5 +108,4 @@ const fishingMoments = [
       <GalleryGrid minimal />
     </div>
   </section>
-
 </Layout>

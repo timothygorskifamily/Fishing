@@ -1,5 +1,5 @@
 ---
-import { ChevronLeft, ChevronRight, RotateCcw, ZoomIn, ZoomOut } from "@lucide/astro";
+import { ChevronLeft, ChevronRight } from "@lucide/astro";
 import { imagePath } from "@lib/links";
 
 interface Props {
@@ -13,23 +13,22 @@ interface Props {
 const {
   title = "Black sea bass",
   frames,
-  alt = `${title} 360 spin viewer`,
+  alt = `${title} 360 image viewer`,
   autoplay = true,
   autoplaySpeed = 1350
 } = Astro.props;
 
 const resolvedFrames = frames.map((frame) => imagePath(frame));
 const firstFrame = resolvedFrames[0] ?? "";
-const viewerId = `fish-spin-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${Math.random()
-  .toString(36)
-  .slice(2, 8)}`;
 ---
 
 <div
-  id={viewerId}
   class="fish-spin-viewer"
   tabindex="0"
   data-fish-spin
+  data-fish-frames={JSON.stringify(resolvedFrames)}
+  data-fish-autoplay={String(autoplay)}
+  data-fish-speed={String(autoplaySpeed)}
   aria-label={alt}
 >
   <button type="button" class="fish-spin-step left" aria-label={`Rotate ${title} left`} data-spin-prev>
@@ -43,184 +42,124 @@ const viewerId = `fish-spin-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-$
   <button type="button" class="fish-spin-step right" aria-label={`Rotate ${title} right`} data-spin-next>
     <ChevronRight class="size-5" aria-hidden="true" />
   </button>
-
-  <div class="fish-spin-controls" aria-label={`${title} viewer controls`}>
-    <button type="button" aria-label={`Zoom into ${title}`} data-spin-zoom-in>
-      <ZoomIn class="size-4" aria-hidden="true" />
-    </button>
-    <button type="button" aria-label={`Zoom out from ${title}`} data-spin-zoom-out>
-      <ZoomOut class="size-4" aria-hidden="true" />
-    </button>
-    <button type="button" aria-label={`Reset ${title} view`} data-spin-reset>
-      <RotateCcw class="size-4" aria-hidden="true" />
-    </button>
-  </div>
-
-  <div class="fish-spin-dots" aria-hidden="true">
-    {resolvedFrames.map((_frame, index) => <span class={index === 0 ? "active" : ""}></span>)}
-  </div>
 </div>
 
-<script define:vars={{ viewerId, frames: resolvedFrames, autoplay, autoplaySpeed }}>
-  const root = document.getElementById(viewerId);
+<script>
+  document.querySelectorAll("[data-fish-spin]").forEach((root) => {
+    if (!(root instanceof HTMLElement) || root.dataset.fishInitialized === "true") return;
 
-  if (root instanceof HTMLElement && Array.isArray(frames) && frames.length > 0) {
     const image = root.querySelector("[data-spin-image]");
     const previousButton = root.querySelector("[data-spin-prev]");
     const nextButton = root.querySelector("[data-spin-next]");
-    const zoomInButton = root.querySelector("[data-spin-zoom-in]");
-    const zoomOutButton = root.querySelector("[data-spin-zoom-out]");
-    const resetButton = root.querySelector("[data-spin-reset]");
-    const dots = Array.from(root.querySelectorAll(".fish-spin-dots span"));
+    const frames = parseFrames(root.dataset.fishFrames);
 
-    if (image instanceof HTMLImageElement) {
-      frames.forEach((src) => {
-        const preload = new Image();
-        preload.src = src;
-      });
+    if (!(image instanceof HTMLImageElement) || !frames.length) return;
 
-      let frameIndex = 0;
-      let zoom = 1;
-      let dragStartX = 0;
-      let dragging = false;
-      let autoplayTimer = 0;
+    root.dataset.fishInitialized = "true";
 
-      const clampZoom = (value) => Math.min(2.4, Math.max(1, value));
+    frames.forEach((src) => {
+      const preload = new Image();
+      preload.src = src;
+    });
 
-      const render = () => {
-        image.src = frames[frameIndex];
-        image.style.setProperty("--fish-zoom", String(zoom));
-        root.dataset.frame = String(frameIndex + 1);
-        root.dataset.zoom = zoom.toFixed(2);
-        dots.forEach((dot, index) => dot.classList.toggle("active", index === frameIndex));
-      };
+    const autoplay = root.dataset.fishAutoplay === "true";
+    const autoplaySpeed = Number(root.dataset.fishSpeed) || 1350;
+    let frameIndex = 0;
+    let dragStartX = 0;
+    let dragging = false;
+    let autoplayTimer = 0;
 
-      const rotate = (direction) => {
-        frameIndex = (frameIndex + direction + frames.length) % frames.length;
-        render();
-      };
+    const render = () => {
+      image.src = frames[frameIndex];
+      root.dataset.frame = String(frameIndex + 1);
+    };
 
-      const setZoom = (value) => {
-        zoom = clampZoom(value);
-        render();
-      };
+    const rotate = (direction) => {
+      frameIndex = (frameIndex + direction + frames.length) % frames.length;
+      render();
+    };
 
-      const stopAutoplay = () => {
-        window.clearInterval(autoplayTimer);
-        autoplayTimer = 0;
-      };
+    const stopAutoplay = () => {
+      window.clearInterval(autoplayTimer);
+      autoplayTimer = 0;
+    };
 
-      const startAutoplay = () => {
-        if (!autoplay || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-        stopAutoplay();
-        autoplayTimer = window.setInterval(() => rotate(1), autoplaySpeed);
-      };
+    const startAutoplay = () => {
+      if (!autoplay || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      stopAutoplay();
+      autoplayTimer = window.setInterval(() => rotate(1), autoplaySpeed);
+    };
 
-      previousButton?.addEventListener("click", () => {
+    previousButton?.addEventListener("click", () => {
+      stopAutoplay();
+      rotate(-1);
+    });
+
+    nextButton?.addEventListener("click", () => {
+      stopAutoplay();
+      rotate(1);
+    });
+
+    root.addEventListener("pointerdown", (event) => {
+      const target = event.target;
+      if (target instanceof Element && target.closest("button")) return;
+      dragging = true;
+      dragStartX = event.clientX;
+      root.setPointerCapture(event.pointerId);
+      root.classList.add("is-dragging");
+      stopAutoplay();
+    });
+
+    root.addEventListener("pointermove", (event) => {
+      if (!dragging) return;
+      const delta = event.clientX - dragStartX;
+      if (Math.abs(delta) < 20) return;
+      rotate(delta > 0 ? -1 : 1);
+      dragStartX = event.clientX;
+    });
+
+    const endDrag = (event) => {
+      if (!dragging) return;
+      dragging = false;
+      root.classList.remove("is-dragging");
+      if (root.hasPointerCapture(event.pointerId)) {
+        root.releasePointerCapture(event.pointerId);
+      }
+    };
+
+    root.addEventListener("pointerup", endDrag);
+    root.addEventListener("pointercancel", endDrag);
+    root.addEventListener("mouseenter", stopAutoplay);
+    root.addEventListener("mouseleave", () => {
+      if (!dragging) startAutoplay();
+    });
+
+    root.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
         stopAutoplay();
         rotate(-1);
-      });
-
-      nextButton?.addEventListener("click", () => {
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
         stopAutoplay();
         rotate(1);
-      });
+      }
+    });
 
-      zoomInButton?.addEventListener("click", () => {
-        stopAutoplay();
-        setZoom(zoom + 0.2);
-      });
+    render();
+    startAutoplay();
 
-      zoomOutButton?.addEventListener("click", () => {
-        stopAutoplay();
-        setZoom(zoom - 0.2);
-      });
+    window.addEventListener("pagehide", stopAutoplay, { once: true });
+  });
 
-      resetButton?.addEventListener("click", () => {
-        stopAutoplay();
-        frameIndex = 0;
-        zoom = 1;
-        render();
-      });
-
-      root.addEventListener("pointerdown", (event) => {
-        const target = event.target;
-        if (target instanceof Element && target.closest("button")) return;
-        dragging = true;
-        dragStartX = event.clientX;
-        root.setPointerCapture(event.pointerId);
-        root.classList.add("is-dragging");
-        stopAutoplay();
-      });
-
-      root.addEventListener("pointermove", (event) => {
-        if (!dragging) return;
-        const delta = event.clientX - dragStartX;
-        if (Math.abs(delta) < 22) return;
-        rotate(delta > 0 ? -1 : 1);
-        dragStartX = event.clientX;
-      });
-
-      const endDrag = (event) => {
-        if (!dragging) return;
-        dragging = false;
-        root.classList.remove("is-dragging");
-        if (root.hasPointerCapture(event.pointerId)) {
-          root.releasePointerCapture(event.pointerId);
-        }
-      };
-
-      root.addEventListener("pointerup", endDrag);
-      root.addEventListener("pointercancel", endDrag);
-      root.addEventListener("mouseenter", stopAutoplay);
-      root.addEventListener("mouseleave", () => {
-        if (!dragging) startAutoplay();
-      });
-
-      root.addEventListener(
-        "wheel",
-        (event) => {
-          event.preventDefault();
-          stopAutoplay();
-          setZoom(zoom + (event.deltaY < 0 ? 0.12 : -0.12));
-        },
-        { passive: false }
-      );
-
-      root.addEventListener("keydown", (event) => {
-        if (event.key === "ArrowLeft") {
-          event.preventDefault();
-          stopAutoplay();
-          rotate(-1);
-        }
-        if (event.key === "ArrowRight") {
-          event.preventDefault();
-          stopAutoplay();
-          rotate(1);
-        }
-        if (event.key === "+" || event.key === "=") {
-          event.preventDefault();
-          stopAutoplay();
-          setZoom(zoom + 0.2);
-        }
-        if (event.key === "-") {
-          event.preventDefault();
-          stopAutoplay();
-          setZoom(zoom - 0.2);
-        }
-        if (event.key === "0") {
-          event.preventDefault();
-          stopAutoplay();
-          frameIndex = 0;
-          zoom = 1;
-          render();
-        }
-      });
-
-      render();
-      startAutoplay();
-
-      window.addEventListener("pagehide", stopAutoplay);
+  function parseFrames(value) {
+    if (!value) return [];
+    try {
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed) ? parsed.filter((item) => typeof item === "string") : [];
+    } catch (_error) {
+      return [];
     }
   }
 </script>
@@ -230,24 +169,13 @@ const viewerId = `fish-spin-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-$
     position: relative;
     isolation: isolate;
     aspect-ratio: 4 / 3;
-    min-height: 220px;
     overflow: hidden;
     background:
-      radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.96), rgba(225, 246, 250, 0.9) 44%, rgba(158, 225, 235, 0.7) 100%),
-      linear-gradient(180deg, #ffffff, #daf4f8);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(225, 247, 250, 0.94)),
+      linear-gradient(135deg, rgba(53, 224, 202, 0.12), rgba(243, 184, 91, 0.08));
     cursor: grab;
     user-select: none;
     touch-action: pan-y;
-  }
-
-  .fish-spin-viewer::before {
-    position: absolute;
-    inset: 11% 12% 15%;
-    z-index: -1;
-    border-radius: 999px;
-    background: radial-gradient(circle, rgba(53, 224, 202, 0.32), rgba(53, 224, 202, 0) 66%);
-    content: "";
-    filter: blur(12px);
   }
 
   .fish-spin-viewer:focus-visible {
@@ -263,52 +191,37 @@ const viewerId = `fish-spin-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-$
     height: 100%;
     place-items: center;
     overflow: hidden;
-    padding: 1.35rem 2.8rem 2.55rem;
+    padding: 1.1rem 2.65rem 1.35rem;
   }
 
   .fish-spin-stage img {
     width: 100%;
     height: 100%;
-    max-height: 100%;
-    max-width: 100%;
     object-fit: contain;
     pointer-events: none;
-    transform: scale(var(--fish-zoom, 1));
-    transform-origin: center;
-    transition: transform 160ms ease, filter 160ms ease;
     filter: drop-shadow(0 20px 28px rgba(8, 32, 43, 0.18));
-    will-change: transform;
-  }
-
-  .fish-spin-step,
-  .fish-spin-controls button {
-    display: grid;
-    place-items: center;
-    border: 1px solid rgba(8, 32, 43, 0.12);
-    border-radius: 0.5rem;
-    background: rgba(255, 255, 255, 0.78);
-    color: #08202b;
-    box-shadow: 0 12px 30px rgba(16, 80, 103, 0.14);
-    transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
-  }
-
-  .fish-spin-step:hover,
-  .fish-spin-controls button:hover {
-    border-color: rgba(7, 136, 165, 0.42);
-    background: #ffffff;
-    transform: translateY(-1px);
   }
 
   .fish-spin-step {
     position: absolute;
     top: 50%;
     z-index: 3;
+    display: grid;
     width: 2.35rem;
     height: 2.35rem;
+    place-items: center;
+    border: 1px solid rgba(8, 32, 43, 0.12);
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.82);
+    color: #08202b;
+    box-shadow: 0 12px 30px rgba(16, 80, 103, 0.14);
     transform: translateY(-50%);
+    transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
   }
 
   .fish-spin-step:hover {
+    border-color: rgba(7, 136, 165, 0.42);
+    background: #ffffff;
     transform: translateY(calc(-50% - 1px));
   }
 
@@ -320,46 +233,9 @@ const viewerId = `fish-spin-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-$
     right: 0.72rem;
   }
 
-  .fish-spin-controls {
-    position: absolute;
-    right: 0.75rem;
-    bottom: 0.75rem;
-    z-index: 3;
-    display: flex;
-    gap: 0.35rem;
-  }
-
-  .fish-spin-controls button {
-    width: 2.15rem;
-    height: 2.15rem;
-  }
-
-  .fish-spin-dots {
-    position: absolute;
-    bottom: 1.15rem;
-    left: 50%;
-    z-index: 2;
-    display: flex;
-    gap: 0.35rem;
-    transform: translateX(-50%);
-  }
-
-  .fish-spin-dots span {
-    width: 0.4rem;
-    height: 0.4rem;
-    border-radius: 999px;
-    background: rgba(8, 32, 43, 0.22);
-    transition: background 140ms ease, transform 140ms ease;
-  }
-
-  .fish-spin-dots span.active {
-    background: #0788a5;
-    transform: scale(1.25);
-  }
-
   @media (max-width: 520px) {
     .fish-spin-stage {
-      padding-inline: 2.35rem;
+      padding-inline: 2.2rem;
     }
 
     .fish-spin-step {
