@@ -17,7 +17,7 @@ const { trip, compact = false } = Astro.props;
     <img
       src={imagePath(trip.image)}
       alt={`${trip.name} image for an Ocean City fishing charter`}
-      class="h-full w-full object-cover"
+      class:list={["h-full w-full object-cover", trip.image === "young-angler-flounder.jpg" && "scale-80"]}
       loading="lazy"
       decoding="async"
     />
