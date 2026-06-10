@@ -136,17 +136,14 @@ const navMascots: Record<string, string> = {
 
 <style>
   .nav-preview {
-    transition:
-      opacity 220ms ease,
-      transform 220ms ease;
-    transition-delay: 0ms;
+    transition: none;
   }
 
   .nav-preview-item:hover .nav-preview,
   .nav-preview-item:focus-within .nav-preview {
     opacity: 1;
     transform: translate(-50%, 0);
-    transition-delay: 1000ms;
+    transition-delay: 0ms;
   }
 
   @media (prefers-reduced-motion: reduce) {

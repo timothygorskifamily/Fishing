@@ -16,7 +16,7 @@ const visibleImages = limit ? images.slice(0, limit) : images;
 <div class="columns-1 gap-5 sm:columns-2 lg:columns-3">
   {
     visibleImages.map((image, index) => (
-      <figure class="card mb-5 break-inside-avoid overflow-hidden">
+      <figure class="mb-5 break-inside-avoid overflow-hidden rounded-lg border border-white/12 bg-white shadow-[0_18px_45px_rgba(16,80,103,0.12)]">
         <img
           src={imagePath(image.src)}
           alt={image.alt}
@@ -27,11 +27,6 @@ const visibleImages = limit ? images.slice(0, limit) : images;
           loading={minimal || index < 2 ? "eager" : "lazy"}
           decoding="async"
         />
-        <figcaption class:list={[minimal ? "p-4" : "p-5"]}>
-          <p class="text-xs font-black uppercase tracking-[0.16em] text-seafoam">{image.category}</p>
-          <h3 class="mt-2 text-xl font-black text-white">{image.title}</h3>
-          {!minimal && <p class="mt-2 text-sm leading-6 text-mist">{image.caption}</p>}
-        </figcaption>
       </figure>
     ))
   }

@@ -78,6 +78,7 @@ export type FishingReportHighlight = {
   area: string;
   image: string;
   targetSpecies: string[];
+  tripSlugs: string[];
   conditions: string;
   tripFit: string;
 };
@@ -406,6 +407,7 @@ export const site = {
       area: "Back bay, bridges, and structure",
       image: "young-angler-flounder.jpg",
       targetSpecies: ["Flounder", "Rockfish", "Bluefish", "Tautog", "Sheepshead"],
+      tripSlugs: ["4-hour-bay-fishing", "5-hour-bay-fishing", "2-hour-evening-bay-fishing"],
       conditions:
         "Bay trips are planned around moving water, wind, water clarity, and the most productive seasonal structure.",
       tripFit:
@@ -416,6 +418,7 @@ export const site = {
       area: "Nearshore structure and wrecks",
       image: "charter-wreck-catch.jpg",
       targetSpecies: ["Black sea bass", "Flounder", "Tautog", "Triggerfish", "Bluefish", "Golden tilefish", "Blueline tilefish"],
+      tripSlugs: ["6-hour-wreck-fishing", "8-hour-wreck-fishing", "10-hour-wreck-fishing"],
       conditions:
         "Wreck trips depend on sea conditions, current, regulations, and which pieces of structure are fishing best.",
       tripFit:
@@ -426,6 +429,7 @@ export const site = {
       area: "A couple miles off the beach",
       image: "charter-trolling-catch.jpg",
       targetSpecies: ["Spanish mackerel", "Bluefish", "King mackerel", "False albacore"],
+      tripSlugs: ["4-hour-inshore-trolling", "5-hour-inshore-trolling"],
       conditions:
         "Trolling follows bait, water temperature, clean water, and the active seasonal bite along the beach.",
       tripFit:
@@ -436,6 +440,7 @@ export const site = {
       area: "Evening Ocean City water",
       image: "sunset-boat-rail.jpg",
       targetSpecies: ["Shark", "Cobia", "Wildlife viewing", "Sunset cruise"],
+      tripSlugs: ["4-hour-night-shark-fishing", "2-hour-sunset-cruise"],
       conditions:
         "Evening plans are matched to weather, safe sea conditions, and the kind of trip your group wants.",
       tripFit:
@@ -534,7 +539,7 @@ export const site = {
       aka: "Summer flounder",
       image: "young-angler-flounder.jpg",
       category: "Bay / wreck",
-      typicalSize: "Keeper sizes vary by regulation",
+      typicalSize: "16-24 in",
       highSize: "Larger fish depend on season",
       season: "Spring through fall windows",
       notes: "A signature Ocean City target for bay fishing and wreck trips."
@@ -544,7 +549,7 @@ export const site = {
       aka: "Striped bass",
       image: "captain-rockfish.jpg",
       category: "Bay / inshore",
-      typicalSize: "Seasonal sizes vary",
+      typicalSize: "20-36 in",
       highSize: "Larger fish depend on season",
       season: "Seasonal runs and condition-dependent bites",
       notes: "A classic Maryland target when conditions and regulations line up."
@@ -553,7 +558,7 @@ export const site = {
       name: "Bluefish",
       image: "charter-trolling-catch.jpg",
       category: "Bay / inshore trolling / wreck",
-      typicalSize: "Seasonal sizes vary",
+      typicalSize: "14-30 in",
       highSize: "Larger fish depend on season",
       season: "Warmer-water seasonal action",
       notes: "A fast, aggressive species that shows up across bay, trolling, and wreck trips."
@@ -563,7 +568,7 @@ export const site = {
       aka: "Tog",
       image: "charter-wreck-catch.jpg",
       category: "Bay / wreck",
-      typicalSize: "Keeper sizes vary by regulation",
+      typicalSize: "16-24 in",
       highSize: "Larger fish depend on structure",
       season: "Cool-water structure bite",
       notes: "A hard-fighting structure fish and a primary wreck target."
@@ -572,7 +577,7 @@ export const site = {
       name: "Sheepshead",
       image: "dock-mixed-catch.jpg",
       category: "Bay / structure",
-      typicalSize: "Seasonal sizes vary",
+      typicalSize: "14-24 in",
       highSize: "Larger fish depend on structure",
       season: "Summer structure windows",
       notes: "A smart, strong bay and structure target when they are around pilings and hard bottom."
@@ -581,7 +586,7 @@ export const site = {
       name: "Black sea bass",
       image: "charter-wreck-catch.jpg",
       category: "Wreck / structure",
-      typicalSize: "Keeper sizes vary by regulation",
+      typicalSize: "12-18 in",
       highSize: "Larger fish depend on structure",
       season: "Seasonal wreck and structure windows",
       notes: "A core wreck fishing target around productive bottom and structure."
@@ -590,7 +595,7 @@ export const site = {
       name: "Triggerfish",
       image: "charter-wreck-catch.jpg",
       category: "Wreck / structure",
-      typicalSize: "Seasonal sizes vary",
+      typicalSize: "12-18 in",
       highSize: "Larger fish depend on structure",
       season: "Warm-water structure bite",
       notes: "A hard-fighting bycatch species that can show up while working wrecks."
@@ -599,7 +604,7 @@ export const site = {
       name: "Spanish mackerel",
       image: "charter-trolling-catch.jpg",
       category: "Inshore trolling",
-      typicalSize: "Seasonal sizes vary",
+      typicalSize: "14-24 in",
       highSize: "Larger fish depend on bait and water",
       season: "Summer trolling windows",
       notes: "A fast inshore trolling target when bait and clean water line up off the beach."
@@ -608,7 +613,7 @@ export const site = {
       name: "King mackerel",
       image: "charter-trolling-catch.jpg",
       category: "Inshore trolling",
-      typicalSize: "Seasonal sizes vary",
+      typicalSize: "24-40 in",
       highSize: "Larger fish depend on warm water",
       season: "Warm-water trolling windows",
       notes: "A nearshore trolling target that can turn a beach trip into a fast-paced bite."
@@ -618,7 +623,7 @@ export const site = {
       aka: "Albie",
       image: "charter-trolling-catch.jpg",
       category: "Inshore trolling",
-      typicalSize: "Seasonal sizes vary",
+      typicalSize: "20-30 in",
       highSize: "Larger fish depend on bait",
       season: "Seasonal bait-driven runs",
       notes: "A fast, hard-pulling trolling target that follows bait along the beach."
@@ -627,7 +632,7 @@ export const site = {
       name: "Shark",
       image: "source-site/ocgs-1189-hammerhead_oceancityguideservice.jpg",
       category: "Evening / nearshore",
-      typicalSize: "Species and sizes vary",
+      typicalSize: "3-6 ft",
       highSize: "Larger fish depend on season",
       season: "Warm-water evening windows",
       notes: "A memorable night-trip target when conditions are right."
@@ -636,7 +641,7 @@ export const site = {
       name: "Cobia",
       image: "charter-trolling-catch.jpg",
       category: "Nearshore / trolling",
-      typicalSize: "Seasonal sizes vary",
+      typicalSize: "30-45 in",
       highSize: "Larger fish depend on bait and water",
       season: "Warm-water seasonal windows",
       notes: "A prized nearshore visitor that may show up when bait and conditions line up."
@@ -646,7 +651,7 @@ export const site = {
       aka: "Golden tile",
       image: "charter-wreck-catch.jpg",
       category: "Offshore bottom",
-      typicalSize: "Seasonal sizes vary",
+      typicalSize: "20-35 in",
       highSize: "Larger fish depend on depth and bottom",
       season: "Condition and regulation dependent",
       notes: "A deep-water bottom species to discuss directly with the captain when planning the right trip."
@@ -656,7 +661,7 @@ export const site = {
       aka: "Blue line",
       image: "charter-wreck-catch.jpg",
       category: "Offshore bottom",
-      typicalSize: "Seasonal sizes vary",
+      typicalSize: "16-28 in",
       highSize: "Larger fish depend on depth and bottom",
       season: "Condition and regulation dependent",
       notes: "A bottom-fishing target that belongs in the deeper structure conversation before booking."

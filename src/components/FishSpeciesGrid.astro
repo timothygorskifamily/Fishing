@@ -32,6 +32,11 @@ const visibleSpecies = limit ? species.slice(0, limit) : species;
             {fish.aka && <p class="mt-1 text-sm font-bold text-mist">{fish.aka}</p>}
           </div>
 
+          <div class="rounded-lg border border-sky-100 bg-sky-50/80 p-3">
+            <p class="text-xs font-black uppercase tracking-[0.12em] text-[#46717c]">Average range</p>
+            <p class="mt-1 text-sm font-black text-ink">{fish.typicalSize}</p>
+          </div>
+
           <p class="text-sm font-bold text-fog">{fish.season}</p>
           <p class="text-sm leading-7 text-mist">{fish.notes}</p>
         </div>
