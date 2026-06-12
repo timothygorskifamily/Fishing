@@ -6,14 +6,24 @@ import { imagePath, smsHref } from "@lib/links";
 
 <section class="overflow-hidden border-b border-white/10 bg-[#d9f4ff]">
   <div class="mx-auto grid max-w-[1500px] place-items-center px-2 py-2 md:px-5 md:py-5">
-    <img
-      src={imagePath("section-art/home-hero-current.png")}
-      alt="Ocean City Guide Service SeaVee charter boat running on Ocean City water"
-      class="max-h-[calc(100svh-13rem)] w-full object-contain"
-      loading="eager"
-      decoding="async"
-      fetchpriority="high"
-    />
+    <div class="relative inline-block max-w-full">
+      <img
+        src={imagePath("section-art/home-hero-current.png")}
+        alt="Ocean City Guide Service SeaVee charter boat running on Ocean City water"
+        class="h-auto max-h-[calc(100svh-13rem)] max-w-full object-contain"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+      <img
+        src={imagePath(site.logoImage)}
+        alt=""
+        class="absolute left-[4%] top-[4%] w-[clamp(4.5rem,14vw,12rem)] rounded-lg bg-white p-1.5 shadow-[0_14px_36px_rgba(6,45,68,0.22)] ring-1 ring-white/70"
+        loading="eager"
+        decoding="async"
+        aria-hidden="true"
+      />
+    </div>
   </div>
 
   <div class="border-t border-sky-200/80 bg-white/90 px-4 py-4 shadow-[0_-16px_40px_rgba(6,45,68,0.08)] md:py-5">

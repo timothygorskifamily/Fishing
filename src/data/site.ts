@@ -154,7 +154,7 @@ export const site = {
     "All charters accommodate up to 6 guests. License, bait, and tackle are provided for each trip option as well. Please remember to tip the mate.",
   phone: "856-357-3113",
   smsPhone: "856-357-3113",
-  email: "Kyle@OCGuideService.com",
+  email: "kyle@ocguideservice.com",
   marinaName: "Ocean City Guide Service",
   marinaAddress: "12940 Inlet Isle Lane, Ocean City, MD 21842",
   marinaDirectionsNote:
@@ -166,7 +166,7 @@ export const site = {
   facebookImage: "social/facebook-card.png",
   youtubeUrl: "https://www.youtube.com/watch?v=Q10Z3CSnYoQ&t=39s",
   tiktokUrl: "#",
-  calComLink: "your-cal-username/fishing-charter",
+  calComLink: "KylePelino/fishing-charter",
   calComEventSlug: "fishing-charter",
   primaryCTA: "Check Availability",
   secondaryCTA: "Call/Text Captain",
