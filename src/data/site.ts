@@ -10,6 +10,7 @@ export type TripType = {
   included: string[];
   description: string;
   image: string;
+  calComLink?: string;
 };
 
 export type FAQItem = {
@@ -166,8 +167,7 @@ export const site = {
   facebookImage: "social/facebook-card.png",
   youtubeUrl: "https://www.youtube.com/watch?v=Q10Z3CSnYoQ&t=39s",
   tiktokUrl: "#",
-  calComLink: "KylePelino/fishing-charter",
-  calComEventSlug: "fishing-charter",
+  calComLink: "kylepelino",
   primaryCTA: "Check Availability",
   secondaryCTA: "Call/Text Captain",
   navLinks: [
@@ -192,7 +192,8 @@ export const site = {
       included: [...standardIncluded, "Morning or afternoon departure"],
       description:
         "Fish the bay for flounder, rockfish, bluefish, tautog, sheepshead, and the best seasonal bite.",
-      image: "family-bay-catch.jpg"
+      image: "family-bay-catch.jpg",
+      calComLink: "kylepelino/bay-fishing"
     },
     {
       name: "5 hr Bay Fishing Trip",
@@ -206,7 +207,8 @@ export const site = {
       included: [...standardIncluded, "Morning departure"],
       description:
         "A longer bay trip with more time to work productive areas and adjust with tide, season, and conditions.",
-      image: "family-bay-catch.jpg"
+      image: "family-bay-catch.jpg",
+      calComLink: "kylepelino/bay-fishing"
     },
     {
       name: "2 hr Evening Bay Fishing Trip",
@@ -220,7 +222,8 @@ export const site = {
       included: [...standardIncluded, "Evening departure"],
       description:
         "A quick evening bay trip for guests who want time on the water without booking a full half-day.",
-      image: "dock-mixed-catch.jpg"
+      image: "dock-mixed-catch.jpg",
+      calComLink: "kylepelino/evening"
     },
     {
       name: "6 hr Wreck Fishing Trip",
@@ -234,7 +237,8 @@ export const site = {
       included: [...standardIncluded, "Morning or afternoon departure"],
       description:
         "A structure-focused wreck trip targeting black sea bass, flounder, tautog, and seasonal bycatch.",
-      image: "charter-wreck-catch.jpg"
+      image: "charter-wreck-catch.jpg",
+      calComLink: "kylepelino/wreck-fishing"
     },
     {
       name: "8 hr Wreck Fishing Trip",
@@ -248,7 +252,8 @@ export const site = {
       included: [...standardIncluded, "Full morning trip"],
       description:
         "An extended wreck trip with more fishing time for structure species and changing conditions.",
-      image: "charter-wreck-catch.jpg"
+      image: "charter-wreck-catch.jpg",
+      calComLink: "kylepelino/wreck-fishing"
     },
     {
       name: "10 hr Wreck Fishing Trip",
@@ -262,7 +267,8 @@ export const site = {
       included: [...standardIncluded, "Longest wreck option"],
       description:
         "The longest wreck option for guests who want a full day targeting productive structure.",
-      image: "charter-wreck-catch.jpg"
+      image: "charter-wreck-catch.jpg",
+      calComLink: "kylepelino/wreck-fishing"
     },
     {
       name: "12 hr Off Shore Fishing Trip",
@@ -276,7 +282,8 @@ export const site = {
       included: [...standardIncluded, "Full-day offshore departure"],
       description:
         "A full-day Off Shore trip targeting golden tilefish and blueline tilefish in deeper bottom-fishing areas.",
-      image: "charter-wreck-catch.jpg"
+      image: "charter-wreck-catch.jpg",
+      calComLink: "kylepelino/offshore"
     },
     {
       name: "4 hr Inshore Trolling Trip",
@@ -290,7 +297,8 @@ export const site = {
       included: [...standardIncluded, "Morning or afternoon departure"],
       description:
         "Inshore trolling usually stays a couple miles off the beach and follows the active seasonal bite.",
-      image: "charter-trolling-catch.jpg"
+      image: "charter-trolling-catch.jpg",
+      calComLink: "kylepelino/trolling"
     },
     {
       name: "5 hr Inshore Trolling Trip",
@@ -304,7 +312,8 @@ export const site = {
       included: [...standardIncluded, "Morning departure"],
       description:
         "A longer inshore trolling trip for Spanish mackerel, bluefish, king mackerel, and false albacore.",
-      image: "charter-trolling-catch.jpg"
+      image: "charter-trolling-catch.jpg",
+      calComLink: "kylepelino/trolling"
     },
     {
       name: "4 hr Night Shark Fishing Trip",
@@ -318,7 +327,8 @@ export const site = {
       included: [...standardIncluded, "Night departure"],
       description:
         "An evening shark fishing trip timed for guests who want a different kind of Ocean City charter.",
-      image: "sunset-boat-rail.jpg"
+      image: "sunset-boat-rail.jpg",
+      calComLink: "kylepelino/evening"
     },
     {
       name: "2 hr Sunset Cruise",
@@ -332,7 +342,8 @@ export const site = {
       included: ["Up to 6 guests", "Comfortable bay cruise", "Evening departure"],
       description:
         "Cruise around the bay looking for wildlife or simply enjoy a relaxing boat ride as the sun is setting.",
-      image: "sunset-boat-rail.jpg"
+      image: "sunset-boat-rail.jpg",
+      calComLink: "kylepelino/evening"
     }
   ] satisfies TripType[],
   tripGroups: [

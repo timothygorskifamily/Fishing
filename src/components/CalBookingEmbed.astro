@@ -1,21 +1,37 @@
 ---
 import CTAButton from "@components/CTAButton.astro";
 import { site } from "@data/site";
-import { calUrl, smsHref } from "@lib/links";
+import { calUrl, smsHref, withBase } from "@lib/links";
 
 interface Props {
   calLink?: string;
+  tripLinks?: Record<string, string>;
+  tripNames?: Record<string, string>;
 }
 
-const { calLink = site.calComLink } = Astro.props;
+const { calLink = site.calComLink, tripLinks = {}, tripNames = {} } = Astro.props;
 const elementId = "cal-booking-inline";
+const openLinkId = "cal-booking-open-link";
+const selectedTripId = "cal-booking-selected-trip";
+const tripPickerId = "cal-booking-trip-picker";
 const bookingUrl = calUrl(calLink);
+const bookableTrips = site.tripTypes.filter((trip) => trip.calComLink);
 ---
 
 <section class="card noise-border overflow-hidden">
   <div class="grid gap-6 border-b border-white/10 bg-soft-horizon p-5 md:grid-cols-[1fr_auto] md:items-center md:p-7">
     <div>
       <p class="eyebrow mb-3">Live availability</p>
+      <p
+        id={selectedTripId}
+        hidden
+        class="mb-3 inline-flex flex-wrap items-center gap-2 rounded-lg border border-seafoam/25 bg-white/72 px-3 py-2 text-sm font-extrabold text-ink"
+      >
+        <span class="text-[0.68rem] font-black uppercase tracking-[0.14em] text-[#0788a5]">
+          Selected trip
+        </span>
+        <span data-selected-trip-name></span>
+      </p>
       <h2 class="text-balance text-3xl font-black leading-tight text-white md:text-4xl">
         Check Availability &amp; Request Your Date
       </h2>
@@ -25,26 +41,45 @@ const bookingUrl = calUrl(calLink);
       </p>
     </div>
     <div class="flex flex-col gap-3 sm:flex-row md:flex-col">
-      <CTAButton href={bookingUrl} label="Open Booking Calendar" icon="calendar" external />
+      <CTAButton id={openLinkId} href={bookingUrl} label="Open Booking Calendar" icon="calendar" external hidden />
       <CTAButton href={smsHref(site.smsPhone)} label="Call/Text Captain" icon="phone" variant="ghost" />
     </div>
   </div>
 
-  <div class="bg-[#07151d] p-2 md:p-4">
+  <div id={tripPickerId} class="booking-trip-picker">
+    <div class="mb-5 max-w-3xl">
+      <p class="eyebrow mb-2">Choose a trip</p>
+      <h3 class="text-2xl font-black leading-tight text-ink">Pick your charter calendar.</h3>
+      <p class="mt-2 text-sm leading-7 text-mist">
+        Select a trip type to check the matching live calendar. Each option opens the right Cal.com event without showing the public profile page.
+      </p>
+    </div>
+
+    <div class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+      {
+        bookableTrips.map((trip) => (
+          <a
+            href={withBase(`/book/?trip=${trip.slug}`)}
+            class="booking-trip-option rounded-lg border border-sky-100 bg-white/86 p-4 text-left transition hover:border-seafoam/45 hover:bg-white"
+          >
+            <span class="eyebrow mb-2 block">{trip.eyebrow}</span>
+            <strong class="block text-lg font-black leading-snug text-ink">{trip.name}</strong>
+            <span class="mt-3 flex flex-wrap gap-2 text-xs font-extrabold text-mist">
+              <span class="rounded-md bg-sky-50 px-2.5 py-1">{trip.duration}</span>
+              <span class="rounded-md bg-sky-50 px-2.5 py-1">{trip.price}</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="cal-embed-shell" hidden>
     <div
       id={elementId}
-      class="cal-embed min-h-[720px] rounded-lg border border-white/10 bg-white text-ink md:min-h-[780px]"
+      class="cal-embed text-ink"
       data-cal-link={calLink}
-    >
-      <div class="grid min-h-[720px] place-items-center p-8 text-center md:min-h-[780px]">
-        <div>
-          <p class="text-lg font-black text-ink">Loading booking calendar...</p>
-          <p class="mt-2 max-w-md text-sm leading-6 text-slate-600">
-            If the calendar does not load, open the booking calendar directly or call/text the captain.
-          </p>
-        </div>
-      </div>
-    </div>
+    ></div>
   </div>
 
   <div class="grid gap-2 border-t border-white/10 bg-ink/80 p-5 text-sm leading-7 text-mist md:p-6">
@@ -53,7 +88,51 @@ const bookingUrl = calUrl(calLink);
   </div>
 </section>
 
-<script define:vars={{ calLink, elementId }}>
+<script define:vars={{ calLink, elementId, openLinkId, selectedTripId, tripPickerId, tripLinks, tripNames }}>
+  const calUrl = (link) => {
+    if (link.startsWith("http")) return link;
+    return `https://cal.com/${link.replace(/^\/+/, "")}`;
+  };
+
+  const requestedTrip = new URLSearchParams(window.location.search).get("trip");
+  const activeCalLink = requestedTrip && tripLinks[requestedTrip] ? tripLinks[requestedTrip] : calLink;
+  const selectedTripName = requestedTrip && tripNames[requestedTrip] ? tripNames[requestedTrip] : "";
+  const embedElement = document.getElementById(elementId);
+  const openLink = document.getElementById(openLinkId);
+  const selectedTripElement = document.getElementById(selectedTripId);
+  const tripPickerElement = document.getElementById(tripPickerId);
+  const embedShellElement = embedElement?.closest(".cal-embed-shell");
+  const hasSelectedTrip = Boolean(requestedTrip && tripLinks[requestedTrip]);
+
+  if (tripPickerElement) {
+    tripPickerElement.hidden = hasSelectedTrip;
+  }
+
+  if (embedShellElement instanceof HTMLElement) {
+    embedShellElement.hidden = !hasSelectedTrip;
+  }
+
+  if (embedElement) {
+    embedElement.dataset.calLink = activeCalLink;
+    embedElement.replaceChildren();
+  }
+
+  if (openLink) {
+    openLink.href = calUrl(activeCalLink);
+    openLink.hidden = !hasSelectedTrip;
+  }
+
+  if (selectedTripElement) {
+    const selectedTripNameElement = selectedTripElement.querySelector("[data-selected-trip-name]");
+
+    if (selectedTripNameElement && selectedTripName) {
+      selectedTripNameElement.textContent = selectedTripName;
+      selectedTripElement.hidden = false;
+    } else {
+      selectedTripElement.hidden = true;
+    }
+  }
+
   (function (C, A, L) {
     let p = function (a, ar) {
       a.q.push(ar);
@@ -87,23 +166,101 @@ const bookingUrl = calUrl(calLink);
       };
   })(window, "https://app.cal.com/embed/embed.js", "init");
 
-  Cal("init", { origin: "https://cal.com" });
-  Cal("inline", {
-    elementOrSelector: `#${elementId}`,
-    calLink,
-    config: {
-      layout: "month_view",
-      theme: "dark"
-    }
-  });
-  Cal("ui", {
-    theme: "dark",
-    hideEventTypeDetails: false,
-    layout: "month_view",
-    styles: {
-      branding: {
-        brandColor: "#35e0ca"
+  if (hasSelectedTrip) {
+    Cal("init", { origin: "https://cal.com" });
+    Cal("inline", {
+      elementOrSelector: `#${elementId}`,
+      calLink: activeCalLink,
+      config: {
+        layout: "month_view",
+        theme: "dark",
+        hideEventTypeDetails: true
       }
-    }
-  });
+    });
+    Cal("ui", {
+      theme: "dark",
+      hideEventTypeDetails: true,
+      layout: "month_view",
+      styles: {
+        branding: {
+          brandColor: "#35e0ca"
+        }
+      }
+    });
+  }
 </script>
+
+<style>
+  :global(#cal-booking-open-link[hidden]),
+  #cal-booking-selected-trip[hidden],
+  #cal-booking-trip-picker[hidden],
+  .cal-embed-shell[hidden] {
+    display: none !important;
+  }
+
+  .booking-trip-picker {
+    padding: 1.25rem;
+  }
+
+  .booking-trip-option {
+    box-shadow: 0 14px 36px rgba(16, 80, 103, 0.08);
+  }
+
+  .cal-embed {
+    height: 720px;
+    margin-inline: auto;
+    max-width: 1080px;
+    min-height: 720px;
+    overflow: hidden;
+    border-radius: 0.5rem;
+  }
+
+  .cal-embed:empty {
+    display: grid;
+    place-content: center;
+    gap: 0.5rem;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .cal-embed:empty::before {
+    color: #07151d;
+    content: "Loading booking calendar...";
+    font-size: 1.125rem;
+    font-weight: 900;
+  }
+
+  .cal-embed:empty::after {
+    color: #475569;
+    content: "If the calendar does not load, open the booking calendar directly or call/text the captain.";
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    max-width: 28rem;
+  }
+
+  .cal-embed cal-inline,
+  .cal-embed iframe {
+    height: 100% !important;
+    min-height: 100% !important;
+    width: 100%;
+  }
+
+  .cal-embed-shell {
+    padding: 1.25rem 0.75rem 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .booking-trip-picker {
+      padding: 1.5rem;
+    }
+
+    .cal-embed {
+      height: 560px;
+      min-height: 560px;
+    }
+
+    .cal-embed-shell {
+      padding: 1.5rem;
+    }
+  }
+</style>

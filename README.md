@@ -69,7 +69,6 @@ Current live details in `site.ts` include:
 
 Remaining placeholders include:
 
-- Cal.com: `your-cal-username/fishing-charter`
 - YouTube/TikTok links: `#`
 
 ## Replace Photos
@@ -117,14 +116,14 @@ Admin schedule management happens in Cal.com, not on the website.
 
 1. Create a Cal.com account.
 2. Connect Google Calendar or the captain's preferred calendar.
-3. Create an event type called `Fishing Charter`.
+3. Create event types for the trip calendars.
 4. Set availability for the dates and times the captain wants to offer.
 5. Enable manual confirmation if desired.
 6. Disable payments.
-7. Copy the Cal.com event link, for example `your-name/fishing-charter`.
-8. Paste that value into `calComLink` in `src/data/site.ts`.
+7. Set `calComLink` in `src/data/site.ts` to the Cal.com profile, for example `kylepelino`.
+8. Add trip-specific `calComLink` values to trip data when a trip should open a specific event type, for example `kylepelino/bay-fishing`, `kylepelino/wreck-fishing`, `kylepelino/trolling`, `kylepelino/evening`, or `kylepelino/offshore`.
 
-The booking page embeds Cal.com inline. The site also includes fallback buttons to open the booking calendar directly or call/text the captain.
+The booking page shows the site's full trip picker first, then embeds Cal.com inline after a guest selects a trip. Bay, wreck, trolling, evening, and offshore trip links open their matching Cal.com event calendars when guests arrive from a trip-specific booking link. The site also includes fallback buttons to open the selected booking calendar directly or call/text the captain.
 
 ## GitHub Pages Deployment
 
@@ -171,7 +170,7 @@ Leave `PUBLIC_BASE_PATH` empty.
 ## Launch Checklist
 
 - Confirm the business name, captain name, phone number, SMS number, and email.
-- Add the real Cal.com booking event link.
+- Confirm the live Cal.com profile and bay/wreck/trolling/evening/offshore event links.
 - Confirm Instagram, Facebook, YouTube, and TikTok links.
 - Confirm the final marina, parking, and meeting-location instructions.
 - Add newly supplied charter photos to `public/images/` and reference them in `src/data/site.ts`.

@@ -5,6 +5,20 @@ import PageHeader from "@components/PageHeader.astro";
 import SectionHeading from "@components/SectionHeading.astro";
 import Layout from "@layouts/Layout.astro";
 import { site } from "@data/site";
+
+const tripCalLinks = site.tripTypes.reduce<Record<string, string>>((links, trip) => {
+  if (trip.calComLink) {
+    links[trip.slug] = trip.calComLink;
+  }
+
+  return links;
+}, {});
+
+const tripNames = site.tripTypes.reduce<Record<string, string>>((names, trip) => {
+  names[trip.slug] = trip.name;
+
+  return names;
+}, {});
 ---
 
 <Layout
@@ -23,7 +37,7 @@ import { site } from "@data/site";
 
   <section class="section-pad">
     <div class="container-shell">
-      <CalBookingEmbed calLink={site.calComLink} />
+      <CalBookingEmbed calLink={site.calComLink} tripLinks={tripCalLinks} tripNames={tripNames} />
     </div>
   </section>
 

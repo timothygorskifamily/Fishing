@@ -77,6 +77,6 @@ const { trip, compact = false } = Astro.props;
       </div>
     )}
 
-    <CTAButton href="/book/" label="Request This Trip" icon="calendar" variant="secondary" full />
+    <CTAButton href={`/book/?trip=${trip.slug}`} label="Request This Trip" icon="calendar" variant="secondary" full />
   </div>
 </article>
