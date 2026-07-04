@@ -2,7 +2,7 @@
 import { Image as ImageIcon, RotateCw, Scan, ZoomIn, ZoomOut } from "@lucide/astro";
 import { imagePath } from "@lib/links";
 
-const runningImage = imagePath("boat-running.jpg");
+const runningImage = imagePath("boat/sea-vee-running-close.jpg");
 ---
 
 <section
@@ -723,7 +723,7 @@ const runningImage = imagePath("boat-running.jpg");
     group.renderOrder = -1;
 
     group.add(
-      photoPlane("images/boat-running.jpg", 11.4, 6.4, {
+      photoPlane("images/boat/sea-vee-running-close.jpg", 11.4, 6.4, {
         position: new THREE.Vector3(-0.35, 2.12, 7.6),
         rotation: new THREE.Vector3(0, 0, 0),
         opacity: 0.2

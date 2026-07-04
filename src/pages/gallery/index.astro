@@ -71,6 +71,25 @@ const duplicateGallerySources = new Set([
   "source-site/ocgs-1379-img_0862-2.jpeg",
   "source-site/ocgs-1115-olympus-digital-camera-2.jpg"
 ]);
+const removedGallerySources = new Set([
+  "source-site/ocgs-1260-3b499091-ae81-47c9-89b3-0dd01e10779b.jpg",
+  "source-site/ocgs-1027-dec9_2.jpeg",
+  "source-site/ocgs-1028-dec9_3.jpeg",
+  "source-site/ocgs-1031-dec9_6.jpeg",
+  "source-site/ocgs-1259-e4f09a32-1128-4e72-8f21-6eabb1ad629f-2.jpg",
+  "source-site/ocgs-1265-img_0037-2.jpg",
+  "source-site/ocgs-1262-0832df5f-a4ec-4df1-94d5-1b80f553c353.jpg",
+  "source-site/ocgs-1004-2015-01-01-16-56-16.jpg",
+  "source-site/ocgs-546-ocgs.png",
+  "source-site/ocgs-1014-2015-11-25-11-02-55-1.jpg",
+  "source-site/ocgs-1187-20170718_115507.jpg",
+  "source-site/ocgs-498-crc_2980.jpg",
+  "source-site/ocgs-927-crc_2994-1.jpg",
+  "source-site/ocgs-1117-2015-08-14-11-57-37.jpg",
+  "source-site/ocgs-1114-2015-07-21-12-06-33.jpg",
+  "source-site/ocgs-952-crc_2614-1.jpg",
+  "boat/inlet-isle-marina-aerial.jpg"
+]);
 const towerBoatGallerySources = new Set([
   "fishingbooker/fishingbooker-01-boat-running.jpg",
   "boat-running.jpg",
@@ -90,7 +109,7 @@ const towerBoatGallerySources = new Set([
 
 const shouldHideGalleryImage = (image: typeof sourceGalleryImages[number] | typeof site.galleryImages[number]) => {
   const keys = [image.title, image.alt, image.src].map(normalizeGalleryLabel);
-  return duplicateGallerySources.has(image.src) || towerBoatGallerySources.has(image.src) || keys.some(
+  return duplicateGallerySources.has(image.src) || removedGallerySources.has(image.src) || towerBoatGallerySources.has(image.src) || keys.some(
     (key) =>
       hiddenGalleryLabels.has(key) ||
       hiddenGalleryPrefixes.some((prefix) => key.startsWith(prefix) || key.includes(`source${prefix}`))
@@ -124,7 +143,7 @@ const allGalleryImages = [...curatedGalleryImages, ...orderedSourceGalleryImages
 >
   <PageHeader
     title="Gallery"
-    background="section-art/gallery-section-title.webp"
+    background="section-art/gallery-section-title.png"
     backgroundPosition="center"
   />
 

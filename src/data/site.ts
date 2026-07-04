@@ -136,6 +136,86 @@ const fishPhotoCropFrames = (slug: string) =>
     (_, index) => `fish-photo-crops/${slug}/${slug}-crop-${String(index + 1).padStart(2, "0")}.png`
   );
 
+export const boatGalleryImages = [
+  {
+    src: "boat/sea-vee-running-wide.jpg",
+    alt: "Aerial view of the Ocean City Guide Service SeaVee running across green water",
+    title: "SeaVee underway",
+    caption: "The 29 foot SeaVee running on Ocean City water.",
+    category: "Boat"
+  },
+  {
+    src: "boat/sea-vee-running-close.jpg",
+    alt: "Close aerial view of the white SeaVee center console running through wake",
+    title: "Running close",
+    caption: "A closer look at the center-console layout underway.",
+    category: "Boat"
+  },
+  {
+    src: "boat/sea-vee-stern.jpg",
+    alt: "Stern view of the SeaVee at the dock with twin 300 horsepower outboards",
+    title: "Twin 300s",
+    caption: "Twin outboards and a clean stern layout at the dock.",
+    category: "Boat"
+  },
+  {
+    src: "boat/sea-vee-aft-deck.jpg",
+    alt: "Aft deck of the SeaVee center console showing open fishing space",
+    title: "Aft deck",
+    caption: "Open aft deck space set up for private groups.",
+    category: "Boat"
+  },
+  {
+    src: "boat/sea-vee-tower.jpg",
+    alt: "Tower and console structure on the Ocean City Guide Service SeaVee",
+    title: "Tower setup",
+    caption: "Tower, rails, and console details on the SeaVee.",
+    category: "Boat"
+  },
+  {
+    src: "boat/sea-vee-helm.jpg",
+    alt: "Helm station on the SeaVee with wheel, throttle, and electronics",
+    title: "Helm station",
+    caption: "A clear helm layout for running and fishing Ocean City water.",
+    category: "Boat"
+  },
+  {
+    src: "boat/sea-vee-electronics.jpg",
+    alt: "Close view of the SeaVee electronics and instrument panel",
+    title: "Electronics",
+    caption: "Navigation, radio, and instrument details at the console.",
+    category: "Boat"
+  },
+  {
+    src: "boat/sea-vee-bow.jpg",
+    alt: "Bow seating and forward deck space on the SeaVee at the marina",
+    title: "Bow space",
+    caption: "Forward seating and deck space aboard the SeaVee.",
+    category: "Boat"
+  },
+  {
+    src: "boat/sea-vee-deck-forward.jpg",
+    alt: "Forward deck view looking aft toward the tower and console",
+    title: "Forward deck",
+    caption: "A wide forward walkway with the tower and console aft.",
+    category: "Boat"
+  },
+  {
+    src: "boat/sea-vee-transom-engines.jpg",
+    alt: "Transom cooler and twin outboards aboard the SeaVee",
+    title: "Transom layout",
+    caption: "Transom space, cooler, and twin outboards at the stern.",
+    category: "Boat"
+  },
+  {
+    src: "boat/inlet-isle-marina-aerial.jpg",
+    alt: "Aerial view of the Inlet Isle marina where the charter boat is docked",
+    title: "Inlet Isle marina",
+    caption: "Aerial context for the Ocean City marina and dock area.",
+    category: "Boat"
+  }
+] satisfies GalleryImage[];
+
 export const site = {
   businessName: "Ocean City Guide Service",
   captainName: "Captain Kyle Pelino",
@@ -743,12 +823,20 @@ export const site = {
   ] satisfies FishSpecies[],
   galleryImages: [
     {
-      src: "fishingbooker/fishingbooker-01-boat-running.jpg",
-      alt: "Higher-resolution FishingBooker photo of the Ocean City Guide Service SeaVee running on the water",
-      title: "SeaVee running",
-      caption: "Higher-resolution public listing photo from FishingBooker.",
-      category: "Boat"
+      src: "gallery/june-2026-dock-catch.jpg",
+      alt: "Three anglers kneeling on the dock behind a mixed Ocean City catch",
+      title: "June dock catch",
+      caption: "A mixed dockside catch after a productive Ocean City trip.",
+      category: "Fishing"
     },
+    {
+      src: "gallery/june-2026-black-sea-bass.jpg",
+      alt: "Angler holding a black sea bass aboard the Ocean City Guide Service boat",
+      title: "Black sea bass aboard",
+      caption: "A black sea bass caught during an Ocean City fishing trip.",
+      category: "Wreck"
+    },
+    ...boatGalleryImages,
     {
       src: "fishingbooker/fishingbooker-02-flounder-angler.jpg",
       alt: "FishingBooker photo of an angler holding a flounder aboard Ocean City Guide Service",
@@ -839,27 +927,6 @@ export const site = {
       title: "Sunset cruise",
       caption: "A relaxed evening on the water as the sun drops over Ocean City.",
       category: "Cruise"
-    },
-    {
-      src: "boat-running.jpg",
-      alt: "SeaVee center console running across coastal water",
-      title: "Running out",
-      caption: "The 29 foot SeaVee running from Ocean City water.",
-      category: "Boat"
-    },
-    {
-      src: "deck.jpg",
-      alt: "29 foot SeaVee center console at the dock",
-      title: "Ready at the dock",
-      caption: "Open deck space and a practical setup for groups up to 6 guests.",
-      category: "Boat"
-    },
-    {
-      src: "boat-tower.jpg",
-      alt: "Captain fishing from the tower of a SeaVee center-console boat",
-      title: "Captain at work",
-      caption: "A clean center-console platform set up for private charter days.",
-      category: "Boat"
     }
   ] satisfies GalleryImage[],
   seo: {

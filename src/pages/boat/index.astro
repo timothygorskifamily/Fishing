@@ -1,23 +1,9 @@
 ---
 import BoatSpecs from "@components/BoatSpecs.astro";
 import PageHeader from "@components/PageHeader.astro";
+import { boatGalleryImages } from "@data/site";
 import Layout from "@layouts/Layout.astro";
 import { imagePath } from "@lib/links";
-
-const boatImages = [
-  {
-    src: "boat-running.jpg",
-    alt: "SeaVee running on coastal water"
-  },
-  {
-    src: "boat-tower.jpg",
-    alt: "Detail view of the SeaVee center-console boat"
-  },
-  {
-    src: "deck.jpg",
-    alt: "Clean center-console fishing deck"
-  }
-];
 ---
 
 <Layout
@@ -29,7 +15,7 @@ const boatImages = [
     title="The Boat"
     mascot="boat-mascot.png"
     mascotAlt="A delighted fish mascot looking up at a center-console fishing boat"
-    background="section-art/boat-section-title.webp"
+    background="section-art/boat-section-title.png"
     backgroundPosition="center top"
     showTitle={false}
   />
@@ -38,7 +24,7 @@ const boatImages = [
     <div class="container-shell">
       <div class="grid gap-5 md:grid-cols-3">
         {
-          boatImages.map((image) => (
+          boatGalleryImages.map((image) => (
             <figure class="card overflow-hidden">
               <img
                 src={imagePath(image.src)}
@@ -47,6 +33,10 @@ const boatImages = [
                 loading="lazy"
                 decoding="async"
               />
+              <figcaption class="grid gap-1 p-4">
+                <span class="text-sm font-black uppercase tracking-[0.14em] text-seafoam">{image.title}</span>
+                <span class="text-sm leading-6 text-mist">{image.caption}</span>
+              </figcaption>
             </figure>
           ))
         }
