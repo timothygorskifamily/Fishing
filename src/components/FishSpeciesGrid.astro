@@ -1,9 +1,6 @@
 ---
 import type { FishSpecies } from "@data/site";
-import FishPhotoViewer from "@components/FishPhotoViewer.astro";
-import FishSpinViewer from "@components/FishSpinViewer.astro";
 import { site } from "@data/site";
-import { imagePath } from "@lib/links";
 
 interface Props {
   species?: readonly FishSpecies[];
@@ -12,40 +9,12 @@ interface Props {
 
 const { species = site.fishSpecies, limit } = Astro.props;
 const visibleSpecies = limit ? species.slice(0, limit) : species;
-const fishWithoutPhotoThumbs = new Set(["Rockfish", "False albacore", "Cobia"]);
 ---
 
 <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
   {
     visibleSpecies.map((fish) => (
-      <article class="card group overflow-hidden">
-        {fish.imageFrames?.length ? (
-          <FishPhotoViewer
-            title={fish.name}
-            frames={fish.imageFrames}
-            alt={`${fish.name} photo gallery`}
-            showThumbs={!fishWithoutPhotoThumbs.has(fish.name)}
-          />
-        ) : fish.spinFrames?.length ? (
-          <FishSpinViewer
-            title={fish.name}
-            frames={fish.spinFrames}
-            alt={`Interactive 360 viewer of ${fish.name}`}
-          />
-        ) : (
-          <div class="image-sheen aspect-[4/3] bg-harbor">
-            <img
-              src={imagePath(fish.image)}
-              alt={`${fish.name} caught on an Ocean City Maryland fishing charter`}
-              class:list={[
-                "h-full w-full transition duration-500 group-hover:scale-[1.04]",
-                fish.image.startsWith("fish-spin/") ? "object-contain" : "object-cover"
-              ]}
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        )}
+      <article class="card">
         <div class="grid gap-4 p-5">
           <div>
             <p class="text-xs font-black uppercase tracking-[0.16em] text-seafoam">{fish.category}</p>

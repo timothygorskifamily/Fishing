@@ -1,0 +1,126 @@
+---
+interface Props {
+  folderId: string;
+  apiKey?: string;
+  limit?: number;
+  minimal?: boolean;
+}
+
+const { folderId, apiKey, limit, minimal = false } = Astro.props;
+const hasApiKey = Boolean(apiKey);
+const gridClass = minimal
+  ? "grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+  : "columns-1 gap-5 sm:columns-2 lg:columns-3";
+---
+
+{
+  hasApiKey ? (
+    <>
+      <div
+        class={gridClass}
+        data-drive-photo-grid
+        data-folder-id={folderId}
+        data-api-key={apiKey}
+        data-limit={limit}
+        data-minimal={minimal ? "true" : "false"}
+      >
+        <p class="rounded-lg border border-sky-100 bg-white p-5 text-sm font-bold text-mist">
+          Loading gallery photos...
+        </p>
+      </div>
+      <div data-drive-fallback hidden>
+        <slot />
+      </div>
+    </>
+  ) : (
+    <slot />
+  )
+}
+
+{
+  hasApiKey && (
+    <script>
+      const grids = document.querySelectorAll("[data-drive-photo-grid]");
+
+      grids.forEach(async (grid) => {
+        const folderId = grid.dataset.folderId;
+        const apiKey = grid.dataset.apiKey;
+        const limit = Number.parseInt(grid.dataset.limit || "", 10);
+        const minimal = grid.dataset.minimal === "true";
+
+        if (!folderId || !apiKey) return;
+
+        const showFallback = () => {
+          const fallback = grid.nextElementSibling;
+          if (fallback instanceof HTMLElement && fallback.hasAttribute("data-drive-fallback")) {
+            grid.setAttribute("hidden", "");
+            fallback.removeAttribute("hidden");
+          }
+        };
+
+        try {
+          const files = [];
+          let pageToken = "";
+
+          do {
+            const params = new URLSearchParams({
+              key: apiKey,
+              q: `'${folderId}' in parents and trashed = false and mimeType contains 'image/'`,
+              fields: "nextPageToken,files(id,name,mimeType,createdTime,imageMediaMetadata(width,height))",
+              orderBy: "createdTime desc",
+              pageSize: "1000",
+              includeItemsFromAllDrives: "true",
+              supportsAllDrives: "true"
+            });
+
+            if (pageToken) {
+              params.set("pageToken", pageToken);
+            }
+
+            const response = await fetch(`https://www.googleapis.com/drive/v3/files?${params.toString()}`);
+            if (!response.ok) throw new Error(`Google Drive gallery request failed: ${response.status}`);
+
+            const data = await response.json();
+            const pageFiles = Array.isArray(data.files) ? data.files : [];
+            files.push(...pageFiles);
+            pageToken = data.nextPageToken || "";
+
+            if (Number.isFinite(limit) && files.length >= limit) {
+              files.length = limit;
+              break;
+            }
+          } while (pageToken);
+
+          grid.textContent = "";
+
+          if (!files.length) {
+            showFallback();
+            return;
+          }
+
+          files.forEach((file, index) => {
+            const figure = document.createElement("figure");
+            figure.className = minimal
+              ? "overflow-hidden rounded-lg border border-white/12 bg-white p-2 shadow-[0_18px_45px_rgba(16,80,103,0.12)]"
+              : "mb-5 break-inside-avoid overflow-hidden rounded-lg border border-white/12 bg-white p-2 shadow-[0_18px_45px_rgba(16,80,103,0.12)]";
+
+            const img = document.createElement("img");
+            img.src = `https://drive.google.com/thumbnail?id=${encodeURIComponent(file.id)}&sz=w1600`;
+            img.alt = "Ocean City Guide Service gallery photo";
+            img.className = minimal
+              ? "h-auto max-h-[26rem] w-full bg-white object-contain"
+              : "h-auto w-full bg-white object-contain";
+            img.loading = minimal || index < 2 ? "eager" : "lazy";
+            img.decoding = "async";
+
+            figure.append(img);
+            grid.append(figure);
+          });
+        } catch (error) {
+          console.error(error);
+          showFallback();
+        }
+      });
+    </script>
+  )
+}

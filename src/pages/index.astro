@@ -1,6 +1,7 @@
 ---
 import CTAButton from "@components/CTAButton.astro";
 import GalleryGrid from "@components/GalleryGrid.astro";
+import GoogleDrivePhotoGrid from "@components/GoogleDrivePhotoGrid.astro";
 import Hero from "@components/Hero.astro";
 import Layout from "@layouts/Layout.astro";
 import { site } from "@data/site";
@@ -8,16 +9,16 @@ import { imagePath, withBase } from "@lib/links";
 
 const fishingMoments = [
   {
-    src: "captain-rockfish.jpg",
-    alt: "Captain Kyle holding a large rockfish aboard the charter boat"
-  },
-  {
-    src: "charter-trolling-catch.jpg",
-    alt: "Guests with an inshore trolling catch on the dock"
-  },
-  {
     src: "boat/sea-vee-running-close.jpg",
-    alt: "Ocean City Guide Service SeaVee running across green water"
+    alt: "Aerial view of the Ocean City Guide Service SeaVee running through green water"
+  },
+  {
+    src: "boat/sea-vee-aft-deck.jpg",
+    alt: "Aft deck of the Ocean City Guide Service SeaVee at the marina"
+  },
+  {
+    src: "boat/sea-vee-running-wide.jpg",
+    alt: "Wide aerial view of the Ocean City Guide Service SeaVee running across green water"
   }
 ];
 
@@ -28,6 +29,7 @@ const homeTripGroups = site.tripGroups.map((group) => ({
 }));
 const featuredMomentSources = new Set(fishingMoments.map((image) => image.src));
 const homeGalleryImages = site.galleryImages.filter((image) => !featuredMomentSources.has(image.src));
+const googleDriveApiKey = import.meta.env.PUBLIC_GOOGLE_DRIVE_API_KEY;
 ---
 
 <Layout
@@ -103,7 +105,14 @@ const homeGalleryImages = site.galleryImages.filter((image) => !featuredMomentSo
 
   <section class="border-y border-white/10 bg-white/5 section-pad">
     <div class="container-shell">
-      <GalleryGrid images={homeGalleryImages} minimal />
+      <GoogleDrivePhotoGrid
+        folderId={site.galleryDriveFolderId}
+        apiKey={googleDriveApiKey}
+        limit={12}
+        minimal
+      >
+        <GalleryGrid images={homeGalleryImages} limit={12} minimal />
+      </GoogleDrivePhotoGrid>
     </div>
   </section>
 </Layout>

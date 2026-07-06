@@ -11,15 +11,6 @@ const isActive = (href: string) => {
   return currentPath.startsWith(href);
 };
 
-const navMascots: Record<string, string> = {
-  "/trips/": "trips-mascot.png",
-  "/fishing-report/": "report-mascot.png",
-  "/boat/": "boat-mascot.png",
-  "/gallery/": "gallery-mascot.png",
-  "/faq/": "thinking-fish-faq.png",
-  "/contact/": "contact-mascot.png",
-  "/book/": "book-mascot.png"
-};
 ---
 
 <header class="sticky top-0 z-50 border-b border-white/10 bg-ink/95 backdrop-blur-xl">
@@ -38,33 +29,17 @@ const navMascots: Record<string, string> = {
 
     <nav class="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
       {
-        site.navLinks.map((link) => {
-          const mascot = navMascots[link.href];
-
-          return (
-            <span class="nav-preview-item relative inline-flex">
-              <a
-                href={withBase(link.href)}
-                class:list={[
-                  "rounded-lg px-3 py-2 text-sm font-bold text-mist transition hover:bg-white/6 hover:text-white",
-                  isActive(link.href) && "bg-white/8 text-white"
-                ]}
-              >
-                {link.label}
-              </a>
-              {mascot && (
-                <img
-                  src={imagePath(mascot)}
-                  alt=""
-                  class="nav-preview pointer-events-none absolute left-1/2 top-[calc(100%+0.75rem)] z-50 aspect-square w-44 max-w-none -translate-x-1/2 translate-y-2 rounded-2xl border border-white/30 bg-white object-cover p-1 opacity-0 shadow-[0_22px_70px_rgba(0,0,0,0.38)]"
-                  loading="lazy"
-                  decoding="async"
-                  aria-hidden="true"
-                />
-              )}
-            </span>
-          );
-        })
+        site.navLinks.map((link) => (
+          <a
+            href={withBase(link.href)}
+            class:list={[
+              "rounded-lg px-3 py-2 text-sm font-bold text-mist transition hover:bg-white/6 hover:text-white",
+              isActive(link.href) && "bg-white/8 text-white"
+            ]}
+          >
+            {link.label}
+          </a>
+        ))
       }
     </nav>
 
@@ -76,23 +51,13 @@ const navMascots: Record<string, string> = {
         <Phone class="size-4" aria-hidden="true" />
         <span>{site.phone}</span>
       </a>
-      <span class="nav-preview-item relative inline-flex">
-        <a
-          href={withBase("/book/")}
-          class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-gold px-4 py-2 text-sm font-extrabold text-ink transition hover:bg-[#ffd083]"
-        >
-          <CalendarDays class="size-4" aria-hidden="true" />
-          <span>Book Now</span>
-        </a>
-        <img
-          src={imagePath(navMascots["/book/"])}
-          alt=""
-          class="nav-preview pointer-events-none absolute left-1/2 top-[calc(100%+0.75rem)] z-50 aspect-square w-44 max-w-none -translate-x-1/2 translate-y-2 rounded-2xl border border-white/30 bg-white object-cover p-1 opacity-0 shadow-[0_22px_70px_rgba(0,0,0,0.38)]"
-          loading="lazy"
-          decoding="async"
-          aria-hidden="true"
-        />
-      </span>
+      <a
+        href={withBase("/book/")}
+        class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-gold px-4 py-2 text-sm font-extrabold text-ink transition hover:bg-[#ffd083]"
+      >
+        <CalendarDays class="size-4" aria-hidden="true" />
+        <span>Book Now</span>
+      </a>
     </div>
 
     <details class="group relative md:hidden">
@@ -133,22 +98,3 @@ const navMascots: Record<string, string> = {
     </details>
   </div>
 </header>
-
-<style>
-  .nav-preview {
-    transition: none;
-  }
-
-  .nav-preview-item:hover .nav-preview,
-  .nav-preview-item:focus-within .nav-preview {
-    opacity: 1;
-    transform: translate(-50%, 0);
-    transition-delay: 0ms;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .nav-preview {
-      transition: none;
-    }
-  }
-</style>

@@ -1,6 +1,6 @@
 ---
 import { site } from "@data/site";
-import { imagePath, withBase } from "@lib/links";
+import { withBase } from "@lib/links";
 import { CalendarDays, CheckCircle2 } from "@lucide/astro";
 
 const groupForTrip = new Map(
@@ -90,14 +90,7 @@ const initialTripSlug = site.tripGroups[0]?.tripSlugs[0] ?? site.tripTypes[0]?.s
         {
           site.tripTypes.map((trip) => (
             <article class="trip-panel" data-trip-panel={trip.slug} hidden={trip.slug !== initialTripSlug}>
-              <img
-                src={imagePath(trip.image)}
-                alt={`${trip.name} Ocean City charter trip`}
-                class="aspect-[16/10] w-full rounded-lg bg-white object-cover"
-                loading="lazy"
-                decoding="async"
-              />
-              <div class="mt-5">
+              <div>
                 <p class="eyebrow mb-2">{trip.eyebrow}</p>
                 <h3 class="text-2xl font-black leading-tight text-ink">{trip.name}</h3>
                 <p class="mt-3 text-sm leading-7 text-mist">{trip.description}</p>

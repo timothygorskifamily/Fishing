@@ -117,10 +117,6 @@ const whatToBringItems = [
   {
     title: "Soft cooler",
     copy: "Use a small soft cooler or easy-to-stow bag for food and drinks so deck space stays clear."
-  },
-  {
-    title: "Leave at home",
-    copy: "License, bait, rods, reels, and tackle are provided for fishing trips."
   }
 ] satisfies WhatToBringItem[];
 
@@ -209,9 +205,9 @@ export const boatGalleryImages = [
   },
   {
     src: "boat/inlet-isle-marina-aerial.jpg",
-    alt: "Aerial view of the Inlet Isle marina where the charter boat is docked",
-    title: "Inlet Isle marina",
-    caption: "Aerial context for the Ocean City marina and dock area.",
+    alt: "Aerial view of the Ocean City Fishing Center marina area",
+    title: "Ocean City Fishing Center",
+    caption: "Aerial context for the Ocean City Fishing Center marina area.",
     category: "Boat"
   }
 ] satisfies GalleryImage[];
@@ -241,10 +237,12 @@ export const site = {
   marinaDirectionsNote:
     "Plan to meet at 12940 Inlet Isle Lane, Ocean City, MD 21842. Captain Kyle confirms exact parking, dock, and slip details before your trip.",
   googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=12940%20Inlet%20Isle%20Lane%20Ocean%20City%20MD%2021842",
-  instagramUrl: "https://www.instagram.com/p/DZTXlOGn4Ep/",
+  instagramUrl: "https://www.instagram.com/ocguideservice/",
   facebookUrl: "https://www.facebook.com/OCguideservice/",
   instagramImage: "social/instagram-card.png",
   facebookImage: "social/facebook-card.png",
+  galleryDriveFolderId: "1CMOYLFXpzBdT-TUjs7LeOVftg-6e45Bg",
+  galleryDriveFolderUrl: "https://drive.google.com/drive/u/1/folders/1CMOYLFXpzBdT-TUjs7LeOVftg-6e45Bg",
   youtubeUrl: "https://www.youtube.com/watch?v=Q10Z3CSnYoQ&t=39s",
   tiktokUrl: "#",
   calComLink: "kylepelino",
@@ -311,7 +309,7 @@ export const site = {
       eyebrow: "Wreck fishing",
       duration: "6 hours",
       times: "6am-12pm or 1pm-7pm",
-      price: "$1,000",
+      price: "$1,200",
       bestFor: "Anglers who want to fish structure and target bottom fish around the wrecks.",
       targetSpecies: ["Black sea bass", "Flounder", "Tautog", "Triggerfish", "Bluefish"],
       included: [...standardIncluded, "Morning or afternoon departure"],
@@ -326,7 +324,7 @@ export const site = {
       eyebrow: "Wreck fishing",
       duration: "8 hours",
       times: "6am-2pm",
-      price: "$1,200",
+      price: "$1,400",
       bestFor: "Groups who want a fuller day of wreck fishing with more time to work different pieces.",
       targetSpecies: ["Black sea bass", "Flounder", "Tautog", "Triggerfish", "Bluefish"],
       included: [...standardIncluded, "Full morning trip"],
@@ -341,7 +339,7 @@ export const site = {
       eyebrow: "Wreck fishing",
       duration: "10 hours",
       times: "6am-4pm",
-      price: "$1,400",
+      price: "$1,600",
       bestFor: "Dedicated anglers looking for the longest wreck fishing option.",
       targetSpecies: ["Black sea bass", "Flounder", "Tautog", "Triggerfish", "Bluefish"],
       included: [...standardIncluded, "Longest wreck option"],
@@ -351,19 +349,19 @@ export const site = {
       calComLink: "kylepelino/wreck-fishing"
     },
     {
-      name: "12 hr Off Shore Fishing Trip",
-      slug: "12-hour-off-shore-fishing",
-      eyebrow: "Off Shore",
+      name: "12 hr Tile Fishing Trip",
+      slug: "12-hour-tile-fishing",
+      eyebrow: "Tile Fishing",
       duration: "12 hours",
       times: "6am-6pm",
       price: "$1,800",
-      bestFor: "Dedicated crews who want the full-day run for deeper bottom fishing.",
+      bestFor: "Dedicated crews who want the full-day run for deeper tile fishing.",
       targetSpecies: ["Golden tilefish", "Blueline tilefish"],
-      included: [...standardIncluded, "Full-day offshore departure"],
+      included: [...standardIncluded, "Full-day tile fishing departure"],
       description:
-        "A full-day Off Shore trip targeting golden tilefish and blueline tilefish in deeper bottom-fishing areas.",
+        "A full-day tile fishing trip targeting golden tilefish and blueline tilefish in deeper bottom-fishing areas.",
       image: "charter-wreck-catch.jpg",
-      calComLink: "kylepelino/offshore"
+      calComLink: "kylepelino/tilefishing"
     },
     {
       name: "4 hr Inshore Trolling Trip",
@@ -403,7 +401,7 @@ export const site = {
       times: "6pm-10pm",
       price: "$700",
       bestFor: "Groups looking for a different evening bite and a memorable night trip.",
-      targetSpecies: ["Shark", "Cobia"],
+      targetSpecies: ["Shark"],
       included: [...standardIncluded, "Night departure"],
       description:
         "An evening shark fishing trip timed for guests who want a different kind of Ocean City charter.",
@@ -438,9 +436,9 @@ export const site = {
       tripSlugs: ["6-hour-wreck-fishing", "8-hour-wreck-fishing", "10-hour-wreck-fishing"]
     },
     {
-      title: "Off Shore",
-      copy: "A full-day deeper bottom-fishing option for golden tilefish and blueline tilefish.",
-      tripSlugs: ["12-hour-off-shore-fishing"]
+      title: "Tile Fishing",
+      copy: "A full-day deeper-water option for golden tilefish and blueline tilefish.",
+      tripSlugs: ["12-hour-tile-fishing"]
     },
     {
       title: "Trolling",
@@ -470,9 +468,9 @@ export const site = {
         "When wreck fishing, we like to target black sea bass, flounder, and tautog with the occasional bycatch of triggerfish and bluefish."
     },
     {
-      title: "Off Shore fishing",
+      title: "Tile fishing",
       copy:
-        "The Off Shore trip is a full-day run for golden tilefish and blueline tilefish."
+        "The tile fishing trip is a full-day run for golden tilefish and blueline tilefish."
     },
     {
       title: "Sunset cruise",
@@ -554,13 +552,13 @@ export const site = {
         "Best fit for crews who want bottom fishing, structure fishing, and a longer run with more time on target."
     },
     {
-      title: "Off Shore bottom fishing",
-      area: "Deeper offshore bottom",
+      title: "Tile fishing",
+      area: "Deeper tilefish grounds",
       image: "charter-wreck-catch.jpg",
       targetSpecies: ["Golden tilefish", "Blueline tilefish"],
-      tripSlugs: ["12-hour-off-shore-fishing"],
+      tripSlugs: ["12-hour-tile-fishing"],
       conditions:
-        "Off Shore trips depend on sea conditions, run distance, current, regulations, and the deeper bottom bite.",
+        "Tile fishing trips depend on sea conditions, run distance, current, regulations, and the deeper bottom bite.",
       tripFit:
         "Best fit for dedicated crews who want a 12-hour full-day trip targeting tilefish."
     },
@@ -579,7 +577,7 @@ export const site = {
       title: "Evening shark and sunset",
       area: "Evening Ocean City water",
       image: "sunset-boat-rail.jpg",
-      targetSpecies: ["Shark", "Cobia", "Wildlife viewing", "Sunset cruise"],
+      targetSpecies: ["Shark", "Wildlife viewing", "Sunset cruise"],
       tripSlugs: ["4-hour-night-shark-fishing", "2-hour-sunset-cruise"],
       conditions:
         "Evening plans are matched to weather, safe sea conditions, and the kind of trip your group wants.",
@@ -634,7 +632,7 @@ export const site = {
     {
       question: "Should we tip the mate?",
       answer:
-        "Yes. Please remember to tip the mate."
+        "Yes. Please remember to tip the mate. Mates work for tip; 20% is customary."
     },
     {
       question: "How do I book?",
